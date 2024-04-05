@@ -1,35 +1,30 @@
 import React from "react";
 // import Image1 from "img/img-school-6-min.jpg";
 
-import {Image1,
-    Image2,
-    Image3,
-    Image4,
-    Image5,
-    Image6,
-    Image7,
-    Image8,
-    Image9,
-    Image10,
-    Image11,
-    Image12,
-    Image13,
-    Image14} from "utility/images";
+import {
+  Image1,
+  Image2,
+  Image3,
+  Image4,
+  Image5,
+  Image6,
+  Image7,
+  Image8,
+  Image9,
+  Image10,
+  Image11,
+  Image12,
+  Image13,
+  Image14,
+} from "utility/images";
 
 const Gallery = () => {
   return (
     <div>
       <div class="untree_co-section">
-      <div
-              className=" text-center"
-              data-aos="fade-up"
-              data-aos-delay="0"
-            >
-              <h2 className="line-bottom text-center mb-4">
-                {" "}
-              Gallery
-              </h2>
-            </div>
+        <div className=" text-center" data-aos="fade-up" data-aos-delay="0">
+          <h2 className="line-bottom text-center mb-4"> Gallery</h2>
+        </div>
         <div class="container">
           <div class="row">
             <div class="col-md-6 col-lg-4 item">

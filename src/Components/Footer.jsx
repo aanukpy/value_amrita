@@ -44,7 +44,7 @@ function AboutAndConnect() {
   );
 }
 
-// Projects component
+
 function Projects() {
   return (
     <div className="col-lg-2 ml-auto">
