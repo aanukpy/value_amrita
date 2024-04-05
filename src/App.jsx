@@ -23,7 +23,8 @@ import NodalLogin from "./Components/NodalCentres/NodalLogin";
 import List from "./Components/NodalCentres/List";
 import routes from "./routes";
 import Simulation from "./layouts/Simulation";
-import Sidebar from "./Components/Dashboard/Dashboard";
+import Sidebar from "./Components/Dashboard/Lab/Dashboard";
+import Labs from "./Components/Dashboard/Lab/Labs";
 
 function App() {
   const getRoutes = (allRoutes) =>
@@ -59,9 +60,9 @@ function App() {
       }}
     >
       <Router>
-        <NavBar />
+        {/* <NavBar /> */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Sidebar />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -75,12 +76,14 @@ function App() {
           <Route path="/inauguration" element={<Inauguration />} />
           <Route path="/nodalcentrelogin" element={<NodalLogin />} />
           <Route path="/nodalcentrelist" element={<List />} />
+          <Route path="/Labs" element={<Labs />} />
           <Route path="/experiment-page/:name" element={<Simulation />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
+     
     </ConfigProvider>
-    // <Sidebar/>
+    
   );
 }
 
