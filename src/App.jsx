@@ -25,6 +25,8 @@ import routes from "./routes";
 import Simulation from "./layouts/Simulation";
 import Sidebar from "./Components/Dashboard/Lab/Dashboard";
 import Labs from "./Components/Dashboard/Lab/Labs";
+import Listing from "./Components/Dashboard/Lab/Listing";
+import ExperimentEdit from "./Components/Dashboard/Lab/ExperimentEdit";
 
 function App() {
   const getRoutes = (allRoutes) =>
@@ -62,7 +64,7 @@ function App() {
       <Router>
         {/* <NavBar /> */}
         <Routes>
-          <Route path="/" element={<Sidebar />} />
+          <Route path="/" element={<Home/>} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -78,6 +80,9 @@ function App() {
           <Route path="/nodalcentrelist" element={<List />} />
           <Route path="/Labs" element={<Labs />} />
           <Route path="/experiment-page/:name" element={<Simulation />} />
+          <Route path="/listing" element={<Listing />} />
+          <Route path="/expedit" element={<ExperimentEdit />} />
+          <Route path="sidebar" element={<Sidebar />} />
         </Routes>
         {/* <Footer /> */}
       </Router>

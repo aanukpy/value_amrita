@@ -1,65 +1,40 @@
 import React, { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Typography,
-  Box,
-  TextField,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Box, TextField } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faPlus,
-  faSave,
-  faEye,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faPlus, faSave, faEye } from "@fortawesome/free-solid-svg-icons";
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
-
-const Labs = () => {
+const Listing = () => {
   const [labs, setLabs] = useState([
     {
       id: 1,
       labName: "Network Security Lab",
-      description:
-        "Lab for studying network security protocols and techniques.",
+      description: "Lab for studying network security protocols and techniques.",
     },
     {
       id: 2,
       labName: "Machine Learning Lab",
-      description:
-        "Lab for implementing and experimenting with machine learning algorithms.",
+      description: "Lab for implementing and experimenting with machine learning algorithms.",
     },
     {
       id: 3,
       labName: "Database Management Lab",
-      description:
-        "Lab for learning and practicing database management concepts.",
+      description: "Lab for learning and practicing database management concepts.",
     },
     {
       id: 4,
       labName: "Operating Systems Lab",
-      description:
-        "Lab for studying various operating systems and their components.",
+      description: "Lab for studying various operating systems and their components.",
     },
     {
       id: 5,
       labName: "Computer Vision Lab",
-      description:
-        "Lab for exploring computer vision techniques and applications.",
+      description: "Lab for exploring computer vision techniques and applications.",
     },
     {
       id: 6,
       labName: "Cybersecurity Lab",
-      description:
-        "Lab for hands-on experience with cybersecurity tools and methodologies.",
+      description: "Lab for hands-on experience with cybersecurity tools and methodologies.",
     },
   ]);
 
@@ -130,9 +105,9 @@ const Labs = () => {
     <Fade up duration={1000} delay={200}>
       <div className="container-xl">
         <div className="table-responsive">
-          <Box sx={{ marginBottom: "1rem" }}>
+          <Box sx={{ marginBottom: '1rem' }}>
             <Typography variant="h4" gutterBottom>
-              Manage Labs
+              Manage Experiments
             </Typography>
           </Box>
           {!isNewLabOpen && (
@@ -140,10 +115,10 @@ const Labs = () => {
               variant="contained"
               color="primary"
               startIcon={<FontAwesomeIcon icon={faPlus} />}
-              sx={{ marginBottom: "1rem" }}
+              sx={{ marginBottom: '1rem' }}
               onClick={handleAddLab}
             >
-              Add New Lab
+              Add New Experiment
             </Button>
           )}
           {isNewLabOpen && (
@@ -151,25 +126,21 @@ const Labs = () => {
               <TextField
                 label="Lab Name"
                 value={newLab.labName}
-                onChange={(e) =>
-                  setNewLab({ ...newLab, labName: e.target.value })
-                }
-                sx={{ marginRight: "1rem" }}
+                onChange={(e) => setNewLab({ ...newLab, labName: e.target.value })}
+                sx={{ marginRight: '1rem' }}
               />
               <TextField
                 label="Description"
                 value={newLab.description}
-                onChange={(e) =>
-                  setNewLab({ ...newLab, description: e.target.value })
-                }
-                sx={{ marginRight: "1rem" }}
+                onChange={(e) => setNewLab({ ...newLab, description: e.target.value })}
+                sx={{ marginRight: '1rem' }}
               />
               <Button
                 variant="contained"
                 color="primary"
                 startIcon={<FontAwesomeIcon icon={faSave} />}
                 onClick={handleSaveNewLab}
-                sx={{ marginRight: "1rem" }}
+                sx={{ marginRight: '1rem' }}
               >
                 Save
               </Button>
@@ -182,36 +153,25 @@ const Labs = () => {
               </Button>
             </>
           )}
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              marginTop: "1rem",
-            }}
-          >
+          <TableContainer component={Paper} sx={{ border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginTop: '1rem' }}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>No</TableCell>
-                  <TableCell>Lab Name</TableCell>
+                  <TableCell>Experiment Name</TableCell>
                   <TableCell>Description</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {labs.map((lab) => (
-                  <TableRow
-                    key={lab.id}
-                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
-                  >
+                  <TableRow key={lab.id} sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}>
                     <TableCell>{lab.id}</TableCell>
                     <TableCell>
                       {isEditing && editedLabs[lab.id] ? (
                         <TextField
                           value={editedLabs[lab.id].labName}
-                          onChange={(e) => handleChange(e, lab.id, "labName")}
+                          onChange={(e) => handleChange(e, lab.id, 'labName')}
                           fullWidth
                         />
                       ) : (
@@ -222,9 +182,7 @@ const Labs = () => {
                       {isEditing && editedLabs[lab.id] ? (
                         <TextField
                           value={editedLabs[lab.id].description}
-                          onChange={(e) =>
-                            handleChange(e, lab.id, "description")
-                          }
+                          onChange={(e) => handleChange(e, lab.id, 'description')}
                           fullWidth
                         />
                       ) : (
@@ -239,7 +197,7 @@ const Labs = () => {
                             color="primary"
                             startIcon={<FontAwesomeIcon icon={faSave} />}
                             onClick={() => handleSaveLab(lab.id)}
-                            style={{ marginRight: "20px" }}
+                            style={{marginRight:'20px'}}
                           >
                             Save
                           </Button>
@@ -247,9 +205,10 @@ const Labs = () => {
                             variant="contained"
                             color="secondary"
                             onClick={handleCancelEdit}
-                            style={{ marginRight: "20px" }}
+                            style={{marginRight:'20px'}}
                           >
                             Cancel
+                            
                           </Button>
                         </>
                       ) : (
@@ -258,14 +217,14 @@ const Labs = () => {
                             variant="contained"
                             color="primary"
                             startIcon={<FontAwesomeIcon icon={faEdit} />}
-                            style={{ marginRight: "20px" }}
+                            style={{marginRight:'20px'}}
                             onClick={() => handleEditLab(lab.id)}
                           >
                             Edit
                           </Button>
                           <Button
                             component={Link}
-                            to={`/listing`} // Adjust the path as per your routing configuration
+                            to={`/expedit`} // Adjust the path as per your routing configuration
                             variant="contained"
                             color="success"
                             startIcon={<FontAwesomeIcon icon={faEye} />}
@@ -280,7 +239,7 @@ const Labs = () => {
                         color="secondary"
                         startIcon={<FontAwesomeIcon icon={faTrash} />}
                         onClick={() => handleDeleteLab(lab.id)}
-                        style={{ marginRight: "20px" }}
+                        style={{marginRight:'20px'}}
                       >
                         Delete
                       </Button>
@@ -296,4 +255,4 @@ const Labs = () => {
   );
 };
 
-export default Labs;
+export default Listing;
