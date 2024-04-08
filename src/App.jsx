@@ -23,7 +23,7 @@ import NodalLogin from "./Components/NodalCentres/NodalLogin";
 import List from "./Components/NodalCentres/List";
 import routes from "./routes";
 import Simulation from "./layouts/Simulation";
-import Sidebar from "./Components/Dashboard/Lab/Dashboard";
+import Sidebar from "./Components/Dashboard/Dashboard";
 import Labs from "./Components/Dashboard/Lab/Labs";
 import Listing from "./Components/Dashboard/Lab/Listing";
 import ExperimentEdit from "./Components/Dashboard/Lab/ExperimentEdit";
