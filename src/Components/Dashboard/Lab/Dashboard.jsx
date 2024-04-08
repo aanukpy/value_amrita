@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD:src/Components/Dashboard/Dashboard.jsx
 import './Sidebar.css';
 import DashboardCards from './Dashboardcard';
 import Topnav from './Topnav';
@@ -6,13 +7,24 @@ import AreaChart from './Chart';
 import RevenueSources from './Pie-chart';
 import ProjectCard from './Table';
 
+=======
+
+import LabHome from './LabHome'
+import Labs from './Labs';
+// Sidebar component
+>>>>>>> c7377d9ec36cff184a5aa49324645686fb0f7657:src/Components/Dashboard/Lab/Dashboard.jsx
 const Sidebar = () => {
     return (
         <div className="container-fluid">
             <div className="row flex-nowrap">
                 {/* Sidebar */}
+<<<<<<< HEAD:src/Components/Dashboard/Dashboard.jsx
                 <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2 pb-4">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100  shadow bg-sidebar">
+=======
+                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark " >
+                    <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white  ">
+>>>>>>> c7377d9ec36cff184a5aa49324645686fb0f7657:src/Components/Dashboard/Lab/Dashboard.jsx
                         {/* Sidebar Brand */}
                         <a href="/" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <h3 style={{ color: 'white', marginLeft:"50px" }} className="nav-link-text ms-1">Admin Panel</h3>
@@ -103,6 +115,7 @@ const Sidebar = () => {
                     </div>
                 </div>
                 {/* Main content area */}
+<<<<<<< HEAD:src/Components/Dashboard/Dashboard.jsx
                 <div className="col py-3 pt-1">
                     <Topnav />
                     <DashboardCards />
@@ -119,6 +132,11 @@ const Sidebar = () => {
                             <ProjectCard />
                         </div>
                     </div>
+=======
+                <div className="col py-3">
+               {/* <LabHome/> */}
+               <Labs/>
+>>>>>>> c7377d9ec36cff184a5aa49324645686fb0f7657:src/Components/Dashboard/Lab/Dashboard.jsx
                 </div>
             </div>
         </div>
