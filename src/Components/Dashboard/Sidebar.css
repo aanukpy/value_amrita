@@ -1,0 +1,55 @@
+/* Sidebar custom styles */
+.bg-sidebar {
+    background-color: #4e7cd1;
+    height:130vh; /* Grey background color */
+}
+
+.nav-link.active {
+    background-color: #ff69b4 !important; 
+}
+
+
+
+.shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+/* Sidebar.css */
+
+/* Center the text and increase font size */
+.nav-link,
+.dropdown-toggle {
+  text-align: center;
+  font-size: 1.2rem; /* Adjust font size as needed */
+}
+
+/* Style headings */
+.sidebar-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Add padding to the sidebar */
+.sidebar {
+  padding: 1rem;
+}
+
+/* Style the sidebar brand */
+.sidebar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Style the sidebar links */
+.nav-link {
+  color: white;
+}
+
+/* Style the sidebar icons */
+.nav-link i {
+  margin-right: 0.5rem;
+}
+
+/* Style the sidebar active link */
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}

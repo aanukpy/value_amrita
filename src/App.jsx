@@ -25,6 +25,8 @@ import routes from "./routes";
 import Simulation from "./layouts/Simulation";
 import Sidebar from "./Components/Dashboard/Dashboard";
 
+
+
 function App() {
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
@@ -46,41 +48,42 @@ function App() {
       return null;
     });
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          // Seed Token
-          colorPrimary: "green",
-          borderRadius: 2,
+    // <ConfigProvider
+    //   theme={{
+    //     token: {
+    //       // Seed Token
+    //       colorPrimary: "green",
+    //       borderRadius: 2,
 
-          // Alias Token
-          colorBgContainer: "#f6ffed",
-        },
-      }}
-    >
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/experiment" element={<ExperimentPage />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/projects" element={<Project />} />
-          <Route path="/workshops" element={<Workshop />} />
-          <Route path="/nodalcentreapply" element={<Apply />} />
-          <Route path="/nodalcentredemo" element={<Demo />} />
-          <Route path="/inauguration" element={<Inauguration />} />
-          <Route path="/nodalcentrelogin" element={<NodalLogin />} />
-          <Route path="/nodalcentrelist" element={<List />} />
-          <Route path="/experiment-page/:name" element={<Simulation />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </ConfigProvider>
-    // <Sidebar/>
+    //       // Alias Token
+    //       colorBgContainer: "#f6ffed",
+    //     },
+    //   }}
+    // >
+    //   <Router>
+    //     <NavBar />
+    //     <Routes>
+    //       <Route path="/" element={<Home />} />
+    //       <Route path="/gallery" element={<Gallery />} />
+    //       <Route path="/login" element={<Login />} />
+    //       <Route path="/register" element={<Register />} />
+    //       <Route path="/news" element={<News />} />
+    //       <Route path="/experiment" element={<ExperimentPage />} />
+    //       <Route path="/contact" element={<Contact />} />
+    //       <Route path="/projects" element={<Project />} />
+    //       <Route path="/workshops" element={<Workshop />} />
+    //       <Route path="/nodalcentreapply" element={<Apply />} />
+    //       <Route path="/nodalcentredemo" element={<Demo />} />
+    //       <Route path="/inauguration" element={<Inauguration />} />
+    //       <Route path="/nodalcentrelogin" element={<NodalLogin />} />
+    //       <Route path="/nodalcentrelist" element={<List />} />
+    //       <Route path="/experiment-page/:name" element={<Simulation />} />
+    //     </Routes>
+    //     <Footer />
+    //   </Router>
+    // </ConfigProvider>
+    <Sidebar/>
+
   );
 }
 
