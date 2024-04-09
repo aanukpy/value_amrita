@@ -8,6 +8,11 @@
 * Facebook: https://web.facebook.com/Untree.co/
 * Pinterest: https://pinterest.com/Untree_co/
 */
+body{
+  width: 100vw !important;
+  height: 100vh !important;
+
+}
 .panel{
   font-family: 'Raleway', sans-serif;
   padding: 0;

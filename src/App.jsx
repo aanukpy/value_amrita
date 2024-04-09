@@ -1,18 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import Home from "./Components/home";
-import NavBar from "./Components/Header";
-import Login from "./Components/Login";
-import Register from "./Components/Register";
-import Footer from "./Components/Footer";
-import News from "./Components/News";
-import Experiment from "./Components/Experiment";
-import Gallery from "./Components/Gallery";
-import ExperimentPage from "./Components/Model/ExperimentPage";
+import store from "./redux/store";
+import PathWrapper from "./layouts/PathWrapper";
 import { ConfigProvider } from "antd";
+<<<<<<< Updated upstream
 import Contact from "./Components/Contact";
 import Project from "./Components/Project";
 import Workshop from "./Components/Workshop";
@@ -30,27 +24,11 @@ import ExperimentEdit from "./Components/Dashboard/Lab/ExperimentEdit";
 
 
 
+=======
+>>>>>>> Stashed changes
 function App() {
-  const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
-      if (route.collapse) {
-        return getRoutes(route.collapse);
-      }
-
-      if (route.route) {
-        return (
-          <Route
-            exact
-            path={route.route}
-            element={route.component}
-            key={route.key}
-          />
-        );
-      }
-
-      return null;
-    });
   return (
+<<<<<<< Updated upstream
     // <ConfigProvider
     //   theme={{
     //     token: {
@@ -87,6 +65,24 @@ function App() {
     // </ConfigProvider>
     <Sidebar/>
 
+=======
+    <Provider store={store}>
+      <ConfigProvider
+        theme={{
+          token: {
+            // Seed Token
+            colorPrimary: "green",
+            borderRadius: 2,
+
+            // Alias Token
+            colorBgContainer: "#f6ffed",
+          },
+        }}
+      >
+        <PathWrapper />
+      </ConfigProvider>
+    </Provider>
+>>>>>>> Stashed changes
   );
 }
 
