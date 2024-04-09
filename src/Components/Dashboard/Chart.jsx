@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto'; // Import Chart.js library
 
 function AreaChart() {
-  const chartRef = useRef(null); // Ref to hold the Chart instance
+  const chartRef = useRef(null); 
 
   useEffect(() => {
     // Chart.js code
@@ -11,12 +11,12 @@ function AreaChart() {
 
     const ctx = document.getElementById("myAreaChart");
 
-    // Destroy previous chart instance if it exists
+   
     if (chartRef.current) {
       chartRef.current.destroy();
     }
 
-    // Create new Chart instance
+   
     chartRef.current = new Chart(ctx, {
       type: 'line',
       data: {
@@ -103,13 +103,13 @@ function AreaChart() {
         }
       }
     });
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
+  }, []); 
 
   return (
     <div className="">
       <div className="card shadow mb-4" style={
         
-        {height:'300px'}
+        {height:'400px'}
       }>
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h6 className="m-0 font-weight-bold text-primary">Overall Performance</h6>
@@ -117,13 +117,7 @@ function AreaChart() {
             <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
             </a>
-            <div className="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-              <div className="dropdown-header">Dropdown Header:</div>
-              <a className="dropdown-item" href="#">Action</a>
-              <a className="dropdown-item" href="#">Another action</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Something else here</a>
-            </div>
+            
           </div>
         </div>
         <div className="card-body">

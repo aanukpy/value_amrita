@@ -5,13 +5,14 @@ import Topnav from './Topnav';
 import AreaChart from './Chart';
 import RevenueSources from './Pie-chart';
 import ProjectCard from './Table';
+import Topbar from './Topnav';
 
 const Sidebar = () => {
     return (
         <div className="container-fluid">
             <div className="row flex-nowrap">
                 {/* Sidebar */}
-                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2 pb-4">
+                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2 pb-4  dashboard-sn">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100  shadow bg-sidebar">
                         {/* Sidebar Brand */}
                         <a href="/" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -104,7 +105,7 @@ const Sidebar = () => {
                 </div>
                 {/* Main content area */}
                 <div className="col py-3 pt-1">
-                    <Topnav />
+                    <Topbar />
                     <DashboardCards />
                     <div className="row">
                         <div className="col-xl-8">

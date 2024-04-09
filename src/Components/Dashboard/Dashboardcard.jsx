@@ -3,7 +3,7 @@ import "./Dashboardcard.css";
 function DashboardCards() {
   return (
     <div className="row">
-      {/* Earnings (Monthly) Card Example */}
+  
       <div className="col-xl-3 col-md-6 mb-4">
         <div className="card border-left-primary shadow h-100 py-2">
           <div className="card-body">
@@ -16,16 +16,16 @@ function DashboardCards() {
                 <div className="h5 mb-0 font-weight-bold text-gray-800">15,000</div>
               </div>
               <div className="col-auto">
-                <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                <i className="fa-solid fa-users fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Earnings (Annual) Card Example */}
+    
       <div className="col-xl-3 col-md-6 mb-4">
-        <div className="card border-left-success shadow h-100 py-2">
+        <div className="card border-left-success shadow  py-2">
           <div className="card-body">
             <div className="row no-gutters align-items-center">
               <div className="col mr-2">
@@ -35,14 +35,13 @@ function DashboardCards() {
                 <div className="h5 mb-0 font-weight-bold text-gray-800">100</div>
               </div>
               <div className="col-auto">
-                <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                <i className="fa-solid fa-flask fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tasks Card Example */}
       <div className="col-xl-3 col-md-6 mb-4">
         <div className="card border-left-info shadow h-100 py-2">
           <div className="card-body">
@@ -70,7 +69,6 @@ function DashboardCards() {
         </div>
       </div>
 
-      {/* Pending Requests Card Example */}
       <div className="col-xl-3 col-md-6 mb-4">
         <div className="card border-left-warning shadow h-100 py-2">
           <div className="card-body">

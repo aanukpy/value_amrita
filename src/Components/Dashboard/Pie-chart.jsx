@@ -16,7 +16,7 @@ function RevenueSources() {
     chartInstance.current = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Student', 'Teachers', 'Others'],
+        labels: ['Student', 'Subject Matter Expert', 'Others'],
         datasets: [{
           label: 'User Role Distribution',
           data: [300, 200, 100],
@@ -38,8 +38,8 @@ function RevenueSources() {
   }, []);
 
   return (
-    <div className="col-sm-4 col-lg-4 mr-3">
-      <div className="card shadow mb-4 " style={{ width: '500px', height: '300px' }}>
+    <div className="col-sm-4 col-lg-4 mr-2">
+      <div className="card shadow mb-4 " style={{ width: '400px', height: '400px' }}>
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h6 className="m-0 font-weight-bold text-primary">User Role Distribution</h6>
           <div className="dropdown no-arrow">
