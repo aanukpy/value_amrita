@@ -148,3 +148,29 @@
   color: #999;
 }
 /* .................. */
+/* Styles for the dropdown panel */
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 10px); /* Position below the cog icon */
+  left: 0;
+  width: 500px; /* Let the width adjust based on content */
+  min-width: 200px; /* Set a minimum width */
+  /* max-width: 300px; Set a maximum width */
+  background-color: #323232; /* Grey background color */
+  z-index: 1000; /* Ensure the dropdown appears above other elements */
+  padding: 10px; /* Add padding for content */
+  border-radius: 5px; /* Optional: Add border radius */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow */
+}
+
+/* Styles for the close button */
+.dropdown-panel button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: #555; /* Close button color */
+}

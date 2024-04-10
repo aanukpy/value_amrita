@@ -1,7 +1,7 @@
 /* Sidebar custom styles */
 .bg-sidebar {
   background-color: #4e7cd1;
-  height:130vh; /* Grey background color */
+  height:100%; /* Grey background color */
 }
 
 .nav-link.active {
@@ -88,11 +88,33 @@ background-color: rgba(255, 255, 255, 0.1);
   border: 0;
 }
 }
+/* Sidebar.css */
 
-@media (max-width: 767.98px) {
-  .dashboard-sn{
-    display:none !important;
-  }
+
+
+/* Hide sidebar by default on larger screens */
+/* @media (min-width: 768px) {
+    .dashboard-sn {
+        display: none;
+    }
+} */
+/* Sidebar.css */
+
+.dashboard-sn.hidden {
+  display: none;
+  color: black;
+}
+
+
+
+.nav-link-text {
+  font-size: 1.5rem;
+  color: white; 
+}
+
+
+
+
 .table-responsive-md {
   display: block;
   width: 100%;
@@ -102,7 +124,7 @@ background-color: rgba(255, 255, 255, 0.1);
 .table-responsive-md > .table-bordered {
   border: 0;
 }
-}
+
 
 @media (max-width: 991.98px) {
 .table-responsive-lg {

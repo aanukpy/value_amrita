@@ -6,7 +6,7 @@ function ProjectCard() {
       {/* Project Card Example */}
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">Lab Categories</h6>
+          <h6 className="m-0 font-weight-bold text-primary">Lab Progress</h6>
         </div>
         <div className="card-body">
           <h4 className="small font-weight-bold">	Biotechnology and Biomedical Engineering <span className="float-right">20%</span></h4>

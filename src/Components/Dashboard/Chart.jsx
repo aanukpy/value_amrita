@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto'; // Import Chart.js library
+import "./Chart.jsx";
 
 function AreaChart() {
   const chartRef = useRef(null); 
@@ -107,10 +108,7 @@ function AreaChart() {
 
   return (
     <div className="">
-      <div className="card shadow mb-4" style={
-        
-        {height:'400px'}
-      }>
+      <div className="card shadow mb-4" >
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h6 className="m-0 font-weight-bold text-primary">Overall Performance</h6>
           <div className="dropdown no-arrow">
@@ -121,7 +119,7 @@ function AreaChart() {
           </div>
         </div>
         <div className="card-body">
-          <div className="chart-area">
+        <div className="chart-area" style={{height: "300px"}}>
             <canvas id="myAreaChart"></canvas>
           </div>
         </div>

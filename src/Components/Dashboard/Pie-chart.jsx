@@ -16,7 +16,7 @@ function RevenueSources() {
     chartInstance.current = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Student', 'Subject Matter Expert', 'Others'],
+        labels: ['Student', 'Subject Matter Expert', 'Nodal Instructor'],
         datasets: [{
           label: 'User Role Distribution',
           data: [300, 200, 100],

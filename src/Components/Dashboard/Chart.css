@@ -1,26 +1,26 @@
 /* Area Chart */
 .chart-area {
     position: relative;
-    height: 150rem;
+    height: 100%;
     width: 100%;
   }
   
   @media (min-width: 768px) {
     .chart-area {
-      height: 20rem;
+      height: 10rem;
     }
   }
   
   /* Bar Chart */
   .chart-bar {
     position: relative;
-    height: 150rem;
+    height: 100%;
     width: 100%;
   }
   
   @media (min-width: 768px) {
     .chart-bar {
-      height: 150rem;
+      height: 100%;
     }
   }
   
