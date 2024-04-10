@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "../Components/home";
 import NavBar from "../Components/Header";
 import Login from "../Components/Login";
@@ -9,6 +9,7 @@ import News from "../Components/News";
 import Experiment from "../Components/Experiment";
 import Gallery from "../Components/Gallery";
 import ExperimentPage from "../Components/Model/ExperimentPage";
+import ContentPage from "./ContentPage"; // Import ContentPage component
 
 import Contact from "../Components/Contact";
 import Project from "../Components/Project";
@@ -39,25 +40,6 @@ const PathWrapper = () => {
       navigate("/adminDashboard");
     }
   }, [userRole]);
-  const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
-      if (route.collapse) {
-        return getRoutes(route.collapse);
-      }
-
-      if (route.route) {
-        return (
-          <Route
-            exact
-            path={route.route}
-            element={route.component}
-            key={route.key}
-          />
-        );
-      }
-
-      return null;
-    });
 
   if (loading) {
     return <LoadingScreen />;
@@ -72,7 +54,10 @@ const PathWrapper = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/news" element={<News />} />
-        <Route path="/experiment" element={<ExperimentPage />} />
+        <Route path="/experiment/:sub" element={<ExperimentPage />} />
+        {/* <Route path=":exp" element={<Simulation />} /> */}
+
+
         <Route path="/contact" element={<Contact />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/workshops" element={<Workshop />} />
@@ -82,13 +67,12 @@ const PathWrapper = () => {
         <Route path="/nodalcentrelogin" element={<NodalLogin />} />
         <Route path="/nodalcentrelist" element={<List />} />
         <Route path="/Labs" element={<Labs />} />
-        <Route path="/experiment-page/:name" element={<Simulation />} />
+        <Route path="/experiment-page/:sub/:exp" element={<Simulation />} />
         <Route path="/adminDashboard" element={<AdminDashboard />}>
           <Route path="userManagement" element={<UserManagement />} />
           <Route path="dashboard" element={<DashboardMain />} />
         </Route>
       </Routes>
-      {/* <Footer /> */}
     </>
   );
 };

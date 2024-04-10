@@ -223,7 +223,7 @@ export const Mechanical_Engineering = [
     ],
   },
 ];
-export const Computer_science = [
+export const Computer_Science = [
   {
     id: 1,
     experiment:
@@ -303,3 +303,106 @@ export const Computer_science = [
     ],
   },
 ];
+export const Chemical_Science = [
+  {
+    id: 1,
+    experiment:
+      "Physical Chemistry Virtual Lab",
+    description:
+      "Wireless Sensor Network is the study of wireless sensors that are distributed in a wide area for sensing the environmental parameters. Wireless Sensor Network Remote Triggered Lab is an experimental wireless sensor network deployed partly indoor and partly outdoor. This lab is envisioned to provide a practical experience of designing, deploying and implementing wireless sensor networks in both indoor and outdoor conditions.",
+    links: [
+      {
+        id: 1,
+        title: "Spectrophotometry",
+        description:
+          "Calculating the Average Wind Energy Density (WED) from Actual Wind Data",
+      },
+      {
+        id: 2,
+        title: "Cryoscopy",
+        description:
+          "Learn about the wind distribution pattern of a given location",
+      },
+      {
+        id: 3,
+        title: "	Ebullioscopy",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
+      {
+        id: 4,
+        title: "  EMF measurement",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
+    ],
+  },]
+export const  Biotechnology_Biomedical_Engineering  = [
+  {
+    id: 1,
+    experiment:
+      "Physical Chemistry Virtual Lab",
+    description:
+      "Wireless Sensor Network is the study of wireless sensors that are distributed in a wide area for sensing the environmental parameters. Wireless Sensor Network Remote Triggered Lab is an experimental wireless sensor network deployed partly indoor and partly outdoor. This lab is envisioned to provide a practical experience of designing, deploying and implementing wireless sensor networks in both indoor and outdoor conditions.",
+    links: [
+      {
+        id: 1,
+        title: "Spectrophotometry",
+        description:
+          "Calculating the Average Wind Energy Density (WED) from Actual Wind Data",
+      },
+      {
+        id: 2,
+        title: "Cryoscopy",
+        description:
+          "Learn about the wind distribution pattern of a given location",
+      },
+      {
+        id: 3,
+        title: "	Ebullioscopy",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
+      {
+        id: 3,
+        title: "  EMF measurement",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
+    ],
+  },]
+  export const  Physical_Sciences  = [
+    {
+      id: 1,
+      experiment:
+        "Physical Chemistry Virtual Lab",
+      description:
+        "Wireless Sensor Network is the study of wireless sensors that are distributed in a wide area for sensing the environmental parameters. Wireless Sensor Network Remote Triggered Lab is an experimental wireless sensor network deployed partly indoor and partly outdoor. This lab is envisioned to provide a practical experience of designing, deploying and implementing wireless sensor networks in both indoor and outdoor conditions.",
+      links: [
+        {
+          id: 1,
+          title: "Spectrophotometry",
+          description:
+            "Calculating the Average Wind Energy Density (WED) from Actual Wind Data",
+        },
+        {
+          id: 2,
+          title: "Cryoscopy",
+          description:
+            "Learn about the wind distribution pattern of a given location",
+        },
+        {
+          id: 3,
+          title: "	Ebullioscopy",
+          description:
+            "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+        },
+        {
+          id: 3,
+          title: "  EMF measurement",
+          description:
+            "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+        },
+      ],
+    },]
+  

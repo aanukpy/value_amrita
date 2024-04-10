@@ -14,7 +14,7 @@ import Demo from "./Components/NodalCentres/Demo";
 import Inauguration from "./Components/NodalCentres/Inauguration";
 import NodalLogin from "./Components/NodalCentres/NodalLogin";
 import List from "./Components/NodalCentres/List";
-import routes from "./routes";
+
 import Simulation from "./layouts/Simulation";
 import Sidebar from "./Components/Dashboard/Dashboard";
 import Labs from "./Components/Dashboard/Lab/Labs";

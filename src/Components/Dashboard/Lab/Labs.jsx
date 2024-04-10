@@ -130,7 +130,7 @@ const Labs = () => {
     <Fade up duration={1000} delay={200}>
       <div className="container-xl">
         <div className="table-responsive">
-          <Box sx={{ marginBottom: "1rem" }}>
+          <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
             <Typography variant="h4" gutterBottom>
               Manage Labs
             </Typography>
@@ -189,6 +189,7 @@ const Labs = () => {
               borderRadius: "4px",
               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
               marginTop: "1rem",
+              width: "70%",
             }}
           >
             <Table>
