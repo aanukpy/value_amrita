@@ -11,6 +11,7 @@
 body{
   width: 100vw !important;
   height: 100vh !important;
+  font-family: "sans"
 
 }
 .panel{
@@ -1528,7 +1529,7 @@ h4,
 .untree_co-hero > .container,
 .bg-img > .container {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 .untree_co-hero,
 .untree_co-hero > .container > .row,
@@ -1614,10 +1615,30 @@ h4,
   height: 70vh;
   min-height: 450px;
 }
+.snackbar-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+}
+.ant-message-notice-content{
+    width: 500px;
+    height: 66px;
+    display: flex;
+    justify-content: flex-start;
+    padding-inline: 25;
+    font-size: medium;
+    align-items: center;
+}
+.ant-message-notice{
+  display: flex;
+  justify-content: end;
+}
 
 .untree_co-section {
   padding: 100px 0;
   position: relative;
+  z-index: 500;
 }
 @media (max-width: 991.98px) {
   .untree_co-section {
@@ -2277,6 +2298,7 @@ h4,
   border-radius: 7px;
   -webkit-box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
   box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+  z-index: 500 !important;
 }
 
 .custom-block {

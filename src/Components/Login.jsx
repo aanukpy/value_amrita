@@ -12,9 +12,10 @@ import {
 } from "mdb-react-ui-kit";
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { useDispatch } from "react-redux";
-import { adminlogin } from "../redux/slices/authReducer";
+import { login } from "../redux/slices/authReducer";
 import { Base64 } from "js-base64";
 import { getValueFromCookie } from "../helpers/cookies";
+import Snackbar from "./common/snackbar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,12 +30,14 @@ const Login = () => {
     setPassword(e.target.value);
   };
   const onHandleLogin = () => {
-    dispatch(
-      adminlogin({
-        email,
-        password: Base64.encode(password),
-      })
-    );
+    try {
+      dispatch(
+        login({
+          email,
+          password: Base64.encode(password),
+        })
+      );
+    } catch (error) {}
   };
 
   return (

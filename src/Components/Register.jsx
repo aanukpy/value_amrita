@@ -1,8 +1,55 @@
 import React, { useState } from "react";
 import RegiaterIMG from "../assets/register.jpg";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  clearState,
+  register,
+  updateResisterData,
+} from "../redux/slices/authReducer";
+import { useNavigate } from "react-router-dom";
+import { Base64 } from "js-base64";
 const Register = () => {
-  const [step, setStep] = useState(1);
+  const { registerData } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const {
+    fullname,
+    email,
+    password,
+    confirmpassword,
+    age,
+    gender,
+    phonenumber,
+    state,
+    country,
+    profession,
+    college,
+    subject,
+    university,
+  } = registerData;
 
+  const [step, setStep] = useState(1);
+  const handleRegister = () => {
+    try {
+      const data = {
+        ...registerData,
+        password: Base64.encode(registerData.password),
+        confirmpassword: Base64.encode(registerData.confirmpassword),
+      };
+      dispatch(register(data, navigation));
+      dispatch(clearState());
+    } catch (error) {}
+  };
+  const onHandleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    dispatch(
+      updateResisterData({
+        ...registerData,
+        [name]: value,
+      })
+    );
+  };
   const nextStep = () => {
     setStep(step + 1);
   };
@@ -18,26 +65,46 @@ const Register = () => {
           <>
             <div className="col-12 mb-3">
               <input
+                name="fullname"
+                value={fullname}
+                onChange={onHandleChange}
                 type="text"
                 className="form-control"
                 placeholder="Full name"
+                required
               />
             </div>
             <div className="col-12 mb-3">
-              <input type="text" className="form-control" placeholder="Email" />
+              <input
+                name="email"
+                value={email}
+                onChange={onHandleChange}
+                type="text"
+                className="form-control"
+                placeholder="Email"
+                required
+              />
             </div>
             <div className="col-12 mb-3">
               <input
+                name="password"
+                value={password}
+                onChange={onHandleChange}
                 type="password"
                 className="form-control"
                 placeholder="Password"
+                required
               />
             </div>
             <div className="col-12 mb-3">
               <input
+                name="confirmpassword"
+                value={confirmpassword}
+                onChange={onHandleChange}
                 type="password"
                 className="form-control"
                 placeholder="Re-type Password"
+                required
               />
             </div>
           </>
@@ -46,7 +113,12 @@ const Register = () => {
         return (
           <>
             <div className="col-12 mb-3">
-              <select className="form-control">
+              <select
+                className="form-control"
+                name={"age"}
+                onChange={onHandleChange}
+                value={age}
+              >
                 <option value="">-- Select Age Group --</option>
                 <option value="under_18">Under 18</option>
                 <option value="18_24">18-24</option>
@@ -58,7 +130,12 @@ const Register = () => {
               </select>
             </div>
             <div className="col-12 mb-3">
-              <select className="form-control">
+              <select
+                className="form-control"
+                name={"gender"}
+                onChange={onHandleChange}
+                value={gender}
+              >
                 <option value="">-- Select Gender --</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -67,6 +144,9 @@ const Register = () => {
             </div>
             <div className="col-12 mb-3">
               <input
+                name="phonenumber"
+                value={phonenumber}
+                onChange={onHandleChange}
                 type="tel"
                 className="form-control"
                 placeholder="Phone Number"
@@ -78,19 +158,53 @@ const Register = () => {
         return (
           <>
             <div className="col-12 mb-3">
-              <select className="form-control">
-                <option value="">-- Select State --</option>
-                {/* Add state options here */}
-              </select>
+              <input
+                name="state"
+                value={state}
+                onChange={onHandleChange}
+                type="text"
+                className="form-control"
+                placeholder="State"
+              />
             </div>
             <div className="col-12 mb-3">
-              <select className="form-control">
+              <select
+                className="form-control"
+                name={"country"}
+                onChange={onHandleChange}
+                value={country}
+              >
                 <option value="">-- Select Country --</option>
-                {/* Add country options here */}
+                <option value="India">India</option>
+                <option value="Australia">Australia</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Canada">Canada</option>
+                <option value="China">China</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Italy">Italy</option>
+                <option value="Japan">Japan</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="New Zealand">New Zealand</option>
+                <option value="Oman">Oman</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div className="col-12 mb-3">
-              <select className="form-control">
+              <select
+                className="form-control"
+                name={"profession"}
+                onChange={onHandleChange}
+                value={profession}
+              >
                 <option value="">-- Select Profession --</option>
                 <option value="student">Student</option>
                 <option value="teacher">Teacher</option>
@@ -101,6 +215,9 @@ const Register = () => {
             </div>
             <div className="col-12 mb-3">
               <input
+                name="college"
+                value={college}
+                onChange={onHandleChange}
                 type="text"
                 className="form-control"
                 placeholder="College"
@@ -108,6 +225,9 @@ const Register = () => {
             </div>
             <div className="col-12 mb-3">
               <input
+                name="subject"
+                value={subject}
+                onChange={onHandleChange}
                 type="text"
                 className="form-control"
                 placeholder="Subject"
@@ -115,6 +235,9 @@ const Register = () => {
             </div>
             <div className="col-12 mb-3">
               <input
+                name="university"
+                value={university}
+                onChange={onHandleChange}
                 type="text"
                 className="form-control"
                 placeholder="University"
@@ -162,12 +285,13 @@ const Register = () => {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <form action="#" className="form-box">
+              <form className="form-box">
                 <div className="row">
                   {renderStep()}
                   <div className="col-12 mt-3">
                     {step > 1 && (
                       <button
+                        type={"button"}
                         onClick={prevStep}
                         className="btn btn-secondary float-left"
                       >
@@ -176,6 +300,7 @@ const Register = () => {
                     )}
                     {step < 3 && (
                       <button
+                        type={"button"}
                         onClick={nextStep}
                         className="btn btn-primary float-right next-btn"
                       >
@@ -183,11 +308,13 @@ const Register = () => {
                       </button>
                     )}
                     {step === 3 && (
-                      <input
-                        type="submit"
-                        value="Register"
+                      <button
+                        type={"button"}
+                        onClick={handleRegister}
                         className="btn btn-primary float-right next-btn"
-                      />
+                      >
+                        Register
+                      </button>
                     )}
                   </div>
                 </div>
