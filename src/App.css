@@ -1621,6 +1621,9 @@ h4,
   right: 0;
 
 }
+.border-bottom-0-1px{
+  border-bottom-width: 0px !important;
+}
 .ant-message-notice-content{
     width: 500px;
     height: 66px;

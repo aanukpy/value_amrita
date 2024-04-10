@@ -43,7 +43,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid pl-2">
       <div className="row flex-nowrap">
         {/* Sidebar */}
         <div
