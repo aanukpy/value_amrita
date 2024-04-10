@@ -1,11 +1,6 @@
-// Sidebar.js
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import DashboardCards from "./Dashboardcard";
-import AreaChart from "./Chart";
-import RevenueSources from "./Pie-chart";
-import ProjectCard from "./Table";
 import Topbar from "./Topnav";
 import { Link, useLocation } from "react-router-dom";
 import DashboardMain from ".";
@@ -13,6 +8,7 @@ import UserManagement from "../../layouts/UserManagement/UserManagement";
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
+  const [showDropdowns, setShowDropdowns] = useState([false, false, false]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,7 +20,18 @@ const Sidebar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const location = useLocation();
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  const toggleDropdown = (index) => {
+    const newDropdowns = showDropdowns.map((value, idx) => idx === index ? !value : false);
+    setShowDropdowns(newDropdowns);
+  };
+
   const setTitle = () => {
     let title;
     const titleRoute = location.pathname.split("/");
@@ -35,17 +42,12 @@ const Sidebar = () => {
     return title;
   };
 
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
-  console.log(setTitle());
-
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
         {/* Sidebar */}
         <div
-          className={`col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2 pb-4 dashboard-sn ${
+          className={`col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2  dashboard-sn ${
             sidebarVisible ? "" : "hidden"
           }`}
         >
@@ -79,19 +81,15 @@ const Sidebar = () => {
               </li>
               {/* Labs */}
               <li className="nav-item dropdown">
-                <Link
-                  to="/adminDashboard/labs"
+                <div
+                  onClick={() => toggleDropdown(0)}
                   className="nav-link dropdown-toggle align-middle px-0 text-white"
-                  id="labsDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Labs</span>
-                </Link>
+                </div>
                 {/* Submenu */}
-                <ul className="dropdown-menu" aria-labelledby="labsDropdown">
+                <ul className={`dropdown-menu ${showDropdowns[0] ? 'show' : ''}`}>
                   <li>
                     <Link
                       className="dropdown-item"
@@ -136,19 +134,15 @@ const Sidebar = () => {
               </li>
               {/* Portal Admin */}
               <li className="nav-item dropdown">
-                <Link
-                  to={"/adminDashboard/nodalCenters"}
+                <div
+                  onClick={() => toggleDropdown(1)}
                   className="nav-link dropdown-toggle align-middle px-0 text-white"
-                  id="portalDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Nodal Centers</span>
-                </Link>
+                </div>
                 {/* Submenu */}
-                <ul className="dropdown-menu" aria-labelledby="portalDropdown">
+                <ul className={`dropdown-menu ${showDropdowns[1] ? 'show' : ''}`}>
                   <li>
                     <Link
                       to="/adminDashboard/nodalCenters/list"
@@ -157,7 +151,6 @@ const Sidebar = () => {
                       Nodal center list
                     </Link>
                   </li>
-                  {/* <li><Link className="dropdown-item" to="#">Item 2</Link></li> */}
                 </ul>
               </li>
 
@@ -165,8 +158,6 @@ const Sidebar = () => {
                 <Link
                   to={"/adminDashboard/userManagement"}
                   className="nav-link align-middle px-0 text-white"
-                  id="accountDropdown"
-                  role="button"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">User Management</span>

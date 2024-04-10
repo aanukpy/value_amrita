@@ -21,6 +21,8 @@ import Labs from "./Components/Dashboard/Lab/Labs";
 import Listing from "./Components/Dashboard/Lab/Listing";
 import ExperimentEdit from "./Components/Dashboard/Lab/ExperimentEdit";
 import Sidenav from "./Components/Dashboard/Sidenav";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (

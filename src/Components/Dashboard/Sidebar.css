@@ -1,15 +1,81 @@
 /* Sidebar custom styles */
 .bg-sidebar {
-  background-color: #4e7cd1;
+  background-color: #2b55d4;
   height:100%; /* Grey background color */
     background-color: #4e7cd1;
     /* height:130vh; */
     /* Grey background color */
 }
-
+/* 
 .nav-link.active {
   background-color: #ff69b4 !important; 
+} */
+
+/* dropdown */
+/* Sidebar.css */
+
+.custom-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
 }
+
+.custom-dropdown-menu.show {
+  display: block;
+}
+
+.custom-dropdown-menu li {
+  padding: 0.5rem 1rem;
+}
+
+.custom-dropdown-menu li:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,7 +193,6 @@ background-color: rgba(255, 255, 255, 0.1);
 .table-responsive-md > .table-bordered {
   border: 0;
 }
-
 
 @media (max-width: 991.98px) {
 .table-responsive-lg {
