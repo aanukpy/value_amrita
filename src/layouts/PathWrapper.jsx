@@ -27,6 +27,7 @@ import LoadingScreen from "../Components/loadingScreen";
 import { useSelector } from "react-redux";
 import { userRoleDetails } from "../utilits/common/userDetails";
 import UserManagement from "./UserManagement/UserManagement";
+import DashboardMain from "../Components/Dashboard";
 
 const PathWrapper = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -84,6 +85,7 @@ const PathWrapper = () => {
         <Route path="/experiment-page/:name" element={<Simulation />} />
         <Route path="/adminDashboard" element={<AdminDashboard />}>
           <Route path="userManagement" element={<UserManagement />} />
+          <Route path="dashboard" element={<DashboardMain />} />
         </Route>
       </Routes>
       {/* <Footer /> */}

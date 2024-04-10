@@ -7,7 +7,9 @@ import AreaChart from "./Chart";
 import RevenueSources from "./Pie-chart";
 import ProjectCard from "./Table";
 import Topbar from "./Topnav";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import DashboardMain from ".";
+import UserManagement from "../../layouts/UserManagement/UserManagement";
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -36,6 +38,7 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
+  console.log(setTitle());
 
   return (
     <div className="container-fluid">
@@ -48,8 +51,8 @@ const Sidebar = () => {
         >
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 shadow bg-sidebar">
             {/* Sidebar Brand */}
-            <a
-              href="/"
+            <Link
+              to="/adminDashboard"
               className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
             >
               <h3
@@ -58,7 +61,7 @@ const Sidebar = () => {
               >
                 Admin Panel
               </h3>
-            </a>{" "}
+            </Link>{" "}
             {/* Sidebar Navigation */}
             <ul
               className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
@@ -66,15 +69,18 @@ const Sidebar = () => {
             >
               {/* Sidebar Items */}
               <li className="nav-item">
-                <a href="#" className="nav-link align-middle px-0 text-white">
+                <Link
+                  to="/adminDashboard/dashboard"
+                  className="nav-link align-middle px-0 text-white"
+                >
                   <i className="fs-4 bi-house"></i>{" "}
                   <span className="ms-1">Dashboard</span>
-                </a>
+                </Link>
               </li>
               {/* Labs */}
               <li className="nav-item dropdown">
-                <a
-                  href="#"
+                <Link
+                  to="/adminDashboard/labs"
                   className="nav-link dropdown-toggle align-middle px-0 text-white"
                   id="labsDropdown"
                   role="button"
@@ -83,40 +89,55 @@ const Sidebar = () => {
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Labs</span>
-                </a>
+                </Link>
                 {/* Submenu */}
                 <ul className="dropdown-menu" aria-labelledby="labsDropdown">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      className="dropdown-item"
+                      to="/adminDashboard/labs/broadArea"
+                    >
                       Broad Area
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      className="dropdown-item"
+                      to="/adminDashboard/labs/labDetails"
+                    >
                       Labs
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      className="dropdown-item"
+                      to="/adminDashboard/labs/experiment"
+                    >
                       Experiment
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      className="dropdown-item"
+                      to="/adminDashboard/labs/editExperiment"
+                    >
                       Edit Experiment
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      className="dropdown-item"
+                      to="/adminDashboard/labs/managePage"
+                    >
                       Manage Page
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
               {/* Portal Admin */}
               <li className="nav-item dropdown">
-                <a
-                  href="#"
+                <Link
+                  to={"/adminDashboard/nodalCenters"}
                   className="nav-link dropdown-toggle align-middle px-0 text-white"
                   id="portalDropdown"
                   role="button"
@@ -125,43 +146,31 @@ const Sidebar = () => {
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Nodal Centers</span>
-                </a>
+                </Link>
                 {/* Submenu */}
                 <ul className="dropdown-menu" aria-labelledby="portalDropdown">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link
+                      to="/adminDashboard/nodalCenters/list"
+                      className="dropdown-item"
+                    >
                       Nodal center list
-                    </a>
+                    </Link>
                   </li>
-                  {/* <li><a className="dropdown-item" href="#">Item 2</a></li> */}
+                  {/* <li><Link className="dropdown-item" to="#">Item 2</Link></li> */}
                 </ul>
               </li>
 
               <li className="nav-item dropdown">
-                <a
-                  href="#"
-                  className="nav-link dropdown-toggle align-middle px-0 text-white"
+                <Link
+                  to={"/adminDashboard/userManagement"}
+                  className="nav-link align-middle px-0 text-white"
                   id="accountDropdown"
                   role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
-                  <span className="ms-1">Users</span>
-                </a>
-                {/* Submenu */}
-                <ul className="dropdown-menu" aria-labelledby="accountDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Students
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Instructors
-                    </a>
-                  </li>
-                </ul>
+                  <span className="ms-1">User Management</span>
+                </Link>
               </li>
               {/* Instructor */}
               <li className="nav-item dropdown"></li>
@@ -174,20 +183,11 @@ const Sidebar = () => {
         {/* Main content area */}
         <div className="col py-3 pt-1">
           <Topbar toggleSidebar={toggleSidebar} title={setTitle()} />
-          <DashboardCards />
-          <div className="row">
-            <div className="col-xl-8">
-              <AreaChart />
-            </div>
-            <div className="col-xl-4">
-              <RevenueSources />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xl-8">
-              <ProjectCard />
-            </div>
-          </div>
+          {setTitle() === "User Management" ? (
+            <UserManagement />
+          ) : (
+            <DashboardMain />
+          )}
         </div>
       </div>
     </div>

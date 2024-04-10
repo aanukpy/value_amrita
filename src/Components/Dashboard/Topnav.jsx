@@ -27,50 +27,53 @@ function Topbar({ toggleSidebar, title }) {
           <i className="fa fa-bars"></i>
         </button>
         <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-          <h5>{title}</h5>
+          <h5 style={{ fontWeight: 600, fontSize: 25, color: "BLACK" }}>
+            {title}
+          </h5>
         </form>
-        <div className="position-relative">
-          <div className="nav-item no-arrow">
-            <div className="nav-link" onClick={toggleDropdown}>
-              <FontAwesomeIcon icon={faCog} style={{ color: "grey" }} />
-            </div>
-            {showDropdown && (
-              <div className="dropdown-panel position-absolute top-100 start-0">
-                <button className="btn-close" onClick={toggleDropdown}>
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
-                <div>
-                  <h4 style={{ color: "white" }}>Theme</h4>
-                  <div className="theme-options">
-                    <div>
-                      <input
-                        type="radio"
-                        id="lightTheme"
-                        name="theme"
-                        value="light"
-                      />
-                      <label htmlFor="lightTheme" style={{ color: "white" }}>
-                        Light
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="darkTheme"
-                        name="theme"
-                        value="dark"
-                      />
-                      <label htmlFor="darkTheme" style={{ color: "white" }}>
-                        Dark
-                      </label>
+
+        <ul className="navbar-nav ml-auto">
+          <div className="position-relative">
+            <div className="nav-item no-arrow">
+              <div className="nav-link" onClick={toggleDropdown}>
+                <FontAwesomeIcon icon={faCog} style={{ color: "grey" }} />
+              </div>
+              {showDropdown && (
+                <div className="dropdown-panel position-absolute top-100 start-0">
+                  <button className="btn-close" onClick={toggleDropdown}>
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                  <div>
+                    <h4 style={{ color: "white" }}>Theme</h4>
+                    <div className="theme-options">
+                      <div>
+                        <input
+                          type="radio"
+                          id="lightTheme"
+                          name="theme"
+                          value="light"
+                        />
+                        <label htmlFor="lightTheme" style={{ color: "white" }}>
+                          Light
+                        </label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="darkTheme"
+                          name="theme"
+                          value="dark"
+                        />
+                        <label htmlFor="darkTheme" style={{ color: "white" }}>
+                          Dark
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-        <ul className="navbar-nav ml-auto">
           <li className="nav-item dropdown no-arrow mx-1">
             <a
               className="nav-link dropdown-toggle"
@@ -119,11 +122,14 @@ function Topbar({ toggleSidebar, title }) {
               role="button"
               data-toggle="dropdown"
               aria-haspopup="true"
-              aria-expanded="false"
+              aria-expanded="true"
             >
-              <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                Admin
-              </span>
+              <img
+                src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+                className="rounded-circle shadow-4"
+                style={{ width: 30 }}
+                alt="Avatar"
+              />
             </a>
           </li>
         </ul>
