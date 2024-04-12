@@ -1,17 +1,14 @@
 /* Sidebar custom styles */
 .bg-sidebar {
-  background-color: #2b55d4;
-  height:100%; /* Grey background color */
-    background-color: #4e7cd1;
-    /* height:130vh; */
-    /* Grey background color */
+  /* background-color: #2b55d4; */
+  background-color: #0b275b;
+  height:100%; 
+  /* border-radius: 50px; */
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
-/* 
-.nav-link.active {
-  background-color: #ff69b4 !important; 
-} */
 
-/* dropdown */
+
 /* Sidebar.css */
 
 .custom-dropdown-menu {
@@ -177,8 +174,10 @@ background-color: rgba(255, 255, 255, 0.1);
 
 
 .nav-link-text {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: white; 
+  text-align: center; 
+  margin-left: 40px;
 }
 
 

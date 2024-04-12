@@ -5,6 +5,8 @@ import Topbar from "./Topnav";
 import { Link, useLocation } from "react-router-dom";
 import DashboardMain from ".";
 import UserManagement from "../../layouts/UserManagement/UserManagement";
+import NodalCenter from "../../layouts/Nodalcenter/NodalCenter";
+
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -38,14 +40,16 @@ const Sidebar = () => {
     title =
       titleRoute[titleRoute.length - 1] === "userManagement"
         ? "User Management"
+        : titleRoute[titleRoute.length - 1] === "list"
+        ? "Nodal Centers"
         : "Dashboard";
     return title;
   };
-
+console.log(setTitle())
   return (
-    <div className="container-fluid pl-2">
+    <div className="container-fluid">
       <div className="row flex-nowrap">
-        {/* Sidebar */}
+        
         <div
           className={`col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2  dashboard-sn ${
             sidebarVisible ? "" : "hidden"
@@ -58,8 +62,8 @@ const Sidebar = () => {
               className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
             >
               <h3
-                style={{ color: "white", marginLeft: "50px" }}
-                className="nav-link-text ms-1"
+                style={{ color: "white" }}
+                className="nav-link-text "
               >
                 Admin Panel
               </h3>
@@ -73,7 +77,7 @@ const Sidebar = () => {
               <li className="nav-item">
                 <Link
                   to="/adminDashboard/dashboard"
-                  className="nav-link align-middle px-0 text-white"
+                  className="nav-link align-middle px-4 text-white"
                 >
                   <i className="fs-4 bi-house"></i>{" "}
                   <span className="ms-1">Dashboard</span>
@@ -83,7 +87,7 @@ const Sidebar = () => {
               <li className="nav-item dropdown">
                 <div
                   onClick={() => toggleDropdown(0)}
-                  className="nav-link dropdown-toggle align-middle px-0 text-white"
+                  className="nav-link dropdown-toggle align-middle px-4 text-white"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Labs</span>
@@ -136,7 +140,7 @@ const Sidebar = () => {
               <li className="nav-item dropdown">
                 <div
                   onClick={() => toggleDropdown(1)}
-                  className="nav-link dropdown-toggle align-middle px-0 text-white"
+                  className="nav-link dropdown-toggle align-middle px-4 text-white"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">Nodal Centers</span>
@@ -148,16 +152,18 @@ const Sidebar = () => {
                       to="/adminDashboard/nodalCenters/list"
                       className="dropdown-item"
                     >
-                      Nodal center list
+                      Overview
                     </Link>
                   </li>
+                  
+                 
                 </ul>
               </li>
 
               <li className="nav-item dropdown">
                 <Link
                   to={"/adminDashboard/userManagement"}
-                  className="nav-link align-middle px-0 text-white"
+                  className="nav-link align-middle px-4 text-white"
                 >
                   <i className="fs-4 bi-speedometer2"></i>{" "}
                   <span className="ms-1">User Management</span>
@@ -176,6 +182,8 @@ const Sidebar = () => {
           <Topbar toggleSidebar={toggleSidebar} title={setTitle()} />
           {setTitle() === "User Management" ? (
             <UserManagement />
+          ) : setTitle() === "Nodal Centers" ? (
+            <NodalCenter />
           ) : (
             <DashboardMain />
           )}

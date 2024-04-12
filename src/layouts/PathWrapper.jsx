@@ -29,6 +29,7 @@ import { useSelector } from "react-redux";
 import { userRoleDetails } from "../utilits/common/userDetails";
 import UserManagement from "./UserManagement/UserManagement";
 import DashboardMain from "../Components/Dashboard";
+import NodalCenter from "./Nodalcenter/NodalCenter";
 
 const PathWrapper = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -71,6 +72,8 @@ const PathWrapper = () => {
         <Route path="/adminDashboard" element={<AdminDashboard />}>
           <Route path="userManagement" element={<UserManagement />} />
           <Route path="dashboard" element={<DashboardMain />} />
+         <Route path="nodalCenters/list" element={<NodalCenter />} />
+
         </Route>
       </Routes>
     </>
