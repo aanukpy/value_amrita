@@ -7,16 +7,20 @@ import DashboardMain from ".";
 import UserManagement from "../../layouts/UserManagement/UserManagement";
 import NodalCenter from "../../layouts/Nodalcenter/NodalCenter";
 
+import { useDispatch } from "react-redux";
+import { getUserDetails } from "../../redux/slices/userManagementReducer";
+import { getValue } from "../../helpers/localStorage";
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
   const [showDropdowns, setShowDropdowns] = useState([false, false, false]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth > 768);
     };
-
+    const userRole = getValue("userRole");
+    dispatch(getUserDetails({ userRole }));
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -30,7 +34,9 @@ const Sidebar = () => {
   };
 
   const toggleDropdown = (index) => {
-    const newDropdowns = showDropdowns.map((value, idx) => idx === index ? !value : false);
+    const newDropdowns = showDropdowns.map((value, idx) =>
+      idx === index ? !value : false
+    );
     setShowDropdowns(newDropdowns);
   };
 
@@ -45,11 +51,10 @@ const Sidebar = () => {
         : "Dashboard";
     return title;
   };
-console.log(setTitle())
+  console.log(setTitle());
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
-        
         <div
           className={`col-auto col-md-3 col-xl-2 px-sm-2 px-0 pt-2  dashboard-sn ${
             sidebarVisible ? "" : "hidden"
@@ -61,10 +66,7 @@ console.log(setTitle())
               to="/adminDashboard"
               className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
             >
-              <h3
-                style={{ color: "white" }}
-                className="nav-link-text "
-              >
+              <h3 style={{ color: "white" }} className="nav-link-text ">
                 Admin Panel
               </h3>
             </Link>{" "}
@@ -93,7 +95,9 @@ console.log(setTitle())
                   <span className="ms-1">Labs</span>
                 </div>
                 {/* Submenu */}
-                <ul className={`dropdown-menu ${showDropdowns[0] ? 'show' : ''}`}>
+                <ul
+                  className={`dropdown-menu ${showDropdowns[0] ? "show" : ""}`}
+                >
                   <li>
                     <Link
                       className="dropdown-item"
@@ -146,7 +150,9 @@ console.log(setTitle())
                   <span className="ms-1">Nodal Centers</span>
                 </div>
                 {/* Submenu */}
-                <ul className={`dropdown-menu ${showDropdowns[1] ? 'show' : ''}`}>
+                <ul
+                  className={`dropdown-menu ${showDropdowns[1] ? "show" : ""}`}
+                >
                   <li>
                     <Link
                       to="/adminDashboard/nodalCenters/list"
@@ -155,8 +161,6 @@ console.log(setTitle())
                       Overview
                     </Link>
                   </li>
-                  
-                 
                 </ul>
               </li>
 

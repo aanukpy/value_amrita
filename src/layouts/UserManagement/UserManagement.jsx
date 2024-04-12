@@ -2,20 +2,163 @@ import React from "react";
 import Card from "../../Components/userManagement/Card";
 import { userManagementData } from "../../Data/userManagement";
 import { useSelector, useDispatch } from "react-redux";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
+  clearEditForm,
+  editUserAction,
+  getUserDetails,
   modifyCardColor,
   modifyCrudOperation,
+  updateDeletePage,
+  updateEditPage,
+  updateEditUser,
 } from "../../redux/slices/userManagementReducer";
 import AddUser from "../../Components/userManagement/AddUser";
 import EditUser from "../../Components/userManagement/EditUser";
 import DeleteUser from "../../Components/userManagement/DeleteUser";
+import {
+  clearState,
+  register,
+  updateResisterData,
+} from "../../redux/slices/authReducer";
+import Snackbar from "../../Components/common/snackbar";
+import { Base64 } from "js-base64";
+import { Modal } from "antd";
+import {
+  roleToNumber,
+  userRoleForAdmin,
+} from "../../utilits/common/userDetails";
+import { getValue } from "../../helpers/localStorage";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const UserManagement = () => {
-  const { crudId, cardColor } = useSelector((state) => state.userManagement);
+  const {
+    crudId,
+    cardColor,
+    userDetails,
+    showEditPageDetails,
+    editUser,
+    showDeletePageDetails,
+  } = useSelector((state) => state.userManagement);
+  const { registerData } = useSelector((state) => state.auth);
+  const { fullname = "admin", email, schoolId } = registerData;
+  console.log(showDeletePageDetails);
+  const validationForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === "" || fullname === "" || schoolId === "") {
+      if (fullname === "") {
+        Snackbar({
+          type: "info",
+          content: "Please enter valid first name",
+        });
+      } else if (!emailRegex.test(email)) {
+        Snackbar({
+          type: "info",
+          content: "Please enter a valid mail",
+        });
+      } else if (schoolId === "") {
+        Snackbar({
+          type: "info",
+          content: "School ID is mandatory",
+        });
+      }
+    }
+  };
   const dispatch = useDispatch();
   const onHandleClick = (id, color) => {
     dispatch(modifyCrudOperation(id));
     dispatch(modifyCardColor(color));
+    dispatch(clearEditForm());
+
+    dispatch(clearState());
+  };
+  const userdetailfun = () => {
+    const userRole = getValue("userRole");
+    dispatch(getUserDetails({ userRole }));
+  };
+  const onHandleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    dispatch(
+      updateResisterData({
+        ...registerData,
+        [name]: value,
+      })
+    );
+    dispatch(
+      updateEditUser({
+        ...editUser,
+        [name]: value,
+      })
+    );
+  };
+  const onAddUser = () => {
+    try {
+      validationForm();
+      console.log("hei", registerData);
+
+      if (
+        fullname.trim() !== "" &&
+        email.trim() !== "" &&
+        schoolId.trim() !== ""
+      ) {
+        const data = {
+          ...registerData,
+          password: Base64.encode("@mritaV2024"),
+          confirmpassword: Base64.encode("@mritaV2024"),
+        };
+        dispatch(register(data));
+      }
+    } catch (error) {
+      Snackbar({
+        type: "error",
+        content: "Please enter mandatory fields",
+      });
+    }
+  };
+  const onDelete = () => {
+    try {
+      const data = {
+        data: editUser,
+        query: {
+          id: registerData.userId,
+        },
+      };
+
+      dispatch(editUserAction(data));
+      dispatch(clearEditForm());
+    } catch (error) {
+      Snackbar({
+        type: "error",
+        content: "Something went wrong",
+      });
+    }
+  };
+  const onEditUser = () => {
+    try {
+      const data = {
+        data: editUser,
+        query: {
+          id: registerData.userId,
+        },
+      };
+
+      dispatch(editUserAction(data));
+      dispatch(clearEditForm());
+    } catch (error) {
+      Snackbar({
+        type: "error",
+        content: "Something went wrong",
+      });
+    }
+  };
+  const handleClose = () => {
+    dispatch(
+      updateDeletePage({
+        showAdd: false,
+        userEmail: "",
+      })
+    );
   };
 
   return (
@@ -61,23 +204,77 @@ const UserManagement = () => {
             }}
           >
             {crudId === 1 ? (
-              <AddUser />
+              <AddUser onHandleChange={onHandleChange} state={registerData} />
             ) : crudId === 2 ? (
-              <EditUser color={cardColor} isEdit />
+              <EditUser
+                color={cardColor}
+                isEdit
+                data={userDetails}
+                onHandleChange={onHandleChange}
+                state={registerData}
+                userdetailfun={userdetailfun}
+              />
             ) : (
-              <EditUser color={cardColor} isEdit={false} />
+              <EditUser
+                color={cardColor}
+                isEdit={false}
+                data={userDetails}
+                userdetailfun={userdetailfun}
+              />
             )}
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            style={{ marginRight: 50, marginBottom: 25, width: 150 }}
-            className={`btn btn-${cardColor}`}
-          >
-            {crudId === 1 ? "ADD" : crudId === 2 ? "UPDATE" : "DELETE"}
-          </button>
-        </div>
+        {crudId === 1 && (
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <button
+              style={{ marginRight: 50, marginBottom: 25, width: 150 }}
+              className={`btn btn-${cardColor}`}
+              onClick={onAddUser}
+            >
+              {" "}
+              ADD
+            </button>
+          </div>
+        )}
+        {crudId === 2 && showEditPageDetails?.showAdd && (
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <button
+              style={{ marginRight: 30, marginBottom: 25, width: 150 }}
+              className={`btn btn-${cardColor}`}
+              onClick={() => dispatch(clearEditForm())}
+            >
+              {" "}
+              Cancel
+            </button>
+            <button
+              style={{ marginRight: 50, marginBottom: 25, width: 150 }}
+              className={`btn btn-${cardColor}`}
+              onClick={onEditUser}
+              disabled={Object.keys(editUser).length === 0}
+            >
+              {" "}
+              Edit
+            </button>
+          </div>
+        )}
       </div>
+      {showDeletePageDetails.showAdd && (
+        <Modal
+          title="Confirm Delete"
+          visible={showDeletePageDetails.showAdd}
+          onOk={onDelete}
+          onCancel={handleClose}
+          confirmLoading={false} // Disable default loading indicator
+          centered
+        >
+          <p>
+            <ExclamationCircleOutlined
+              style={{ color: "red", fontweight: 700, marginRight: 10 }}
+            />
+            Are you sure you want to delete this user?
+          </p>
+        </Modal>
+      )}
     </div>
   );
 };

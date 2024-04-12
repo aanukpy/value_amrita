@@ -8,5 +8,8 @@ const getValue = (key) => {
 const deleteValue = (key) => {
   return localStorage.removeItem(key);
 };
+const deleteAll = () => {
+  return localStorage.clear();
+};
 
-export { setValue, getValue, deleteValue };
+export { setValue, getValue, deleteValue, deleteAll };

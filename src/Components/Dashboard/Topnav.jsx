@@ -8,6 +8,10 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Topnav.css";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/slices/authReducer";
+import { deleteCookie, getValueFromCookie } from "../../helpers/cookies";
+import { deleteAll, deleteValue, getValue } from "../../helpers/localStorage";
 
 function Topbar({ toggleSidebar, title }) {
   const [showDropdowns, setShowDropdowns] = useState([
@@ -16,14 +20,24 @@ function Topbar({ toggleSidebar, title }) {
     false,
     false,
   ]);
-
+  const dispatch = useDispatch();
   const toggleDropdown = (index) => {
     const newDropdowns = showDropdowns.map((value, idx) =>
       idx === index ? !value : false
     );
     setShowDropdowns(newDropdowns);
   };
-
+  const onLogOut = () => {
+    try {
+      const token = getValueFromCookie("token=");
+      const userId = getValue("userId");
+      dispatch(logOut({ token, userId }));
+      deleteCookie("token=");
+      deleteAll();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
       <button
@@ -50,7 +64,7 @@ function Topbar({ toggleSidebar, title }) {
             }`}
           >
             <button className="dropdown-item" type="button">
-             light
+              light
             </button>
             <div className="dropdown-divider"></div>
             <button className="dropdown-item" type="button">
@@ -87,10 +101,8 @@ function Topbar({ toggleSidebar, title }) {
             <div className="dropdown-divider"></div>
             <button className="dropdown-item" type="button">
               <div>
-                <div class="small text-gray-500">December 12, 2019</div>
-              
-                  A new User logged in!!
-          
+                <div class="small text-gray-500">December 12, 2019</div>A new
+                User logged in!!
               </div>
             </button>
           </div>
@@ -107,20 +119,18 @@ function Topbar({ toggleSidebar, title }) {
           >
             <button className="dropdown-item" type="button">
               <div class="text-truncate">
-              i am not able to access the portal could reset the password !
+                i am not able to access the portal could reset the password !
               </div>
               <div class="small text-gray-500">Jae Chun · 1d</div>
             </button>
             <button className="dropdown-item" type="button">
-              <div class="text-truncate">
-              the simulation is no available!
-              </div>
+              <div class="text-truncate">the simulation is no available!</div>
               <div class="small text-gray-500">Morgan Alvarez · 2d</div>
             </button>
             <div className="dropdown-divider"></div>
             <button className="dropdown-item" type="button">
               <div class="text-truncate">
-              does the computer science course has dsa?
+                does the computer science course has dsa?
               </div>
               <div class="small text-gray-500">rahul · 2w</div>
             </button>
@@ -148,7 +158,7 @@ function Topbar({ toggleSidebar, title }) {
               Settings
             </button> */}
             {/* <div className="dropdown-divider"></div> */}
-            <button className="dropdown-item" type="button">
+            <button onClick={onLogOut} className="dropdown-item" type="button">
               Logout
             </button>
           </div>

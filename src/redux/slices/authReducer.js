@@ -5,22 +5,30 @@ import network from "../../utilits/common/network";
 import { setValue } from "../../helpers/localStorage";
 import Snackbar from "../../Components/common/snackbar";
 
+const userDetailsList = {
+  fullname: "",
+  email: "",
+  password: "",
+  confirmpassword: "",
+  age: "",
+  gender: "",
+  phonenumber: "",
+  state: "",
+  country: "",
+  profession: "",
+  college: "",
+  subject: "",
+  university: "",
+  schoolId: "",
+};
+
 const initialState = {
   loading: false,
   registerData: {
-    fullname: "",
-    email: "",
-    password: "",
-    confirmpassword: "",
-    age: "",
-    gender: "",
-    phonenumber: "",
-    state: "",
-    country: "",
-    profession: "",
-    college: "",
-    subject: "",
-    university: "",
+    ...userDetailsList,
+  },
+  editedUsers: {
+    ...userDetailsList,
   },
 };
 const abortController = new AbortController();
@@ -31,12 +39,15 @@ export const login = createAsyncThunk("login", async (data) => {
   const result = await res?.json();
 
   if (result.status === 200) {
-    setCookies(result.token);
     Snackbar({
       type: "success",
       content: result.message,
     });
+    console.log(result.token);
+    setCookies(result.token);
     setValue("userRole", result.role);
+    setValue("userId", result.userId);
+    setValue("isLoggedIn", true);
   } else if (result.status === 400) {
     console.log("hi");
     Snackbar({
@@ -48,7 +59,7 @@ export const login = createAsyncThunk("login", async (data) => {
 });
 export const register = createAsyncThunk(
   "register",
-  async (data, navigation) => {
+  async (data, navigation = null) => {
     const res = await network.post({ url: `/register`, data, signal });
     const result = await res?.json();
 
@@ -67,6 +78,16 @@ export const register = createAsyncThunk(
     return result;
   }
 );
+
+export const logOut = createAsyncThunk("logout", async (data) => {
+  const res = await network.get({
+    url: `/logout/${data.userId}/${data.token}`,
+    params: true,
+    signal,
+  });
+  const result = await res?.json();
+  console.log(result);
+});
 
 const authReducer = createSlice({
   name: "auth",
@@ -96,6 +117,7 @@ const authReducer = createSlice({
           college: "",
           subject: "",
           university: "",
+          schoolId: "",
         },
       };
     },
@@ -108,7 +130,7 @@ const authReducer = createSlice({
       state.loading = false;
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.loading = true;
+      state.loading = false;
     });
     builder.addCase(register.pending, (state, action) => {
       state.loading = true;
@@ -117,7 +139,16 @@ const authReducer = createSlice({
       state.loading = false;
     });
     builder.addCase(register.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(logOut.pending, (state, action) => {
       state.loading = true;
+    });
+    builder.addCase(logOut.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(logOut.rejected, (state, action) => {
+      state.loading = false;
     });
   },
 });

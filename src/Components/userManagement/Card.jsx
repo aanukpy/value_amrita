@@ -5,6 +5,7 @@ const Card = ({ item = "", onClick }) => {
   return (
     <div
       className="col-xl-3 col-md-6 mb-4"
+      style={{ cursor: "pointer" }}
       onClick={() => onClick(item.id, item.color)}
     >
       <div className={`card border-left-${item.color} shadow h-100 py-2`}>

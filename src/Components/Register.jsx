@@ -8,6 +8,7 @@ import {
 } from "../redux/slices/authReducer";
 import { useNavigate } from "react-router-dom";
 import { Base64 } from "js-base64";
+import Snackbar from "./common/snackbar";
 const Register = () => {
   const { registerData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -26,19 +27,78 @@ const Register = () => {
     college,
     subject,
     university,
+    schoolId,
   } = registerData;
 
   const [step, setStep] = useState(1);
+  const validationForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (
+      email === "" ||
+      password === "" ||
+      confirmpassword === "" ||
+      fullname === "" ||
+      schoolId === ""
+    ) {
+      if (fullname === "") {
+        Snackbar({
+          type: "info",
+          content: "Please enter valid first name",
+        });
+      } else if (!emailRegex.test(email)) {
+        Snackbar({
+          type: "info",
+          content: "Please enter a valid mail",
+        });
+      } else if (password === "") {
+        Snackbar({
+          type: "info",
+          content: "Please enter the password",
+        });
+      } else if (password !== confirmpassword) {
+        Snackbar({
+          type: "info",
+          content: "Password do not match",
+        });
+      } else if (password.length < 8) {
+        Snackbar({
+          type: "info",
+          content: "Your password must be at least 8 character",
+        });
+      } else if (schoolId === "") {
+        Snackbar({
+          type: "info",
+          content: "School ID is mandatory",
+        });
+      }
+    }
+  };
+
   const handleRegister = () => {
     try {
-      const data = {
-        ...registerData,
-        password: Base64.encode(registerData.password),
-        confirmpassword: Base64.encode(registerData.confirmpassword),
-      };
-      dispatch(register(data, navigation));
-      dispatch(clearState());
-    } catch (error) {}
+      validationForm();
+      if (
+        fullname.trim() !== "" &&
+        email.trim() !== "" &&
+        schoolId.trim() !== "" &&
+        password.trim() !== "" &&
+        confirmpassword.trim() !== ""
+      ) {
+        const data = {
+          ...registerData,
+          password: Base64.encode(registerData.password),
+          confirmpassword: Base64.encode(registerData.confirmpassword),
+        };
+        dispatch(register(data, navigation));
+        dispatch(clearState());
+        setStep(1);
+      }
+    } catch (error) {
+      Snackbar({
+        type: "error",
+        content: "Please enter mandatory fields",
+      });
+    }
   };
   const onHandleChange = (e) => {
     e.preventDefault();
@@ -105,6 +165,16 @@ const Register = () => {
                 className="form-control"
                 placeholder="Re-type Password"
                 required
+              />
+            </div>
+            <div className="col-12 mb-3">
+              <input
+                name="schoolId"
+                value={schoolId}
+                onChange={onHandleChange}
+                type="text"
+                className="form-control"
+                placeholder="Student/School Id"
               />
             </div>
           </>
@@ -223,6 +293,7 @@ const Register = () => {
                 placeholder="College"
               />
             </div>
+
             <div className="col-12 mb-3">
               <input
                 name="subject"

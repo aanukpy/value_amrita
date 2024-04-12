@@ -1,48 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Table, Pagination, Space } from "antd";
+import {
+  updateDeletePage,
+  updateEditPage,
+} from "../../redux/slices/userManagementReducer";
+import { useDispatch } from "react-redux";
 
-const data = [
-  {
-    id: 1,
-    name: "Arun Prabhu",
-    age: 10,
-    city: "New York",
-    phonenumber: "1234567897",
-    gender: "Male",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    age: 25,
-    city: "London",
-    phonenumber: "1234567897",
-    gender: "Male",
-  },
-  {
-    id: 3,
-    name: "Jane Smith",
-    age: 25,
-    city: "London",
-    phonenumber: "1234567897",
-    gender: "Male",
-  },
-  {
-    id: 4,
-    name: "Jane Smith",
-    age: 25,
-    city: "London",
-    phonenumber: "1234567897",
-    gender: "Male",
-  },
-];
-
-function CommonTable({ isEdit, color }) {
+function CommonTable({ isEdit, color, data, userdetailfun, DeleteUser }) {
   const [dataSource, setDataSource] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
-
+  const [pageSize, setPageSize] = useState(10);
+  const dispatch = useDispatch();
+  console.log(data, "j");
   useEffect(() => {
+    console.log("hi", data);
     const timeout = setTimeout(() => setDataSource(data), 1000);
+
     return () => clearTimeout(timeout);
   }, []);
 
@@ -50,18 +23,40 @@ function CommonTable({ isEdit, color }) {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
+  const DeleteUserDetails = (data) => {
+    dispatch(
+      updateDeletePage({
+        showAdd: true,
+        userEmail: data?.email,
+      })
+    );
+  };
+  const FilterEditPage = (data) => {
+    console.log(data);
+    dispatch(
+      updateEditPage({
+        showAdd: true,
+        userEmail: data?.email,
+      })
+    );
+  };
 
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Age", dataIndex: "age", key: "age" },
-    { title: "Phone Number", dataIndex: "phonenumber", key: "phonenumber" },
-    { title: "Gender", dataIndex: "gender", key: "gender" },
+    { title: "Eamil", dataIndex: "email", key: "email" },
+    { title: "Role", dataIndex: "role", key: "role" },
+    { title: "School/Student Id", dataIndex: "schoolid", key: "schoolid" },
+    { title: "Created At", dataIndex: "created", key: "created" },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
+        <Space
+          size="middle"
+          style={{ cursor: "pointer" }}
+          onClick={() => (isEdit ? FilterEditPage(_) : DeleteUserDetails(_))}
+        >
           <i
             className={`fa-solid ${
               isEdit ? "fa-pencil-square" : "fa-trash"
@@ -73,7 +68,7 @@ function CommonTable({ isEdit, color }) {
     },
   ];
 
-  const paginatedData = dataSource.slice(
+  const paginatedData = data?.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );

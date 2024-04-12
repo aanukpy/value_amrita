@@ -1615,9 +1615,9 @@ h4,
   height: 70vh;
   min-height: 450px;
 }
-.snackbar-container {
-  position: fixed;
-  top: 0;
+
+.ant-message-top {
+  top: 50px !important;
   right: 0;
 
 }
@@ -1625,17 +1625,21 @@ h4,
   border-bottom-width: 0px !important;
 }
 .ant-message-notice-content{
-    width: 500px;
-    height: 66px;
     display: flex;
-    justify-content: flex-start;
-    padding-inline: 25;
-    font-size: medium;
-    align-items: center;
+    flex-wrap: wrap;
+  
+
 }
 .ant-message-notice{
   display: flex;
-  justify-content: end;
+  justify-content: center;
+}
+.ant-message-notice-content{
+  padding: 20px !important;
+
+}
+.ant-message-custom-content {
+  font-weight: 600;
 }
 
 .untree_co-section {

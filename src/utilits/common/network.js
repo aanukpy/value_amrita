@@ -27,8 +27,16 @@ const returnPromise = async (url, options) => {
   return response;
 };
 
-const get = ({ url, signal = abortController.signal, data }) => {
-  return returnFetch(`${connect()}${url}?${querystring.stringify(data)}`, {
+const get = ({
+  url,
+  params = false,
+  signal = abortController.signal,
+  data = {},
+}) => {
+  const isParmas = params
+    ? `${connect()}${url}`
+    : `${connect()}${url}?${querystring.stringify(data)}`;
+  return returnFetch(isParmas, {
     method: "GET",
     signal,
     data,
@@ -44,7 +52,21 @@ const post = ({ url, data = {}, signal }) => {
     signal: signal1,
   });
 };
-const network = { get, post };
+const put = ({ url, params = false, query = {}, data = {}, signal }) => {
+  let signal1;
+  if (signal) signal1 = signal;
+  else signal1 = abortController.signal;
+  console.log(query);
+  const fullUrl = params
+    ? `${connect()}${url}`
+    : `${connect()}${url}?${querystring.stringify(query)}`;
 
-// export { network };
+  return returnPromise(fullUrl, {
+    method: "PUT",
+    body: JSON.stringify(data),
+    signal: signal1,
+  });
+};
+const network = { get, post, put };
+
 export default network;

@@ -1,8 +1,9 @@
-import React from "react";
-import { addUserDetails } from "../../Data/userManagement";
-import TextField from "@mui/material/TextField";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import Formuser from "./Formuser";
+import { updateResisterData } from "../../redux/slices/authReducer";
 
-const AddUser = () => {
+const AddUser = ({ onHandleChange, state, isEdit = false }) => {
   return (
     <div
       style={{
@@ -13,40 +14,7 @@ const AddUser = () => {
         flexWrap: "wrap",
       }}
     >
-      {addUserDetails.map((item) => {
-        return item.isInput ? (
-          <TextField
-            style={{
-              width: 350,
-              marginBlock: 15,
-            }}
-            key={item.id}
-            id="outlined-basic"
-            label={item.title}
-            variant="outlined"
-          />
-        ) : (
-          <select
-            style={{
-              width: 350,
-              marginBlock: 15,
-              padding: "16px 14px",
-              outlineColor: "#4e73df",
-            }}
-            // onChange={onHandleChange}
-            // value={profession}
-          >
-            <option value="">-- Select {item.title} --</option>
-            {item.subValue.map((sub) => {
-              return (
-                <option key={sub.id} value={sub.value}>
-                  {sub.value}
-                </option>
-              );
-            })}
-          </select>
-        );
-      })}
+      <Formuser onHandleChange={onHandleChange} state={state} isEdit={isEdit} />
     </div>
   );
 };

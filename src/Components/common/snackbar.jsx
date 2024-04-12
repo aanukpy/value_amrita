@@ -3,14 +3,7 @@ import { message } from "antd";
 
 const Snackbar = ({ type, content, duration }) => {
   const boxStyle = {
-    style: {
-      position: "absolute",
-      marginTop: "50px",
-      top: "24px",
-      right: "310px",
-      left: "unset",
-      bottom: "unset",
-    },
+    style: {},
   };
   const showMessage = () => {
     switch (type) {
@@ -32,7 +25,7 @@ const Snackbar = ({ type, content, duration }) => {
     }
   };
 
-  return <>{showMessage()}</>;
+  return <div>{showMessage()}</div>;
 };
 
 export default Snackbar;

@@ -30,17 +30,23 @@ import { userRoleDetails } from "../utilits/common/userDetails";
 import UserManagement from "./UserManagement/UserManagement";
 import DashboardMain from "../Components/Dashboard";
 import NodalCenter from "./Nodalcenter/NodalCenter";
+import { getValue } from "../helpers/localStorage";
 
 const PathWrapper = () => {
   const { loading } = useSelector((state) => state.auth);
   const userRole = userRoleDetails();
+  const isLoggedIn = getValue("isLoggedIn");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userRole === "ADMIN") {
-      navigate("/adminDashboard");
+    if (isLoggedIn) {
+      if (userRole === "ADMIN") {
+        navigate("/adminDashboard");
+      }
+    } else {
+      navigate("/");
     }
-  }, [userRole]);
+  }, [userRole, isLoggedIn]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -58,7 +64,6 @@ const PathWrapper = () => {
         <Route path="/experiment/:sub" element={<ExperimentPage />} />
         {/* <Route path=":exp" element={<Simulation />} /> */}
 
-
         <Route path="/contact" element={<Contact />} />
         <Route path="/projects" element={<Project />} />
         <Route path="/workshops" element={<Workshop />} />
@@ -72,8 +77,7 @@ const PathWrapper = () => {
         <Route path="/adminDashboard" element={<AdminDashboard />}>
           <Route path="userManagement" element={<UserManagement />} />
           <Route path="dashboard" element={<DashboardMain />} />
-         <Route path="nodalCenters/list" element={<NodalCenter />} />
-
+          <Route path="nodalCenters/list" element={<NodalCenter />} />
         </Route>
       </Routes>
     </>
