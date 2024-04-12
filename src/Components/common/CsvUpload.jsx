@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import { Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+
+import { useDispatch } from "react-redux";
+import { csvToJSON } from "../../helpers/csvToArray";
+import { addBulUserData } from "../../redux/slices/userManagementReducer";
 
 const CsvUploadComponent = ({ color }) => {
   const [fileList, setFileList] = useState([]);
-  console.log(color);
+  const dispatch = useDispatch();
   const beforeUpload = (file) => {
     const isCSV = file.type === "text/csv";
     if (!isCSV) {
       message.error("Please upload a CSV file only!");
-      return Upload.LIST_IGNORE; // Prevent upload if not CSV
+      return Upload.LIST_IGNORE;
     }
-    return true; // Allow upload if valid CSV
+    return true;
   };
 
   const handleChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
 
     if (newFileList.length > 0) {
-      // Handle the uploaded file(s) here
       const reader = new FileReader();
       reader.onload = (event) => {
         const csvData = event.target.result;
-        // Process the CSV data (e.g., parse with Papa Parse)
-        console.log("CSV data:", csvData); // Example logging
+        const data = csvToJSON(csvData);
+        console.log(data);
+        dispatch(addBulUserData(data));
       };
       reader.readAsText(newFileList[0].originFileObj);
     }
@@ -46,6 +49,12 @@ const CsvUploadComponent = ({ color }) => {
           alignItems: "center",
           cursor: "pointer",
           justifyContent: "center",
+          width: 500,
+          height: 300,
+          background: "#fefefe",
+          borderRadius: 50,
+          borderStyle: "dashed",
+          borderWidth: 1,
         }}
       >
         <i

@@ -19,6 +19,8 @@ const initialState = {
     userEmail: "",
   },
   editUser: {},
+  openUpload: false,
+  bulkUserData: [],
 };
 const abortController = new AbortController();
 const signal = abortController.signal;
@@ -41,6 +43,23 @@ export const editUserAction = createAsyncThunk("editUser", async (data) => {
     query: data.query,
     signal,
   });
+  const result = await res.json();
+  if (result.status === 200) {
+    Snackbar({
+      type: "success",
+      content: result.message,
+    });
+  } else if (result.status === 400) {
+    Snackbar({
+      type: "error",
+      content: result.error,
+    });
+  }
+  return result;
+});
+export const addBulkUserAction = createAsyncThunk("editUser", async (data) => {
+  console.log(data);
+  const res = await network.post({ url: `/user/addBulk`, data, signal });
   const result = await res.json();
   if (result.status === 200) {
     Snackbar({
@@ -89,6 +108,18 @@ const userManagementReducer = createSlice({
         showDeletePageDetails: action.payload,
       };
     },
+    openUploadComponent: (state, action) => {
+      return {
+        ...state,
+        openUpload: action.payload,
+      };
+    },
+    addBulUserData: (state, action) => {
+      return {
+        ...state,
+        bulkUserData: action.payload,
+      };
+    },
     clearEditForm: (state, action) => {
       return {
         ...state,
@@ -131,5 +162,7 @@ export const {
   clearEditForm,
   updateEditUser,
   updateDeletePage,
+  openUploadComponent,
+  addBulUserData,
 } = userManagementReducer.actions;
 export default userManagementReducer.reducer;

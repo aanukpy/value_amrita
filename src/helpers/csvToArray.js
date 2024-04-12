@@ -19,5 +19,5 @@ export function csvToJSON(csv) {
 
     result.push(obj);
   }
-  console.log(result);
+  return result;
 }

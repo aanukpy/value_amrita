@@ -4,11 +4,13 @@ import { userManagementData } from "../../Data/userManagement";
 import { useSelector, useDispatch } from "react-redux";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
+  addBulkUserAction,
   clearEditForm,
   editUserAction,
   getUserDetails,
   modifyCardColor,
   modifyCrudOperation,
+  openUploadComponent,
   updateDeletePage,
   updateEditPage,
   updateEditUser,
@@ -42,6 +44,8 @@ const UserManagement = () => {
     showEditPageDetails,
     editUser,
     showDeletePageDetails,
+    openUpload,
+    bulkUserData,
   } = useSelector((state) => state.userManagement);
   const { registerData } = useSelector((state) => state.auth);
   const { fullname = "admin", email, schoolId } = registerData;
@@ -98,7 +102,6 @@ const UserManagement = () => {
   const onAddUser = () => {
     try {
       validationForm();
-      console.log("hei", registerData);
 
       if (
         fullname.trim() !== "" &&
@@ -112,6 +115,37 @@ const UserManagement = () => {
         };
         dispatch(register(data));
       }
+    } catch (error) {
+      Snackbar({
+        type: "error",
+        content: "Please enter mandatory fields",
+      });
+    }
+  };
+  const onBulkAddUser = () => {
+    try {
+      const filterData = bulkUserData?.map((item) => {
+        return {
+          ...item,
+          password:
+            item.password !== ""
+              ? Base64.encode(item.password)
+              : Base64.encode("@mritaV2024"),
+          role:
+            item.role !== "" ? roleToNumber(item.role.toUpperCase()) : "GUEST",
+          gender:
+            item.gender !== ""
+              ? item.gender.toUpperCase() === "M"
+                ? "Male"
+                : item.gender.toUpperCase() === "F"
+                ? "Female"
+                : item.gender.toUpperCase() === "O"
+                ? "Others"
+                : "Male"
+              : "Male",
+        };
+      });
+      dispatch(addBulkUserAction(filterData));
     } catch (error) {
       Snackbar({
         type: "error",
@@ -163,10 +197,7 @@ const UserManagement = () => {
       })
     );
   };
-
-  const handleCSVUpload = (csvData) => {
-    csvToJSON(csvData);
-  };
+  console.log(bulkUserData);
   return (
     <div>
       <div className="row">
@@ -196,7 +227,11 @@ const UserManagement = () => {
               ? "EDIT USERS"
               : "DELETE USERS"}
           </h6>
-          <CsvUploadComponent color={cardColor} />
+          <i
+            className={`fa-solid fa-upload text-${cardColor}`}
+            style={{ marginRight: 10, marginTop: 7 }}
+            onClick={() => dispatch(openUploadComponent(true))}
+          />
         </div>
         <div className="card-body">
           <div
@@ -205,10 +240,22 @@ const UserManagement = () => {
               maxHeight: "auto",
               minHeight: "auto",
               display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {crudId === 1 ? (
-              <AddUser onHandleChange={onHandleChange} state={registerData} />
+              <>
+                {" "}
+                {openUpload ? (
+                  <CsvUploadComponent color={cardColor} />
+                ) : (
+                  <AddUser
+                    onHandleChange={onHandleChange}
+                    state={registerData}
+                  />
+                )}
+              </>
             ) : crudId === 2 ? (
               <EditUser
                 color={cardColor}
@@ -233,7 +280,7 @@ const UserManagement = () => {
             <button
               style={{ marginRight: 50, marginBottom: 25, width: 150 }}
               className={`btn btn-${cardColor}`}
-              onClick={onAddUser}
+              onClick={openUpload ? onBulkAddUser : onAddUser}
             >
               {" "}
               ADD
