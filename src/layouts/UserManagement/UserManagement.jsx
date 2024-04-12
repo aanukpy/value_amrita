@@ -30,6 +30,9 @@ import {
 } from "../../utilits/common/userDetails";
 import { getValue } from "../../helpers/localStorage";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import CSVUploader from "../../CSVfile";
+import { csvToJSON } from "../../helpers/csvToArray";
+import CsvUploadComponent from "../../Components/common/CsvUpload";
 
 const UserManagement = () => {
   const {
@@ -161,6 +164,9 @@ const UserManagement = () => {
     );
   };
 
+  const handleCSVUpload = (csvData) => {
+    csvToJSON(csvData);
+  };
   return (
     <div>
       <div className="row">
@@ -168,6 +174,7 @@ const UserManagement = () => {
           return <Card key={item.id} item={item} onClick={onHandleClick} />;
         })}
       </div>
+
       <div className="card shadow mb-4">
         <div
           className={`card-header py-3 d-flex flex-row align-items-center justify-content-between border-left-${cardColor}`}
@@ -189,10 +196,7 @@ const UserManagement = () => {
               ? "EDIT USERS"
               : "DELETE USERS"}
           </h6>
-          <i
-            className={`fa-solid fa-upload text-${cardColor}`}
-            style={{ marginRight: 10 }}
-          />
+          <CsvUploadComponent color={cardColor} />
         </div>
         <div className="card-body">
           <div
