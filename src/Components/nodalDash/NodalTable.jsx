@@ -36,12 +36,12 @@ function createData(
 ) {
   return { slNo, institute, nodalCoordinatorCount, studentUserCount, activeStatus };
 }
-
+// Dummy data for another state
 const rows = [
   createData(1, 'Assumption College, Changanassery, Kerala 686101', 3, 50, 'Active'),
   createData(2, 'C.M.S. College,Kottayam, Kerala 686 001', 2, 30, 'Active'),
   createData(3, 'Sacred Heart College,Pandit Karuppan Road, Thevara, Kochi, Kerala 682013', 1, 20, 'Deactive'),
-  createData(4, 'College of Engineering Pathanapuram,Elikkatoor.P.O Pathanapuram, Kerala', 4, 60, 'Active'), // Dummy data for another state
+  createData(4, 'College of Engineering Pathanapuram,Elikkatoor.P.O Pathanapuram, Kerala', 4, 60, 'Active'), 
   createData(5, 'Sree Narayana College  P.O. Chengannur, Alappuzha - Kerala', 5, 70, 'Deactive'),
 ];
 
