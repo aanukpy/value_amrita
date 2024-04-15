@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Upload, message } from "antd";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { csvToJSON } from "../../helpers/csvToArray";
-import { addBulUserData } from "../../redux/slices/userManagementReducer";
+import {
+  addBulUserData,
+  setFileData,
+} from "../../redux/slices/userManagementReducer";
 
 const CsvUploadComponent = ({ color }) => {
-  const [fileList, setFileList] = useState([]);
+  const { fileList } = useSelector((state) => state.userManagement);
+  console.log(fileList);
   const dispatch = useDispatch();
   const beforeUpload = (file) => {
     const isCSV = file.type === "text/csv";
@@ -18,14 +22,13 @@ const CsvUploadComponent = ({ color }) => {
   };
 
   const handleChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+    dispatch(setFileData(newFileList));
 
     if (newFileList.length > 0) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const csvData = event.target.result;
         const data = csvToJSON(csvData);
-        console.log(data);
         dispatch(addBulUserData(data));
       };
       reader.readAsText(newFileList[0].originFileObj);
@@ -62,7 +65,7 @@ const CsvUploadComponent = ({ color }) => {
           style={{ marginRight: 10, marginTop: 7 }}
         />
         <div style={{ marginTop: 8 }} className={`text-${color}`}>
-          Upload (.csv)
+          Click or drag to Upload (.csv)
         </div>
       </div>
     </Upload>

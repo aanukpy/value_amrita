@@ -21,6 +21,7 @@ const initialState = {
   editUser: {},
   openUpload: false,
   bulkUserData: [],
+  fileList: [],
 };
 const abortController = new AbortController();
 const signal = abortController.signal;
@@ -108,6 +109,12 @@ const userManagementReducer = createSlice({
         showDeletePageDetails: action.payload,
       };
     },
+    updateFileList: (state, action) => {
+      return {
+        ...state,
+        showDeletePageDetails: action.payload,
+      };
+    },
     openUploadComponent: (state, action) => {
       return {
         ...state,
@@ -118,6 +125,12 @@ const userManagementReducer = createSlice({
       return {
         ...state,
         bulkUserData: action.payload,
+      };
+    },
+    setFileData: (state, action) => {
+      return {
+        ...state,
+        fileList: action.payload,
       };
     },
     clearEditForm: (state, action) => {
@@ -163,6 +176,7 @@ export const {
   updateEditUser,
   updateDeletePage,
   openUploadComponent,
+  setFileData,
   addBulUserData,
 } = userManagementReducer.actions;
 export default userManagementReducer.reducer;

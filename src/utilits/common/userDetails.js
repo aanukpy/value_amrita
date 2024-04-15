@@ -30,7 +30,7 @@ const userRoleForAdmin = (userRole) => {
   return role;
 };
 const roleToNumber = (userRole) => {
-  let role = "GUEST";
+  let role = "4";
 
   if (userRole === "ADMIN") {
     role = "1";

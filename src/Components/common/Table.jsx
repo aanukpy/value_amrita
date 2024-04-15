@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 function CommonTable({ isEdit, color, data, userdetailfun, DeleteUser }) {
   const [dataSource, setDataSource] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const dispatch = useDispatch();
   console.log(data, "j");
   useEffect(() => {
@@ -44,7 +44,7 @@ function CommonTable({ isEdit, color, data, userdetailfun, DeleteUser }) {
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Eamil", dataIndex: "email", key: "email" },
+    { title: "Email", dataIndex: "email", key: "email" },
     { title: "Role", dataIndex: "role", key: "role" },
     { title: "School/Student Id", dataIndex: "schoolid", key: "schoolid" },
     { title: "Created At", dataIndex: "created", key: "created" },

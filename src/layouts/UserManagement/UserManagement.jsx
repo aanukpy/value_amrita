@@ -4,6 +4,7 @@ import { userManagementData } from "../../Data/userManagement";
 import { useSelector, useDispatch } from "react-redux";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
+  addBulUserData,
   addBulkUserAction,
   clearEditForm,
   editUserAction,
@@ -11,6 +12,7 @@ import {
   modifyCardColor,
   modifyCrudOperation,
   openUploadComponent,
+  setFileData,
   updateDeletePage,
   updateEditPage,
   updateEditUser,
@@ -47,9 +49,11 @@ const UserManagement = () => {
     openUpload,
     bulkUserData,
   } = useSelector((state) => state.userManagement);
+  const dispatch = useDispatch();
+
   const { registerData } = useSelector((state) => state.auth);
   const { fullname = "admin", email, schoolId } = registerData;
-  console.log(showDeletePageDetails);
+
   const validationForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email === "" || fullname === "" || schoolId === "") {
@@ -71,7 +75,6 @@ const UserManagement = () => {
       }
     }
   };
-  const dispatch = useDispatch();
   const onHandleClick = (id, color) => {
     dispatch(modifyCrudOperation(id));
     dispatch(modifyCardColor(color));
@@ -124,28 +127,37 @@ const UserManagement = () => {
   };
   const onBulkAddUser = () => {
     try {
-      const filterData = bulkUserData?.map((item) => {
-        return {
-          ...item,
-          password:
-            item.password !== ""
-              ? Base64.encode(item.password)
-              : Base64.encode("@mritaV2024"),
-          role:
-            item.role !== "" ? roleToNumber(item.role.toUpperCase()) : "GUEST",
-          gender:
-            item.gender !== ""
-              ? item.gender.toUpperCase() === "M"
-                ? "Male"
-                : item.gender.toUpperCase() === "F"
-                ? "Female"
-                : item.gender.toUpperCase() === "O"
-                ? "Others"
-                : "Male"
-              : "Male",
-        };
-      });
-      dispatch(addBulkUserAction(filterData));
+      if (bulkUserData.length > 0) {
+        const filterData = bulkUserData?.map((item) => {
+          return {
+            fullname: item.FullName !== "" ? item.FullName : "Guest",
+            username: item.Username,
+            college: item["College/School"],
+            password:
+              item.Password !== ""
+                ? Base64.encode(item.Password)
+                : Base64.encode("@mritaV2024"),
+            role:
+              item.Role !== "" ? roleToNumber(item.Role.toUpperCase()) : "4",
+            gender:
+              item.Gender !== ""
+                ? item.Gender.toUpperCase() === "M"
+                  ? "Male"
+                  : item.Gender.toUpperCase() === "F"
+                  ? "Female"
+                  : item.Gender.toUpperCase() === "O"
+                  ? "Others"
+                  : "Male"
+                : "Male",
+            schoolId: item["School id"],
+            email: item["email id"] !== "" ? item["email id"] : "no email",
+          };
+        });
+        console.log(filterData);
+        dispatch(addBulkUserAction(filterData));
+        dispatch(setFileData([]));
+        dispatch(addBulUserData([]));
+      }
     } catch (error) {
       Snackbar({
         type: "error",
@@ -197,7 +209,7 @@ const UserManagement = () => {
       })
     );
   };
-  console.log(bulkUserData);
+
   return (
     <div>
       <div className="row">
@@ -277,6 +289,21 @@ const UserManagement = () => {
         </div>
         {crudId === 1 && (
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {openUpload && (
+              <button
+                style={{ marginRight: 30, marginBottom: 25, width: 150 }}
+                className={`btn btn-${cardColor}`}
+                onClick={() => {
+                  dispatch(openUploadComponent(false));
+                  dispatch(setFileData([]));
+                  dispatch(addBulUserData([]));
+                }}
+              >
+                {" "}
+                Cancel
+              </button>
+            )}
+
             <button
               style={{ marginRight: 50, marginBottom: 25, width: 150 }}
               className={`btn btn-${cardColor}`}
