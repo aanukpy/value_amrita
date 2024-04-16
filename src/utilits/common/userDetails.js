@@ -16,7 +16,7 @@ const userRoleDetails = () => {
   return role;
 };
 const userRoleForAdmin = (userRole) => {
-  let role = "";
+  let role = "4";
 
   if (userRole === "1") {
     role = "ADMIN";

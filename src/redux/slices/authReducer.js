@@ -20,6 +20,7 @@ const userDetailsList = {
   subject: "",
   university: "",
   schoolId: "",
+  username: "",
 };
 
 const initialState = {
@@ -118,6 +119,8 @@ const authReducer = createSlice({
           subject: "",
           university: "",
           schoolId: "",
+          username: "",
+          role: "",
         },
       };
     },

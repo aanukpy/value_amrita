@@ -5,7 +5,6 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 
 const Formuser = ({ onHandleChange, state, isEdit }) => {
-  console.log(state);
   return (
     <>
       {addUserDetails.map((item) => {

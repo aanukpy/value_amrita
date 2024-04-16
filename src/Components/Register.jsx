@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Base64 } from "js-base64";
 import Snackbar from "./common/snackbar";
+
 const Register = () => {
   const { registerData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Register = () => {
     email,
     password,
     confirmpassword,
+    username,
     age,
     gender,
     phonenumber,
@@ -44,6 +46,11 @@ const Register = () => {
         Snackbar({
           type: "info",
           content: "Please enter valid first name",
+        });
+      } else if (username === "") {
+        Snackbar({
+          type: "info",
+          content: "Please enter a user name",
         });
       } else if (!emailRegex.test(email)) {
         Snackbar({
@@ -82,12 +89,15 @@ const Register = () => {
         email.trim() !== "" &&
         schoolId.trim() !== "" &&
         password.trim() !== "" &&
-        confirmpassword.trim() !== ""
+        confirmpassword.trim() !== "" &&
+        username.trim() !== ""
       ) {
         const data = {
           ...registerData,
           password: Base64.encode(registerData.password),
           confirmpassword: Base64.encode(registerData.confirmpassword),
+          username: username.trim(),
+          fullname: fullname.trim(),
         };
         dispatch(register(data, navigation));
         dispatch(clearState());
@@ -134,6 +144,18 @@ const Register = () => {
                 required
               />
             </div>
+            <div className="col-12 mb-3">
+              <input
+                name="username"
+                value={username}
+                onChange={onHandleChange}
+                type="text"
+                className="form-control"
+                placeholder="User Name"
+                required
+              />
+            </div>
+
             <div className="col-12 mb-3">
               <input
                 name="email"

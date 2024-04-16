@@ -5,9 +5,10 @@ export const userManagementData = [
 ];
 export const addUserDetails = [
   { id: 1, title: "Fullname", type: "text", name: "fullname", isInput: true },
-  { id: 2, title: "Email", type: "text", name: "email", isInput: true },
+  { id: 2, title: "Username", type: "text", name: "username", isInput: true },
+  { id: 3, title: "Email", type: "text", name: "email", isInput: true },
   {
-    id: 3,
+    id: 4,
     title: "Role",
     type: "role",
     name: "role",
@@ -20,7 +21,7 @@ export const addUserDetails = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "Age",
     type: "age",
     name: "age",
@@ -36,14 +37,14 @@ export const addUserDetails = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     title: "School/Student ID",
     type: "schoolId",
     name: "schoolId",
     isInput: true,
   },
   {
-    id: 6,
+    id: 7,
     title: "Gender",
     type: "gender",
     name: "gender",
@@ -55,21 +56,21 @@ export const addUserDetails = [
     ],
   },
   {
-    id: 7,
+    id: 8,
     title: "Phone Number",
     type: "number",
     name: "phonenumber",
     isInput: true,
   },
   {
-    id: 8,
+    id: 9,
     title: "State",
     type: "text",
     name: "state",
     isInput: true,
   },
   {
-    id: 9,
+    id: 10,
     title: "Country",
     type: "text",
     name: "country",
@@ -99,7 +100,7 @@ export const addUserDetails = [
     ],
   },
   {
-    id: 10,
+    id: 11,
     title: "Profession",
     type: "text",
     name: "profession",
@@ -113,24 +114,10 @@ export const addUserDetails = [
     ],
   },
   {
-    id: 11,
+    id: 12,
     title: "College",
     type: "text",
     name: "college",
-    isInput: true,
-  },
-  {
-    id: 12,
-    title: "Subject",
-    type: "text",
-    name: "subject",
-    isInput: true,
-  },
-  {
-    id: 13,
-    title: "University",
-    type: "text",
-    name: "university",
     isInput: true,
   },
 ];

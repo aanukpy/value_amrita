@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../common/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +6,6 @@ import { userRoleForAdmin } from "../../utilits/common/userDetails";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import AddUser from "./AddUser";
-import { Base64 } from "js-base64";
 import { updateResisterData } from "../../redux/slices/authReducer";
 
 const EditUser = ({
@@ -21,6 +20,10 @@ const EditUser = ({
     (state) => state.userManagement
   );
   const { registerData } = useSelector((state) => state.auth);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(data);
+
+  console.log(userDetails);
 
   const filterDetails = userDetails
     ?.filter((item) => item.email === showEditPageDetails?.userEmail)
@@ -41,9 +44,10 @@ const EditUser = ({
       university: item.university,
       schoolId: item.schoolId,
       userId: item._id,
+      username: item.username,
     }));
-  console.log(userDetails);
-  const tableData = data?.map((item, index) => {
+
+  const tableData = filteredData?.map((item, index) => {
     return {
       id: index + 1,
       name: item.fullname,
@@ -51,17 +55,43 @@ const EditUser = ({
       role: userRoleForAdmin(item.role),
       schoolid: item.schoolId,
       created: moment(item.registerDate).format("DD-MM-YYYY hh:mm"),
+      userId: item._id,
     };
   });
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFilteredData(data); // Reset filtered data whenever the input data changes
+  }, [data]);
+
   useEffect(() => {
     if (isEdit && showEditPageDetails?.showAdd) {
       dispatch(updateResisterData(filterDetails[0]));
     }
     userdetailfun();
-    console.log("hello");
   }, [isEdit, showEditPageDetails?.showAdd]);
-  console.log("hi", registerData);
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredData(data);
+    } else {
+      const filtered = data.filter(
+        (item) =>
+          item.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.schoolId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          userRoleForAdmin(item.role)
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchQuery, data]);
+
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {isEdit && showEditPageDetails?.showAdd ? (
@@ -81,9 +111,11 @@ const EditUser = ({
               <input
                 type="text"
                 className="form-control bg-light border-0 small"
-                placeholder="search for email or name"
+                placeholder="Search for email or name"
                 aria-label="Search"
                 aria-describedby="basic-addon2"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
               />
               <div className="input-group-append">
                 <button className={`btn btn-${color}`} type="button">

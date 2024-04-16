@@ -16,7 +16,7 @@ const initialState = {
   },
   showDeletePageDetails: {
     showAdd: false,
-    userEmail: "",
+    userId: "",
   },
   editUser: {},
   openUpload: false,
@@ -58,7 +58,27 @@ export const editUserAction = createAsyncThunk("editUser", async (data) => {
   }
   return result;
 });
-export const addBulkUserAction = createAsyncThunk("editUser", async (data) => {
+export const deleteUserAction = createAsyncThunk("editUser", async (data) => {
+  const res = await network.get({
+    url: "/user/deleteUser",
+    data: data.query,
+    signal,
+  });
+  const result = await res.json();
+  if (result.status === 200) {
+    Snackbar({
+      type: "success",
+      content: result.message,
+    });
+  } else if (result.status === 400) {
+    Snackbar({
+      type: "error",
+      content: result.error,
+    });
+  }
+  return result;
+});
+export const addBulkUserAction = createAsyncThunk("addBulk", async (data) => {
   console.log(data);
   const res = await network.post({ url: `/user/addBulk`, data, signal });
   const result = await res.json();
@@ -162,6 +182,26 @@ const userManagementReducer = createSlice({
       state.userDetails = action.payload.userDetails;
     });
     builder.addCase(getUserDetails.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(addBulkUserAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(addBulkUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.userDetails = action.payload.userDetails;
+    });
+    builder.addCase(addBulkUserAction.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(deleteUserAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.userDetails = action.payload.userDetails;
+    });
+    builder.addCase(deleteUserAction.rejected, (state, action) => {
       state.loading = false;
     });
   },

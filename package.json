@@ -44,7 +44,8 @@
     "react-table": "^7.8.0",
     "recharts": "^2.12.4",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

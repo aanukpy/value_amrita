@@ -7,6 +7,7 @@ import {
   addBulUserData,
   addBulkUserAction,
   clearEditForm,
+  deleteUserAction,
   editUserAction,
   getUserDetails,
   modifyCardColor,
@@ -52,7 +53,7 @@ const UserManagement = () => {
   const dispatch = useDispatch();
 
   const { registerData } = useSelector((state) => state.auth);
-  const { fullname = "admin", email, schoolId } = registerData;
+  const { fullname, email, schoolId, username } = registerData;
 
   const validationForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -61,6 +62,11 @@ const UserManagement = () => {
         Snackbar({
           type: "info",
           content: "Please enter valid first name",
+        });
+      } else if (username === "") {
+        Snackbar({
+          type: "info",
+          content: "Please enter a user name",
         });
       } else if (!emailRegex.test(email)) {
         Snackbar({
@@ -109,14 +115,19 @@ const UserManagement = () => {
       if (
         fullname.trim() !== "" &&
         email.trim() !== "" &&
-        schoolId.trim() !== ""
+        schoolId.trim() !== "" &&
+        username.trim() !== ""
       ) {
         const data = {
           ...registerData,
           password: Base64.encode("@mritaV2024"),
           confirmpassword: Base64.encode("@mritaV2024"),
+          username: username.trim(),
+          fullname: fullname.trim(),
         };
+        console.log(data);
         dispatch(register(data));
+        dispatch(clearState());
       }
     } catch (error) {
       Snackbar({
@@ -130,15 +141,17 @@ const UserManagement = () => {
       if (bulkUserData.length > 0) {
         const filterData = bulkUserData?.map((item) => {
           return {
-            fullname: item.FullName !== "" ? item.FullName : "Guest",
-            username: item.Username,
+            fullname: item.FullName !== "" ? item.FullName.trim() : "Guest",
+            username: item.Username.trim(),
             college: item["College/School"],
             password:
               item.Password !== ""
                 ? Base64.encode(item.Password)
                 : Base64.encode("@mritaV2024"),
             role:
-              item.Role !== "" ? roleToNumber(item.Role.toUpperCase()) : "4",
+              item.Role !== ""
+                ? roleToNumber(item.Role.toUpperCase().trim())
+                : "4",
             gender:
               item.Gender !== ""
                 ? item.Gender.toUpperCase() === "M"
@@ -168,14 +181,13 @@ const UserManagement = () => {
   const onDelete = () => {
     try {
       const data = {
-        data: editUser,
         query: {
-          id: registerData.userId,
+          id: showDeletePageDetails.userId,
         },
       };
-
-      dispatch(editUserAction(data));
+      dispatch(deleteUserAction(data));
       dispatch(clearEditForm());
+      userdetailfun();
     } catch (error) {
       Snackbar({
         type: "error",
@@ -239,11 +251,13 @@ const UserManagement = () => {
               ? "EDIT USERS"
               : "DELETE USERS"}
           </h6>
-          <i
-            className={`fa-solid fa-upload text-${cardColor}`}
-            style={{ marginRight: 10, marginTop: 7 }}
-            onClick={() => dispatch(openUploadComponent(true))}
-          />
+          {crudId === 1 && (
+            <i
+              className={`fa-solid fa-upload text-${cardColor}`}
+              style={{ marginRight: 10, marginTop: 7 }}
+              onClick={() => dispatch(openUploadComponent(true))}
+            />
+          )}
         </div>
         <div className="card-body">
           <div

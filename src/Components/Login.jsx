@@ -18,12 +18,12 @@ import { getValueFromCookie } from "../helpers/cookies";
 import Snackbar from "./common/snackbar";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleUserNameChange = (e) => {
+    setUsername(e.target.value);
   };
   console.log(getValueFromCookie("token="));
   const handlePasswordChange = (e) => {
@@ -33,7 +33,7 @@ const Login = () => {
     try {
       dispatch(
         login({
-          email,
+          username,
           password: Base64.encode(password),
         })
       );
@@ -78,12 +78,12 @@ const Login = () => {
                 <form action="#" className="form-box text-center">
                   <MDBInput
                     className="mb-4"
-                    type="email"
+                    type="text"
                     id="form2Example1"
                     label=""
-                    placeholder="Email address"
-                    value={email}
-                    onChange={handleEmailChange}
+                    placeholder="User Name"
+                    value={username}
+                    onChange={handleUserNameChange}
                   />
                   <MDBInput
                     className="mb-4"
