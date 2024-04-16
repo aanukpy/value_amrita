@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/slices/authReducer";
 import { deleteCookie, getValueFromCookie } from "../../helpers/cookies";
 import { deleteAll, deleteValue, getValue } from "../../helpers/localStorage";
+import { Avatar } from "antd";
 
 function Topbar({ toggleSidebar, title }) {
   const [showDropdowns, setShowDropdowns] = useState([
@@ -137,13 +138,22 @@ function Topbar({ toggleSidebar, title }) {
           </div>
         </li>
         <li className="nav-item dropdown">
-          <div className="nav-link" onClick={() => toggleDropdown(3)}>
-            <img
-              src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
-              className="rounded-circle shadow-4"
-              style={{ width: 30 }}
-              alt="Avatar"
-            />
+          <div
+            className="nav-link"
+            onClick={() => toggleDropdown(3)}
+            style={{ cursor: "pointer" }}
+          >
+            <Avatar.Group>
+              <Avatar
+                style={{
+                  backgroundColor: "#fde3cf",
+                  color: "#f56a00",
+                  fontWeight: 600,
+                }}
+              >
+                {getValue("name").charAt(0).toUpperCase()}
+              </Avatar>
+            </Avatar.Group>
           </div>
           <div
             className={`dropdown-menu dropdown-menu-right ${

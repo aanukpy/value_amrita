@@ -44,11 +44,12 @@ export const login = createAsyncThunk("login", async (data) => {
       type: "success",
       content: result.message,
     });
-    console.log(result.token);
+
     setCookies(result.token);
     setValue("userRole", result.role);
     setValue("userId", result.userId);
     setValue("isLoggedIn", true);
+    setValue("name", result.userName);
   } else if (result.status === 400) {
     console.log("hi");
     Snackbar({

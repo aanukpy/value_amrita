@@ -4,10 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import Logo from "../assets/logo.png";
 import { Hide_header } from "../utilits/common/utitlis";
+import { getValue } from "../helpers/localStorage";
+import { Avatar } from "antd";
+
 const NavBar = () => {
   const [isSticky, setIsSticky] = useState(false);
   const location = useLocation();
   const isNotExist = Hide_header.includes(location.pathname);
+  const isLoggedIn = getValue("isLoggedIn");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,42 +50,63 @@ const NavBar = () => {
           }}
         >
           <div className="container" style={{ display: "" }}>
-            <div className="row align-items-center">
+            <div
+              className="row align-items-center"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
               <div className="col-6 col-lg-9">
                 {" "}
                 {isHomePage && (
                   <img style={{ width: "20%" }} src={Logo} alt="" />
                 )}
               </div>
-              <div className="col-6 col-lg-3 text-right">
-                <Link
-                  to="/register"
-                  className="small mr-3"
-                  style={{ textDecoration: "none", marginRight: "20px" }}
-                >
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="mr-1"
-                    style={{ marginRight: "5px" }}
-                  />
-                  Register
-                </Link>
-                <Link
-                  to="/login"
-                  className="small"
-                  style={{ textDecoration: "none", marginRight: "20px" }}
-                >
-                  <FontAwesomeIcon
-                    icon={faSignInAlt}
-                    className="mr-1"
-                    style={{ marginRight: "5px" }}
-                  />
-                  Login
-                </Link>
-                {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
+              {isLoggedIn ? (
+                <div className="col-4 col-lg-3">
+                  <Avatar.Group>
+                    <Link to={"/adminDashboard"}>
+                      <Avatar
+                        style={{
+                          backgroundColor: "#fde3cf",
+                          color: "#f56a00",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {getValue("name").charAt(0).toUpperCase()}
+                      </Avatar>
+                    </Link>
+                  </Avatar.Group>
+                </div>
+              ) : (
+                <div className="col-6 col-lg-3 text-right">
+                  <Link
+                    to="/register"
+                    className="small mr-3"
+                    style={{ textDecoration: "none", marginRight: "20px" }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="mr-1"
+                      style={{ marginRight: "5px" }}
+                    />
+                    Register
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="small"
+                    style={{ textDecoration: "none", marginRight: "20px" }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faSignInAlt}
+                      className="mr-1"
+                      style={{ marginRight: "5px" }}
+                    />
+                    Login
+                  </Link>
+                  {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
 
-                {/* </div> */}
-              </div>
+                  {/* </div> */}
+                </div>
+              )}
             </div>
           </div>
         </div>

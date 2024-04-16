@@ -42,11 +42,9 @@ const PathWrapper = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      if (userRole === "ADMIN") {
-        navigate("/adminDashboard");
-      }
-    } else {
       navigate("/");
+    } else {
+      navigate("/login");
     }
   }, [userRole, isLoggedIn]);
 
