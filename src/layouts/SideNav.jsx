@@ -1,91 +1,62 @@
-import {
-  Box,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  styled,
-  useTheme,
-} from "@mui/material";
-import { Divider } from "antd";
-import React, { useState } from "react";
+import React from "react";
+import { Box, Button, Stack } from "@mui/material";
 import routes from "../routes";
-import { Link } from "react-router-dom";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSelectedCategory } from "../redux/slices/ExperimentReducer";
 
-const drawerWidth = 240;
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
-
-const SideNav = () => {
-  const theme = useTheme();
-  const [open, setOpen] = useState(true);
-
-  const handleDrawerClose = () => {
-    setOpen(!open);
-  };
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+const Categories = () => {
+  const { selectedCategory } = useSelector((state) => state.exp);
+  const dispatch = useDispatch();
 
   return (
-    <div style={{ flex: 0.15 }}>
-      <div
-        style={{
-          width: "100%",
-          height: "600px",
-          paddingBlock: 10,
-        }}
-      >
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              top: 91,
-              height: 500,
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={open}
+    <Stack
+      direction="row"
+      sx={{
+        overflowY: "auto",
+        flexDirection: { xs: "row", md: "column" },
+        overflow: "hiden",
+        height: { xs: "50px", md: "100vh" },
+        py: 1,
+        flex: 0.15,
+      }}
+    >
+      {routes.map((category) => (
+        <Box
+          key={category.key}
+          sx={{ width: { xs: "250px", md: "auto" }, mx: "2px", marginBlock: 1 }}
         >
-          <List
-            style={{
-              paddingLeft: 20,
+          <Button
+            onClick={() => dispatch(updateSelectedCategory(category.name))}
+            sx={{
+              width: "100%",
+              borderRadius: "12px",
               display: "flex",
-              flexDirection: "column",
-              alignItem: "center",
+              justifyContent: { xs: "space-between", md: "flex-start" },
+              background: category.name === selectedCategory && "#F0F0F0",
+              "&:hover": { background: "#136ca7d920" },
+              my: "1px",
+              color: "black",
             }}
+            key={category.name}
           >
-            {routes.map((item, index) => (
-              <ListItem dense={false} key={item.name} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon style={{ color: "#0e8ce0" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </div>
-    </div>
+            <span style={{ marginLeft: 15, color: "#136ca7d9" }}>
+              {category.icon}
+            </span>
+            <span
+              style={{
+                opacity: category.name === selectedCategory ? "1" : "0.8",
+                marginLeft: 15,
+                color: "black",
+                fontWeight: 500,
+              }}
+            >
+              {category.name}
+            </span>
+          </Button>
+        </Box>
+      ))}
+    </Stack>
   );
 };
 
-export default SideNav;
+export default Categories;

@@ -12,7 +12,7 @@ const routes = [
     name: "Theory",
     key: "theory",
     icon: <EditNoteIcon />,
-    route: "/theory",
+    route: "theory",
     component: <div style={{ fontWeight: 80, height: 800 }}>hello</div>,
   },
   {
@@ -20,7 +20,7 @@ const routes = [
     name: "Procedure",
     key: "procedure",
     icon: <SettingsSuggestIcon />,
-    route: "/procedure",
+    route: "procedure",
     // component: <Procedure />,
   },
   {
@@ -28,7 +28,7 @@ const routes = [
     name: "Pretest",
     key: "pretest",
     icon: <ExtensionIcon />,
-    route: "/pretest",
+    route: "pretest",
     // component: <PreTest />,
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     name: "Simulator",
     key: "simulator",
     icon: <ComputerIcon />,
-    route: "/simulator",
+    route: "simulator",
     // component: <Simulator />,
   },
   {
@@ -44,7 +44,7 @@ const routes = [
     name: "Posttest",
     key: "posttest",
     icon: <ExtensionIcon />,
-    route: "/posttest",
+    route: "posttest",
     // component: <Posttest />,
   },
   {
@@ -52,7 +52,7 @@ const routes = [
     name: "Assignment",
     key: "assignment",
     icon: <AssignmentIcon />,
-    route: "/assignment",
+    route: "assignment",
     // component: <Assignment />,
   },
   {
