@@ -31,6 +31,7 @@ import UserManagement from "./UserManagement/UserManagement";
 import DashboardMain from "../Components/Dashboard";
 import NodalCenter from "./Nodalcenter/NodalCenter";
 import { getValue } from "../helpers/localStorage";
+import NodalManage from "./Nodalcenter/NodalManage";
 
 const PathWrapper = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -78,6 +79,7 @@ const PathWrapper = () => {
           <Route path="userManagement" element={<UserManagement />} />
           <Route path="dashboard" element={<DashboardMain />} />
           <Route path="nodalCenters/list" element={<NodalCenter />} />
+          <Route path="nodalCenters/Nodalmanage" element={<NodalManage />} />
         </Route>
       </Routes>
     </>

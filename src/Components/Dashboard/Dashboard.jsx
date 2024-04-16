@@ -1,3 +1,5 @@
+// Sidebar.js
+
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -6,10 +8,10 @@ import { Link, useLocation } from "react-router-dom";
 import DashboardMain from ".";
 import UserManagement from "../../layouts/UserManagement/UserManagement";
 import NodalCenter from "../../layouts/Nodalcenter/NodalCenter";
-
 import { useDispatch } from "react-redux";
 import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
+import NodalManage from "../../layouts/Nodalcenter/NodalManage";
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -48,10 +50,12 @@ const Sidebar = () => {
         ? "User Management"
         : titleRoute[titleRoute.length - 1] === "list"
         ? "Nodal Centers"
+        : titleRoute[titleRoute.length - 1] === "Nodalmanage" 
+        ? "Nodal Management"
         : "Dashboard";
     return title;
   };
-  console.log(setTitle());
+
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -161,6 +165,14 @@ const Sidebar = () => {
                       Overview
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      to="/adminDashboard/nodalCenters/Nodalmanage"
+                      className="dropdown-item"
+                    >
+                     Nodal Management
+                    </Link>
+                  </li>
                 </ul>
               </li>
 
@@ -173,10 +185,10 @@ const Sidebar = () => {
                   <span className="ms-1">User Management</span>
                 </Link>
               </li>
-              {/* Instructor */}
+             
               <li className="nav-item dropdown"></li>
             </ul>
-            {/* User Dropdown */}
+           
             <hr />
             <div className="dropdown pb-4"></div>
           </div>
@@ -184,10 +196,13 @@ const Sidebar = () => {
         {/* Main content area */}
         <div className="col py-3 pt-1">
           <Topbar toggleSidebar={toggleSidebar} title={setTitle()} />
+       
           {setTitle() === "User Management" ? (
             <UserManagement />
           ) : setTitle() === "Nodal Centers" ? (
             <NodalCenter />
+          ) : setTitle() === "Nodal Management" ? ( 
+            <NodalManage />
           ) : (
             <DashboardMain />
           )}
