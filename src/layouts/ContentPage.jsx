@@ -1,8 +1,9 @@
 import { Breadcrumb } from "antd";
 import React from "react";
 import { useParams } from "react-router-dom";
+import WithExperimentLayout from "../Components/common/ExperimentLayout";
 
-const ContentPage = () => {
+const Simulator = () => {
   const { sub, exp } = useParams();
   console.log(sub, exp);
   return (
@@ -20,4 +21,5 @@ const ContentPage = () => {
     </div>
   );
 };
-export default ContentPage;
+const SimulatorPage = WithExperimentLayout(Simulator);
+export default SimulatorPage;
