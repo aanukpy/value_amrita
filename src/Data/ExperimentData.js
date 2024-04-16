@@ -335,6 +335,29 @@ export const Chemical_Science = [
         description:
           "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
       },
+      {
+        id: 5,
+        title: " 	Determination of Viscosity Average Molecular Weight of Polymer",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
+      {
+        id: 6,
+        title: " Calorimetry -Heat of Neutralization",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },,
+      {
+        id: 7,
+        title: " 	Calorimetry -Water equivalent Calorimetry",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },, {
+        id: 8,
+        title: "  EMF measurement",
+        description:
+          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
+      },
     ],
   },]
 export const  Biotechnology_Biomedical_Engineering  = [

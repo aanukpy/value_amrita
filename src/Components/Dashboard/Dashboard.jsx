@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
+import ExperimentEdit from "./Lab/ExperimentEdit";
 
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -52,6 +53,8 @@ const Sidebar = () => {
         ? "Nodal Centers"
         : titleRoute[titleRoute.length - 1] === "Nodalmanage" 
         ? "Nodal Management"
+        : titleRoute[titleRoute.length - 1] === "editExperiment"
+        ? "Edit Experiment"
         : "Dashboard";
     return title;
   };
@@ -203,6 +206,8 @@ const Sidebar = () => {
             <NodalCenter />
           ) : setTitle() === "Nodal Management" ? ( 
             <NodalManage />
+          ) : setTitle() === "Edit Experiment" ? (
+            <ExperimentEdit />
           ) : (
             <DashboardMain />
           )}

@@ -3,12 +3,25 @@ import { Button, Typography } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFlask, faDesktop, faClipboardList, faBookOpen, faCommentAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import RichTextEditor from './TextEdit'; // Import the RichTextEditor component
+import axios from 'axios'; // Import axios for making HTTP requests
 
 const ExperimentEdit = () => {
   const [editorContent, setEditorContent] = useState('');
 
   const handleEditorChange = (content) => {
     setEditorContent(content);
+    // Send the theory content to the backend when it changes
+    saveTheoryToDatabase(content);
+  };
+
+  const saveTheoryToDatabase = async (theoryContent) => {
+    try {
+      // Make an HTTP POST request to your backend server
+      await axios.post('/api/theory', { theoryContent });
+      console.log('Theory content saved to database');
+    } catch (error) {
+      console.error('Error saving theory content:', error);
+    }
   };
 
   const handleButtonClick = (type) => {
