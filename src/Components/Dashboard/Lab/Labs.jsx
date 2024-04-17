@@ -189,7 +189,7 @@ const Labs = () => {
               borderRadius: "4px",
               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
               marginTop: "1rem",
-              width: "70%",
+              width: "100%",
             }}
           >
             <Table>
@@ -274,9 +274,7 @@ const Labs = () => {
                           >
                             View
                           </Button>
-                        </>
-                      )}
-                      <Button
+                          <Button
                         variant="contained"
                         color="secondary"
                         startIcon={<FontAwesomeIcon icon={faTrash} />}
@@ -285,6 +283,9 @@ const Labs = () => {
                       >
                         Delete
                       </Button>
+                        </>
+                      )}
+                      
                     </TableCell>
                   </TableRow>
                 ))}

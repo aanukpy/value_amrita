@@ -34,6 +34,8 @@ import { getValue } from "../helpers/localStorage";
 import NodalManage from "./Nodalcenter/NodalManage";
 import ExperimentEdit from "../Components/Dashboard/Lab/ExperimentEdit";
 import TheoryComponent from "./Theory";
+import Listing from "../Components/Dashboard/Lab/Listing";
+import LabHome from "../Components/Dashboard/Lab/LabHome";
 
 const PathWrapper = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -82,6 +84,10 @@ const PathWrapper = () => {
           <Route path="nodalCenters/list" element={<NodalCenter />} />
           <Route path="nodalCenters/Nodalmanage" element={<NodalManage />} />
           <Route path="labs/editExperiment" element={<ExperimentEdit />} />
+          <Route path="labs/labDetails" element={<Labs/>}/>
+          <Route path="labs/Experiment" element={<Listing/>}/>
+          <Route path="labs/broadArea" element={<LabHome/>}/>
+          
         </Route>
       </Routes>
     </>

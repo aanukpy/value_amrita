@@ -13,7 +13,9 @@ import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
 import ExperimentEdit from "./Lab/ExperimentEdit";
-
+import Labs from "./Lab/Labs"
+import Listing from "./Lab/Listing";
+import LabHome from "./Lab/LabHome";
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
   const [showDropdowns, setShowDropdowns] = useState([false, false, false]);
@@ -55,6 +57,12 @@ const Sidebar = () => {
         ? "Nodal Management"
         : titleRoute[titleRoute.length - 1] === "editExperiment"
         ? "Edit Experiment"
+        : titleRoute[titleRoute.length - 1] === "labDetails"
+        ? "Lab Details"
+        : titleRoute[titleRoute.length - 1] === "experiment"
+        ? "Experiments"
+        : titleRoute[titleRoute.length - 1] === "Broad Area"
+        ? "Broad Area"
         : "Dashboard";
     return title;
   };
@@ -208,9 +216,17 @@ const Sidebar = () => {
             <NodalManage />
           ) : setTitle() === "Edit Experiment" ? (
             <ExperimentEdit />
+          ) : setTitle() === "Lab Details" ? (
+            <Labs />
+          ) : setTitle() === "Experiments" ? (
+            <Listing/>
+          ) : setTitle() === "Brad Area" ? (
+            <LabHome/>
           ) : (
             <DashboardMain />
+            
           )}
+
         </div>
       </div>
     </div>

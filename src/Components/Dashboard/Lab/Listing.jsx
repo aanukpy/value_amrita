@@ -1,43 +1,84 @@
 import React, { useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Box, TextField } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faPlus, faSave, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faPlus,
+  faSave,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
 const Listing = () => {
+  const [selectedBroadArea, setSelectedBroadArea] = useState("");
+  const [selectedLab, setSelectedLab] = useState("");
+  const [selectedExperiment, setSelectedExperiment] = useState("");
   const [labs, setLabs] = useState([
     {
       id: 1,
       labName: "Network Security Lab",
-      description: "Lab for studying network security protocols and techniques.",
+      description:
+        "Lab for studying network security protocols and techniques.",
     },
     {
       id: 2,
       labName: "Machine Learning Lab",
-      description: "Lab for implementing and experimenting with machine learning algorithms.",
+      description:
+        "Lab for implementing and experimenting with machine learning algorithms.",
     },
     {
       id: 3,
       labName: "Database Management Lab",
-      description: "Lab for learning and practicing database management concepts.",
+      description:
+        "Lab for learning and practicing database management concepts.",
     },
     {
       id: 4,
       labName: "Operating Systems Lab",
-      description: "Lab for studying various operating systems and their components.",
+      description:
+        "Lab for studying various operating systems and their components.",
     },
     {
       id: 5,
       labName: "Computer Vision Lab",
-      description: "Lab for exploring computer vision techniques and applications.",
+      description:
+        "Lab for exploring computer vision techniques and applications.",
     },
     {
       id: 6,
       labName: "Cybersecurity Lab",
-      description: "Lab for hands-on experience with cybersecurity tools and methodologies.",
+      description:
+        "Lab for hands-on experience with cybersecurity tools and methodologies.",
     },
   ]);
+  const handleBroadAreaChange = (event) => {
+    setSelectedBroadArea(event.target.value);
+  };
 
+  const handleLabChange = (event) => {
+    setSelectedLab(event.target.value);
+  };
+
+  const handleExperimentChange = (event) => {
+    setSelectedExperiment(event.target.value);
+  };
   const [editedLabs, setEditedLabs] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isNewLabOpen, setIsNewLabOpen] = useState(false);
@@ -105,17 +146,57 @@ const Listing = () => {
     <Fade up duration={1000} delay={200}>
       <div className="container-xl">
         <div className="table-responsive">
-          <Box sx={{ marginBottom: '1rem' }}>
-            <Typography variant="h4" gutterBottom>
-              Manage Experiments
-            </Typography>
+          <Box sx={{ marginBottom: "1rem" }}>
+            <Box sx={{ marginBottom: "1rem" }}>
+              <Typography variant="h4" gutterBottom>
+                Manage Experiments
+              </Typography>
+              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
+                <InputLabel>Broad Area</InputLabel>
+                <Select
+                  value={selectedBroadArea}
+                  onChange={handleBroadAreaChange}
+                >
+                  <MenuItem value="networkSecurity">Network Security</MenuItem>
+                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
+                  <MenuItem value="databaseManagement">
+                    Database Management
+                  </MenuItem>
+                  {/* Add more options as needed */}
+                </Select>
+              </FormControl>
+              {/* <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
+  <InputLabel>Lab</InputLabel>
+  <Select
+    value={selectedLab}
+    onChange={handleLabChange}
+  >
+    <MenuItem value="networkSecurityLab">Network Security Lab</MenuItem>
+    <MenuItem value="machineLearningLab">Machine Learning Lab</MenuItem>
+    <MenuItem value="databaseManagementLab">Database Management Lab</MenuItem>
+    
+  </Select>
+</FormControl> */}
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel>Experiment</InputLabel>
+                <Select
+                  value={selectedExperiment}
+                  onChange={handleExperimentChange}
+                >
+                  <MenuItem value="experiment1">Experiment 1</MenuItem>
+                  <MenuItem value="experiment2">Experiment 2</MenuItem>
+                  <MenuItem value="experiment3">Experiment 3</MenuItem>
+                  {/* Add more options as needed */}
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
           {!isNewLabOpen && (
             <Button
               variant="contained"
               color="primary"
               startIcon={<FontAwesomeIcon icon={faPlus} />}
-              sx={{ marginBottom: '1rem' }}
+              sx={{ marginBottom: "1rem" }}
               onClick={handleAddLab}
             >
               Add New Experiment
@@ -126,21 +207,25 @@ const Listing = () => {
               <TextField
                 label="Lab Name"
                 value={newLab.labName}
-                onChange={(e) => setNewLab({ ...newLab, labName: e.target.value })}
-                sx={{ marginRight: '1rem' }}
+                onChange={(e) =>
+                  setNewLab({ ...newLab, labName: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
               />
               <TextField
                 label="Description"
                 value={newLab.description}
-                onChange={(e) => setNewLab({ ...newLab, description: e.target.value })}
-                sx={{ marginRight: '1rem' }}
+                onChange={(e) =>
+                  setNewLab({ ...newLab, description: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
               />
               <Button
                 variant="contained"
                 color="primary"
                 startIcon={<FontAwesomeIcon icon={faSave} />}
                 onClick={handleSaveNewLab}
-                sx={{ marginRight: '1rem' }}
+                sx={{ marginRight: "1rem" }}
               >
                 Save
               </Button>
@@ -153,7 +238,15 @@ const Listing = () => {
               </Button>
             </>
           )}
-          <TableContainer component={Paper} sx={{ border: '1px solid #ccc', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginTop: '1rem' }}>
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              marginTop: "1rem",
+            }}
+          >
             <Table>
               <TableHead>
                 <TableRow>
@@ -165,13 +258,16 @@ const Listing = () => {
               </TableHead>
               <TableBody>
                 {labs.map((lab) => (
-                  <TableRow key={lab.id} sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}>
+                  <TableRow
+                    key={lab.id}
+                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                  >
                     <TableCell>{lab.id}</TableCell>
                     <TableCell>
                       {isEditing && editedLabs[lab.id] ? (
                         <TextField
                           value={editedLabs[lab.id].labName}
-                          onChange={(e) => handleChange(e, lab.id, 'labName')}
+                          onChange={(e) => handleChange(e, lab.id, "labName")}
                           fullWidth
                         />
                       ) : (
@@ -182,7 +278,9 @@ const Listing = () => {
                       {isEditing && editedLabs[lab.id] ? (
                         <TextField
                           value={editedLabs[lab.id].description}
-                          onChange={(e) => handleChange(e, lab.id, 'description')}
+                          onChange={(e) =>
+                            handleChange(e, lab.id, "description")
+                          }
                           fullWidth
                         />
                       ) : (
@@ -197,7 +295,7 @@ const Listing = () => {
                             color="primary"
                             startIcon={<FontAwesomeIcon icon={faSave} />}
                             onClick={() => handleSaveLab(lab.id)}
-                            style={{marginRight:'20px'}}
+                            style={{ marginRight: "20px" }}
                           >
                             Save
                           </Button>
@@ -205,10 +303,9 @@ const Listing = () => {
                             variant="contained"
                             color="secondary"
                             onClick={handleCancelEdit}
-                            style={{marginRight:'20px'}}
+                            style={{ marginRight: "20px" }}
                           >
                             Cancel
-                            
                           </Button>
                         </>
                       ) : (
@@ -217,14 +314,14 @@ const Listing = () => {
                             variant="contained"
                             color="primary"
                             startIcon={<FontAwesomeIcon icon={faEdit} />}
-                            style={{marginRight:'20px'}}
+                            style={{ marginRight: "20px" }}
                             onClick={() => handleEditLab(lab.id)}
                           >
                             Edit
                           </Button>
                           <Button
                             component={Link}
-                            to={`/expedit`} // Adjust the path as per your routing configuration
+                            to={`editExperiment`}
                             variant="contained"
                             color="success"
                             startIcon={<FontAwesomeIcon icon={faEye} />}
@@ -232,17 +329,17 @@ const Listing = () => {
                           >
                             View
                           </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<FontAwesomeIcon icon={faTrash} />}
+                            onClick={() => handleDeleteLab(lab.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Delete
+                          </Button>
                         </>
                       )}
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<FontAwesomeIcon icon={faTrash} />}
-                        onClick={() => handleDeleteLab(lab.id)}
-                        style={{marginRight:'20px'}}
-                      >
-                        Delete
-                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

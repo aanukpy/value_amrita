@@ -1,5 +1,23 @@
 import React, { useState } from "react";
-import { Button, Typography } from "@mui/material";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -15,6 +33,9 @@ import { updateTheroryContent } from "../../../redux/slices/LabReducer";
 import { useDispatch } from "react-redux";
 
 const ExperimentEdit = () => {
+  const [selectedBroadArea, setSelectedBroadArea] = useState("");
+  const [selectedLab, setSelectedLab] = useState("");
+  const [selectedExperiment, setSelectedExperiment] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const dispatch = useDispatch();
   const handleEditorChange = (content, delta, source, editor) => {
@@ -25,18 +46,70 @@ const ExperimentEdit = () => {
     // Implement functionality to handle each button click
     console.log(`Clicked on ${type} button`);
   };
+  const handleBroadAreaChange = (event) => {
+    setSelectedBroadArea(event.target.value);
+  };
 
+  const handleLabChange = (event) => {
+    setSelectedLab(event.target.value);
+  };
+
+  const handleExperimentChange = (event) => {
+    setSelectedExperiment(event.target.value);
+  };
   return (
     <div>
       <div className="row">
         {/* <div className="col-md-2" style={{ backgroundColor: 'black', height: '100vh' }}></div> */}
         <div className="col-md-12">
-          <Typography
+          {/* <Typography
             variant="h5"
             style={{ marginBottom: "1rem", marginTop: "1rem" }}
           >
             Edit Experiment Details
           </Typography>
+      */}
+            <Box sx={{ marginBottom: "1rem" }}>
+             
+              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
+                <InputLabel>Broad Area</InputLabel>
+                <Select
+                  value={selectedBroadArea}
+                  onChange={handleBroadAreaChange}
+                >
+                  <MenuItem value="networkSecurity">Network Security</MenuItem>
+                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
+                  <MenuItem value="databaseManagement">
+                    Database Management
+                  </MenuItem>
+                  {/* Add more options as needed */}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
+  <InputLabel>Lab</InputLabel>
+  <Select
+    value={selectedLab}
+    onChange={handleLabChange}
+  >
+    <MenuItem value="networkSecurityLab">Network Security Lab</MenuItem>
+    <MenuItem value="machineLearningLab">Machine Learning Lab</MenuItem>
+    <MenuItem value="databaseManagementLab">Database Management Lab</MenuItem>
+    
+  </Select>
+</FormControl>
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel>Experiment</InputLabel>
+                <Select
+                  value={selectedExperiment}
+                  onChange={handleExperimentChange}
+                >
+                  <MenuItem value="experiment1">Experiment 1</MenuItem>
+                  <MenuItem value="experiment2">Experiment 2</MenuItem>
+                  <MenuItem value="experiment3">Experiment 3</MenuItem>
+                
+                </Select>
+              </FormControl>
+            </Box>
           <div
             style={{
               display: "flex",
@@ -117,10 +190,23 @@ const ExperimentEdit = () => {
               ></Button>
             </div>
           </div>
+         
           <RichTextEditor value={editorContent} onChange={handleEditorChange} />
+         
         </div>
+        <div style={{}}><Button
+                startIcon={''}
+                style={{
+                  border: "1px solid #ccc",
+                  alignItems:'flex-end',
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                }}
+              >Add</Button></div>
+      
       </div>
+    
     </div>
+    
   );
 };
 
