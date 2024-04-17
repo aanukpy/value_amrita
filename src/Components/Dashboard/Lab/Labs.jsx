@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
+import WithExperimentLayout from "../../common/ExperimentLayout";
 
 const Labs = () => {
   const [labs, setLabs] = useState([
@@ -128,7 +129,7 @@ const Labs = () => {
 
   return (
     <Fade up duration={1000} delay={200}>
-      <div className="container-xl">
+      <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
           <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
             <Typography variant="h4" gutterBottom>
@@ -232,7 +233,7 @@ const Labs = () => {
                         lab.description
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ display: "flex" }}>
                       {isEditing ? (
                         <>
                           <Button
@@ -275,17 +276,16 @@ const Labs = () => {
                             View
                           </Button>
                           <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<FontAwesomeIcon icon={faTrash} />}
-                        onClick={() => handleDeleteLab(lab.id)}
-                        style={{ marginRight: "20px" }}
-                      >
-                        Delete
-                      </Button>
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<FontAwesomeIcon icon={faTrash} />}
+                            onClick={() => handleDeleteLab(lab.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Delete
+                          </Button>
                         </>
                       )}
-                      
                     </TableCell>
                   </TableRow>
                 ))}
@@ -297,5 +297,5 @@ const Labs = () => {
     </Fade>
   );
 };
-
-export default Labs;
+const LabsLayout = WithExperimentLayout(Labs);
+export default LabsLayout;

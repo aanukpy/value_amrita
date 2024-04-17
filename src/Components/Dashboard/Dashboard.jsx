@@ -13,7 +13,7 @@ import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
 import ExperimentEdit from "./Lab/ExperimentEdit";
-import Labs from "./Lab/Labs"
+import LabsLayout from "./Lab/Labs";
 import Listing from "./Lab/Listing";
 import LabHome from "./Lab/LabHome";
 const Sidebar = () => {
@@ -53,7 +53,7 @@ const Sidebar = () => {
         ? "User Management"
         : titleRoute[titleRoute.length - 1] === "list"
         ? "Nodal Centers"
-        : titleRoute[titleRoute.length - 1] === "Nodalmanage" 
+        : titleRoute[titleRoute.length - 1] === "Nodalmanage"
         ? "Nodal Management"
         : titleRoute[titleRoute.length - 1] === "editExperiment"
         ? "Edit Experiment"
@@ -181,7 +181,7 @@ const Sidebar = () => {
                       to="/adminDashboard/nodalCenters/Nodalmanage"
                       className="dropdown-item"
                     >
-                     Nodal Management
+                      Nodal Management
                     </Link>
                   </li>
                 </ul>
@@ -196,10 +196,9 @@ const Sidebar = () => {
                   <span className="ms-1">User Management</span>
                 </Link>
               </li>
-             
+
               <li className="nav-item dropdown"></li>
             </ul>
-           
             <hr />
             <div className="dropdown pb-4"></div>
           </div>
@@ -207,26 +206,24 @@ const Sidebar = () => {
         {/* Main content area */}
         <div className="col py-3 pt-1">
           <Topbar toggleSidebar={toggleSidebar} title={setTitle()} />
-       
+
           {setTitle() === "User Management" ? (
             <UserManagement />
           ) : setTitle() === "Nodal Centers" ? (
             <NodalCenter />
-          ) : setTitle() === "Nodal Management" ? ( 
+          ) : setTitle() === "Nodal Management" ? (
             <NodalManage />
           ) : setTitle() === "Edit Experiment" ? (
             <ExperimentEdit />
           ) : setTitle() === "Lab Details" ? (
-            <Labs />
+            <LabsLayout />
           ) : setTitle() === "Experiments" ? (
-            <Listing/>
+            <Listing />
           ) : setTitle() === "Brad Area" ? (
-            <LabHome/>
+            <LabHome />
           ) : (
             <DashboardMain />
-            
           )}
-
         </div>
       </div>
     </div>
