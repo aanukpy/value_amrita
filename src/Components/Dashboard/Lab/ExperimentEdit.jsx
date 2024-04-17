@@ -149,11 +149,14 @@ const ExperimentEdit = () => {
               </Button>
              
               <Button
+                onClick={() => handleButtonClick("Simulation")}
                 startIcon={<FontAwesomeIcon icon={faDesktop} />}
                 style={{
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  backgroundColor:
+                  contentType === "Simulation" ? "#f0f0f0" : "",
                 }}
               >
                 Simulation
@@ -198,7 +201,7 @@ const ExperimentEdit = () => {
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
               ></Button>
-              {/* Add other buttons similarly */}
+              
             </div>
           </div>
 

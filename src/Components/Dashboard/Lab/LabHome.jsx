@@ -123,7 +123,7 @@ const broadareas = () => {
   };
 
   return (
-    <Fade up duration={1000} delay={200}>
+   
       <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
           <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
@@ -289,7 +289,7 @@ const broadareas = () => {
           </TableContainer>
         </div>
       </div>
-    </Fade>
+ 
   );
 };
 const broadareaHome = WithExperimentLayout(broadareas);

@@ -128,7 +128,7 @@ const Labs = () => {
   };
 
   return (
-    <Fade up duration={1000} delay={200}>
+    
       <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
           <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
@@ -294,7 +294,7 @@ const Labs = () => {
           </TableContainer>
         </div>
       </div>
-    </Fade>
+  
   );
 };
 const LabsLayout = WithExperimentLayout(Labs);

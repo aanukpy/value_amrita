@@ -144,7 +144,7 @@ const Listing = () => {
   };
 
   return (
-    <Fade up duration={1000} delay={200}>
+
       <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
           <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
@@ -349,7 +349,7 @@ const Listing = () => {
           </TableContainer>
         </div>
       </div>
-    </Fade>
+
   );
 };
 
