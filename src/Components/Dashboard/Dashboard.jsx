@@ -16,6 +16,10 @@ import EditExperimentLayout from "./Lab/ExperimentEdit";
 import LabsLayout from "./Lab/Labs";
 import Listing from "./Lab/Listing";
 import LabHome from "./Lab/LabHome";
+import {
+  addBroadDetails,
+  getAllBroad,
+} from "../../redux/slices/BroadAreaReducer";
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
   const [showDropdowns, setShowDropdowns] = useState([false, false, false]);
@@ -26,6 +30,7 @@ const Sidebar = () => {
     };
     const userRole = getValue("userRole");
     dispatch(getUserDetails({ userRole }));
+    dispatch(getAllBroad({ userRole }));
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

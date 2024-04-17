@@ -9,10 +9,21 @@ const initialState = {
   labContent: {
     theory: "",
   },
+  broadDetails: [],
+  loading: false,
 };
 const abortController = new AbortController();
 const signal = abortController.signal;
 
+export const getAllBroad = createAsyncThunk("addbroad", async (data) => {
+  const res = await network.get({
+    url: "/broadArea/getAllBroad",
+    data,
+    signal,
+  });
+  const result = await res?.json();
+  return result;
+});
 export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
   console.log(data);
   const res = await network.post({
@@ -38,7 +49,18 @@ const BroadAreaReducer = createSlice({
       };
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllBroad.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllBroad.fulfilled, (state, action) => {
+      state.loading = false;
+      state.broadDetails = action.payload?.broadDetails;
+    });
+    builder.addCase(getAllBroad.rejected, (state, action) => {
+      state.loading = false;
+    });
+  },
 });
 
 export const { updateTheroryContent } = BroadAreaReducer.actions;
