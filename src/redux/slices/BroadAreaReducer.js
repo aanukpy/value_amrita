@@ -15,7 +15,7 @@ const initialState = {
 const abortController = new AbortController();
 const signal = abortController.signal;
 
-export const getAllBroad = createAsyncThunk("addbroad", async (data) => {
+export const getAllBroad = createAsyncThunk("getbroad", async (data) => {
   const res = await network.get({
     url: "/broadArea/getAllBroad",
     data,
@@ -28,6 +28,15 @@ export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
   console.log(data);
   const res = await network.post({
     url: "/broadArea/addBroad",
+    data,
+    signal,
+  });
+  const result = await res?.json();
+  return result;
+});
+export const addLabDetails = createAsyncThunk("addLab", async (data) => {
+  const res = await network.post({
+    url: "/broadArea/addLab",
     data,
     signal,
   });
@@ -58,6 +67,16 @@ const BroadAreaReducer = createSlice({
       state.broadDetails = action.payload?.broadDetails;
     });
     builder.addCase(getAllBroad.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(addLabDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(addLabDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.broadDetails = action.payload?.broadDetails;
+    });
+    builder.addCase(addLabDetails.rejected, (state, action) => {
       state.loading = false;
     });
   },

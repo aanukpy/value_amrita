@@ -20,14 +20,27 @@ import {
   faSave,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
-import { Select,  } from 'antd';
+import Select from "react-select";
 import { Link } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 import { getBroadState } from "../../../redux/reselect/reselector";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUID } from "../../../helpers/uniqueId";
+import { addLabDetails } from "../../../redux/slices/BroadAreaReducer";
+
+const initialState = () => {
+  return {
+    selectedBroadArea: "",
+    selectedBroadId: "",
+    labDetails: [],
+  };
+};
 
 const Labs = () => {
-  const [selectedBroadArea, setSelectedBroadArea] = useState("");
+  const dispatch = useDispatch();
+  const [state, setState] = useState(initialState());
+
   const [labs, setLabs] = useState([
     {
       id: 1,
@@ -83,11 +96,19 @@ const Labs = () => {
       id: item.broadAreaId,
     };
   });
-  console.log(broadAreas);
-  const handleBroadAreaChange = (event) => {
-    setSelectedBroadArea(event.target.value);
+  const filterLabDetails = () => {
+    const filterLab = BroadDetails?.filter((item) => {
+      return item?.broadAreaId === state.selectedBroadId;
+    });
+    setState((prev) => ({
+      ...prev,
+      labDetails: filterLab[0]?.labs || [],
+    }));
   };
-
+  useEffect(() => {
+    filterLabDetails();
+  }, [state.selectedBroadArea, state.selectedBroadId]);
+  console.log(state);
   const handleEditLab = (labId) => {
     setIsEditing(true);
     const editedLabIndex = labs.findIndex((lab) => lab.id === labId);
@@ -122,10 +143,22 @@ const Labs = () => {
   };
 
   const handleSaveNewLab = () => {
-    const newId = labs.length + 1;
-    setLabs([...labs, { id: newId, ...newLab }]);
-    setNewLab({ labName: "", description: "" });
-    setIsNewLabOpen(false);
+    try {
+      const data = {
+        labId: getUID(),
+        labName: newLab.labName,
+        description: newLab.description,
+        broadId: state.selectedBroadId,
+      };
+      console.log(data);
+      dispatch(addLabDetails(data));
+      const newId = labs.length + 1;
+      setLabs([...labs, { id: newId, ...newLab }]);
+      setNewLab({ labName: "", description: "" });
+      setIsNewLabOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancelNewLab = () => {
@@ -138,11 +171,12 @@ const Labs = () => {
     setLabs(updatedLabs);
   };
 
-  const handleViewLab = (labId) => {
-    console.log(`Viewing lab with ID ${labId}`);
-  };
-  const handleSelectChange = (value) => {
-    console.log(`selected ${value}`);
+  const handleSelectChange = (selectedOption) => {
+    setState((prev) => ({
+      ...prev,
+      selectedBroadArea: selectedOption.value,
+      selectedBroadId: selectedOption.id,
+    }));
   };
 
   return (
@@ -156,8 +190,16 @@ const Labs = () => {
           <div>
             <label htmlFor="broadArea">Broad Area:</label>
             <Select
-              defaultValue="Select Options"
-              style={{ width: 120 }}
+              styles={{
+                control: (css) => ({
+                  ...css,
+                  width: 500,
+                }),
+                menu: (css) => ({
+                  ...css,
+                  width: 500,
+                }),
+              }}
               onChange={handleSelectChange}
               options={broadAreas}
             />
@@ -175,7 +217,7 @@ const Labs = () => {
           </Button>
         )}
         {isNewLabOpen && (
-          <>
+          <div style={{ display: "flex" }}>
             <TextField
               label="Lab Name"
               value={newLab.labName}
@@ -208,115 +250,132 @@ const Labs = () => {
             >
               Cancel
             </Button>
-          </>
+          </div>
         )}
-        <TableContainer
-          component={Paper}
-          sx={{
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            marginTop: "1rem",
-            width: "100%",
-          }}
-        >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>No</TableCell>
-                <TableCell>Lab Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {labs.map((lab) => (
-                <TableRow
-                  key={lab.id}
-                  sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
-                >
-                  <TableCell>{lab.id}</TableCell>
-                  <TableCell>
-                    {isEditing && editedLabs[lab.id] ? (
-                      <TextField
-                        value={editedLabs[lab.id].labName}
-                        onChange={(e) => handleChange(e, lab.id, "labName")}
-                        fullWidth
-                      />
-                    ) : (
-                      lab.labName
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {isEditing && editedLabs[lab.id] ? (
-                      <TextField
-                        value={editedLabs[lab.id].description}
-                        onChange={(e) => handleChange(e, lab.id, "description")}
-                        fullWidth
-                      />
-                    ) : (
-                      lab.description
-                    )}
-                  </TableCell>
-                  <TableCell style={{ display: "flex" }}>
-                    {isEditing ? (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          startIcon={<FontAwesomeIcon icon={faSave} />}
-                          onClick={() => handleSaveLab(lab.id)}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={handleCancelEdit}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          startIcon={<FontAwesomeIcon icon={faEdit} />}
-                          style={{ marginRight: "20px" }}
-                          onClick={() => handleEditLab(lab.id)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          component={Link}
-                          to={`/listing`}
-                          variant="contained"
-                          color="success"
-                          startIcon={<FontAwesomeIcon icon={faEye} />}
-                          style={{ marginRight: "20px" }}
-                        >
-                          View
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<FontAwesomeIcon icon={faTrash} />}
-                          onClick={() => handleDeleteLab(lab.id)}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                    )}
-                  </TableCell>
+        {state.labDetails.length > 0 ? (
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              marginTop: "1rem",
+              width: "100%",
+            }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>No</TableCell>
+                  <TableCell>Lab Name</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {state.labDetails.map((lab, index) => (
+                  <TableRow
+                    key={lab.id}
+                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>
+                      {isEditing && editedLabs[lab.id] ? (
+                        <TextField
+                          value={editedLabs[lab.id].labName}
+                          onChange={(e) => handleChange(e, lab.id, "labName")}
+                          fullWidth
+                        />
+                      ) : (
+                        lab.labName
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing && editedLabs[lab.id] ? (
+                        <TextField
+                          value={editedLabs[lab.id].description}
+                          onChange={(e) =>
+                            handleChange(e, lab.id, "description")
+                          }
+                          fullWidth
+                        />
+                      ) : (
+                        lab.description
+                      )}
+                    </TableCell>
+                    <TableCell style={{ display: "flex" }}>
+                      {isEditing ? (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faSave} />}
+                            onClick={() => handleSaveLab(lab.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleCancelEdit}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faEdit} />}
+                            style={{ marginRight: "20px" }}
+                            onClick={() => handleEditLab(lab.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            component={Link}
+                            to={`/listing`}
+                            variant="contained"
+                            color="success"
+                            startIcon={<FontAwesomeIcon icon={faEye} />}
+                            style={{ marginRight: "20px" }}
+                          >
+                            View
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<FontAwesomeIcon icon={faTrash} />}
+                            onClick={() => handleDeleteLab(lab.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: 100,
+              padding: 5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h5>No Data</h5>
+          </div>
+        )}
       </div>
     </div>
   );
