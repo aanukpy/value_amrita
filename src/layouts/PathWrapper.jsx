@@ -6,11 +6,11 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import Footer from "../Components/Footer";
 import News from "../Components/News";
-import Experiment from "../Components/Experiment";
+
 import Gallery from "../Components/Gallery";
 import ExperimentPage from "../Components/Model/ExperimentPage";
 import ContentPage from "./ContentPage"; // Import ContentPage component
-
+import ExperimentEdit from '../Components/Dashboard/Lab/ExperimentEdit'
 import Contact from "../Components/Contact";
 import Project from "../Components/Project";
 import Workshop from "../Components/Workshop";
@@ -32,7 +32,7 @@ import DashboardMain from "../Components/Dashboard";
 import NodalCenter from "./Nodalcenter/NodalCenter";
 import { getValue } from "../helpers/localStorage";
 import NodalManage from "./Nodalcenter/NodalManage";
-import ExperimentEdit from "../Components/Dashboard/Lab/ExperimentEdit";
+
 import TheoryComponent from "./Theory";
 import Listing from "../Components/Dashboard/Lab/Listing";
 import LabHome from "../Components/Dashboard/Lab/LabHome";
@@ -83,7 +83,7 @@ const PathWrapper = () => {
           <Route path="dashboard" element={<DashboardMain />} />
           <Route path="nodalCenters/list" element={<NodalCenter />} />
           <Route path="nodalCenters/Nodalmanage" element={<NodalManage />} />
-          <Route path="labs/editExperiment" element={<ExperimentEdit />} />
+          <Route path="labs/editExperiment" element={<ExperimentEdit/>} />
           <Route path="labs/labDetails" element={<Labs/>}/>
           <Route path="labs/Experiment" element={<Listing/>}/>
           <Route path="labs/broadArea" element={<LabHome/>}/>

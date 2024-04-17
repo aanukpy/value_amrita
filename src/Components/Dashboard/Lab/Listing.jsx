@@ -179,7 +179,7 @@ const Listing = () => {
   </Select>
 </FormControl> */}
               <FormControl sx={{ minWidth: 200 }}>
-                <InputLabel>Experiment</InputLabel>
+                <InputLabel>Labs</InputLabel>
                 <Select
                   value={selectedExperiment}
                   onChange={handleExperimentChange}
@@ -187,7 +187,7 @@ const Listing = () => {
                   <MenuItem value="experiment1">Experiment 1</MenuItem>
                   <MenuItem value="experiment2">Experiment 2</MenuItem>
                   <MenuItem value="experiment3">Experiment 3</MenuItem>
-                  {/* Add more options as needed */}
+                 
                 </Select>
               </FormControl>
             </Box>

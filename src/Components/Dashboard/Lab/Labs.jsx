@@ -11,6 +11,10 @@ import {
   Typography,
   Box,
   TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,6 +29,8 @@ import { Link, useLocation } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 
 const Labs = () => {
+  const [selectedBroadArea, setSelectedBroadArea] = useState("");
+
   const [labs, setLabs] = useState([
     {
       id: 1,
@@ -71,7 +77,9 @@ const Labs = () => {
     labName: "",
     description: "",
   });
-
+  const handleBroadAreaChange = (event) => {
+    setSelectedBroadArea(event.target.value);
+  };
   const handleEditLab = (labId) => {
     setIsEditing(true);
     const editedLabIndex = labs.findIndex((lab) => lab.id === labId);
@@ -131,6 +139,49 @@ const Labs = () => {
     
       <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
+        <Box sx={{ marginBottom: "1rem" }}>
+              <Typography variant="h4" gutterBottom>
+                Manage Experiments
+              </Typography>
+              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
+                <InputLabel>Broad Area</InputLabel>
+                <Select
+                  value={selectedBroadArea}
+                  onChange={handleBroadAreaChange}
+                >
+                  <MenuItem value="networkSecurity">Network Security</MenuItem>
+                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
+                  <MenuItem value="databaseManagement">
+                    Database Management
+                  </MenuItem>
+                  {/* Add more options as needed */}
+                </Select>
+              </FormControl>
+              {/* <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
+  <InputLabel>Lab</InputLabel>
+  <Select
+    value={selectedLab}
+    onChange={handleLabChange}
+  >
+    <MenuItem value="networkSecurityLab">Network Security Lab</MenuItem>
+    <MenuItem value="machineLearningLab">Machine Learning Lab</MenuItem>
+    <MenuItem value="databaseManagementLab">Database Management Lab</MenuItem>
+    
+  </Select>
+</FormControl> */}
+              {/* <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel>Experiment</InputLabel>
+                <Select
+                  value={selectedExperiment}
+                  onChange={handleExperimentChange}
+                >
+                  <MenuItem value="experiment1">Experiment 1</MenuItem>
+                  <MenuItem value="experiment2">Experiment 2</MenuItem>
+                  <MenuItem value="experiment3">Experiment 3</MenuItem>
+                  
+                </Select>
+              </FormControl> */}
+            </Box>
           <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
             <Typography variant="h4" gutterBottom>
               Manage Labs

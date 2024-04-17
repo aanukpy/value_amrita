@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Button,
-  Typography,
   Box,
-  TextField,
   FormControl,
   InputLabel,
   MenuItem,
@@ -29,6 +20,7 @@ import {
 import RichTextEditor from "./TextEdit";
 import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
+import { updateSimulationContent } from "../../../redux/slices/ExperimentReducer";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 
 const ExperimentEdit = () => {
@@ -40,12 +32,16 @@ const ExperimentEdit = () => {
   const dispatch = useDispatch();
 
   const handleEditorChange = (content, delta, source, editor) => {
-    console.log(editor.getHTML());
-    dispatch(updateTheroryContent(editor.getHTML()));
+    if (contentType === "Theory") {
+      dispatch(updateTheroryContent(editor.getHTML()));
+    } else if (contentType === "Simulation") {
+      dispatch(updateSimulationContent(editor.getHTML()));
+    }
   };
 
   const handleButtonClick = (type) => {
     setContentType(type);
+    setEditorContent(""); // Reset the editor content when switching between content types
     console.log(`Clicked on ${type} button`);
   };
 
@@ -61,17 +57,14 @@ const ExperimentEdit = () => {
     setSelectedExperiment(event.target.value);
   };
 
+  const handlePlainTextChange = (event) => {
+    setEditorContent(event.target.value);
+  };
+
   return (
     <div>
       <div className="row">
         <div className="col-md-12">
-          {/* <Typography
-            variant="h5"
-            style={{ marginBottom: "1rem", marginTop: "1rem" }}
-          >
-            Edit Experiment Details
-          </Typography>
-      */}
           <Box sx={{ marginBottom: "1rem" }}>
             <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
               <InputLabel>Broad Area</InputLabel>
@@ -84,7 +77,6 @@ const ExperimentEdit = () => {
                 <MenuItem value="databaseManagement">
                   Database Management
                 </MenuItem>
-                {/* Add more options as needed */}
               </Select>
             </FormControl>
             <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
@@ -178,8 +170,7 @@ const ExperimentEdit = () => {
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  backgroundColor:
-                    contentType === "References" ? "#f0f0f0" : "",
+                  backgroundColor: contentType === "References" ? "#f0f0f0" : "",
                 }}
               >
                 References
@@ -204,7 +195,18 @@ const ExperimentEdit = () => {
             </div>
           </div>
 
-          <RichTextEditor value={editorContent} onChange={handleEditorChange} />
+          {contentType !== "Simulation" ? (
+            <RichTextEditor
+              value={editorContent}
+              onChange={handleEditorChange}
+            />
+          ) : (
+            <textarea
+              value={editorContent}
+              onChange={handlePlainTextChange}
+              style={{ width: "70%", height: "50px", resize: "vertical" }}
+            />
+          )}
         </div>
         <div style={{}}>
           <Button
@@ -222,6 +224,7 @@ const ExperimentEdit = () => {
     </div>
   );
 };
+
 const EditExperimentLayout = WithExperimentLayout(ExperimentEdit);
 
 export default EditExperimentLayout;
