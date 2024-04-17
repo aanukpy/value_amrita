@@ -31,6 +31,7 @@ import {
 import RichTextEditor from "./TextEdit";
 import { updateTheroryContent } from "../../../redux/slices/LabReducer";
 import { useDispatch } from "react-redux";
+import WithExperimentLayout from "../../common/ExperimentLayout";
 
 const ExperimentEdit = () => {
   const [selectedBroadArea, setSelectedBroadArea] = useState("");
@@ -70,47 +71,47 @@ const ExperimentEdit = () => {
             Edit Experiment Details
           </Typography>
       */}
-            <Box sx={{ marginBottom: "1rem" }}>
-             
-              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
-                <InputLabel>Broad Area</InputLabel>
-                <Select
-                  value={selectedBroadArea}
-                  onChange={handleBroadAreaChange}
-                >
-                  <MenuItem value="networkSecurity">Network Security</MenuItem>
-                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
-                  <MenuItem value="databaseManagement">
-                    Database Management
-                  </MenuItem>
-                  {/* Add more options as needed */}
-                </Select>
-              </FormControl>
-              <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
-  <InputLabel>Lab</InputLabel>
-  <Select
-    value={selectedLab}
-    onChange={handleLabChange}
-  >
-    <MenuItem value="networkSecurityLab">Network Security Lab</MenuItem>
-    <MenuItem value="machineLearningLab">Machine Learning Lab</MenuItem>
-    <MenuItem value="databaseManagementLab">Database Management Lab</MenuItem>
-    
-  </Select>
-</FormControl>
-              <FormControl sx={{ minWidth: 200 }}>
-                <InputLabel>Experiment</InputLabel>
-                <Select
-                  value={selectedExperiment}
-                  onChange={handleExperimentChange}
-                >
-                  <MenuItem value="experiment1">Experiment 1</MenuItem>
-                  <MenuItem value="experiment2">Experiment 2</MenuItem>
-                  <MenuItem value="experiment3">Experiment 3</MenuItem>
-                
-                </Select>
-              </FormControl>
-            </Box>
+          <Box sx={{ marginBottom: "1rem" }}>
+            <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
+              <InputLabel>Broad Area</InputLabel>
+              <Select
+                value={selectedBroadArea}
+                onChange={handleBroadAreaChange}
+              >
+                <MenuItem value="networkSecurity">Network Security</MenuItem>
+                <MenuItem value="machineLearning">Machine Learning</MenuItem>
+                <MenuItem value="databaseManagement">
+                  Database Management
+                </MenuItem>
+                {/* Add more options as needed */}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
+              <InputLabel>Lab</InputLabel>
+              <Select value={selectedLab} onChange={handleLabChange}>
+                <MenuItem value="networkSecurityLab">
+                  Network Security Lab
+                </MenuItem>
+                <MenuItem value="machineLearningLab">
+                  Machine Learning Lab
+                </MenuItem>
+                <MenuItem value="databaseManagementLab">
+                  Database Management Lab
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel>Experiment</InputLabel>
+              <Select
+                value={selectedExperiment}
+                onChange={handleExperimentChange}
+              >
+                <MenuItem value="experiment1">Experiment 1</MenuItem>
+                <MenuItem value="experiment2">Experiment 2</MenuItem>
+                <MenuItem value="experiment3">Experiment 3</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <div
             style={{
               display: "flex",
@@ -191,24 +192,25 @@ const ExperimentEdit = () => {
               ></Button>
             </div>
           </div>
-         
+
           <RichTextEditor value={editorContent} onChange={handleEditorChange} />
-         
         </div>
-        <div style={{}}><Button
-                startIcon={''}
-                style={{
-                  border: "1px solid #ccc",
-                  alignItems:'flex-end',
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                }}
-              >Add</Button></div>
-      
+        <div style={{}}>
+          <Button
+            startIcon={""}
+            style={{
+              border: "1px solid #ccc",
+              alignItems: "flex-end",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            }}
+          >
+            Add
+          </Button>
+        </div>
       </div>
-    
     </div>
-    
   );
 };
+const EditExperimentLayout = WithExperimentLayout(ExperimentEdit);
 
-export default ExperimentEdit;
+export default EditExperimentLayout;

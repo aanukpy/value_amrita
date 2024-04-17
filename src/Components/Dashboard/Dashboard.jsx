@@ -12,9 +12,9 @@ import { useDispatch } from "react-redux";
 import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
-import ExperimentEdit from "./Lab/ExperimentEdit";
+import EditExperimentLayout from "./Lab/ExperimentEdit";
 import LabsLayout from "./Lab/Labs";
-import Listing from "./Lab/Listing";
+import ListingLayout from "./Lab/Listing";
 import LabHome from "./Lab/LabHome";
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -214,11 +214,11 @@ const Sidebar = () => {
           ) : setTitle() === "Nodal Management" ? (
             <NodalManage />
           ) : setTitle() === "Edit Experiment" ? (
-            <ExperimentEdit />
+            <EditExperimentLayout />
           ) : setTitle() === "Lab Details" ? (
             <LabsLayout />
           ) : setTitle() === "Experiments" ? (
-            <Listing />
+            <ListingLayout />
           ) : setTitle() === "Brad Area" ? (
             <LabHome />
           ) : (

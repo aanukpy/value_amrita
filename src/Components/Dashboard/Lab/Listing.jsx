@@ -26,6 +26,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
+import WithExperimentLayout from "../../common/ExperimentLayout";
 const Listing = () => {
   const [selectedBroadArea, setSelectedBroadArea] = useState("");
   const [selectedLab, setSelectedLab] = useState("");
@@ -144,9 +145,9 @@ const Listing = () => {
 
   return (
     <Fade up duration={1000} delay={200}>
-      <div className="container-xl">
+      <div className="container-xl" style={{ margin: 0 }}>
         <div className="table-responsive">
-          <Box sx={{ marginBottom: "1rem" }}>
+          <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
             <Box sx={{ marginBottom: "1rem" }}>
               <Typography variant="h4" gutterBottom>
                 Manage Experiments
@@ -287,7 +288,7 @@ const Listing = () => {
                         lab.description
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ display: "flex" }}>
                       {isEditing ? (
                         <>
                           <Button
@@ -352,4 +353,6 @@ const Listing = () => {
   );
 };
 
-export default Listing;
+const ListingLayout = WithExperimentLayout(Listing);
+
+export default ListingLayout;
