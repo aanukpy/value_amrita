@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 
 const Theory = () => {
-  const { labContent } = useSelector((state) => state.lab);
+  const { labContent } = useSelector((state) => state.BroadArea);
   const { theory } = labContent;
   const modules = {
     toolbar: false,

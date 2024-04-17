@@ -27,7 +27,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import RichTextEditor from "./TextEdit";
-import { updateTheroryContent } from "../../../redux/slices/LabReducer";
+import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 
@@ -36,7 +36,7 @@ const ExperimentEdit = () => {
   const [selectedLab, setSelectedLab] = useState("");
   const [selectedExperiment, setSelectedExperiment] = useState("");
   const [editorContent, setEditorContent] = useState("");
-  const [contentType, setContentType] = useState("Theory"); 
+  const [contentType, setContentType] = useState("Theory");
   const dispatch = useDispatch();
 
   const handleEditorChange = (content, delta, source, editor) => {
@@ -147,7 +147,7 @@ const ExperimentEdit = () => {
               >
                 Procedure
               </Button>
-             
+
               <Button
                 onClick={() => handleButtonClick("Simulation")}
                 startIcon={<FontAwesomeIcon icon={faDesktop} />}
@@ -156,7 +156,7 @@ const ExperimentEdit = () => {
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                   backgroundColor:
-                  contentType === "Simulation" ? "#f0f0f0" : "",
+                    contentType === "Simulation" ? "#f0f0f0" : "",
                 }}
               >
                 Simulation
@@ -201,7 +201,6 @@ const ExperimentEdit = () => {
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
               ></Button>
-              
             </div>
           </div>
 

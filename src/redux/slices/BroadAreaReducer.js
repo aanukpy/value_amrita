@@ -13,7 +13,17 @@ const initialState = {
 const abortController = new AbortController();
 const signal = abortController.signal;
 
-const LabReducer = createSlice({
+export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
+  const res = await network.post({
+    url: "/broadArea/addBroad",
+    data,
+    signal,
+  });
+  const result = await res?.json();
+  return result;
+});
+
+const BroadAreaReducer = createSlice({
   name: "labReducer",
   initialState,
   reducers: {
@@ -30,5 +40,5 @@ const LabReducer = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const { updateTheroryContent } = LabReducer.actions;
-export default LabReducer.reducer;
+export const { updateTheroryContent } = BroadAreaReducer.actions;
+export default BroadAreaReducer.reducer;
