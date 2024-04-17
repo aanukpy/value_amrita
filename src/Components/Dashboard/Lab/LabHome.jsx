@@ -129,7 +129,7 @@ const Broadareas = () => {
         broadName: newbroadarea.broadarea,
         description: newbroadarea.description,
       };
-      // console.log(data);
+
       dispatch(addBroadDetails(data));
       const newId = broadareas.length + 1;
       setbroadareas([...broadareas, { id: newId, ...newbroadarea }]);

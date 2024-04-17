@@ -28,6 +28,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUID } from "../../../helpers/uniqueId";
 import { addLabDetails } from "../../../redux/slices/BroadAreaReducer";
+import { memo } from "react";
+import { useCallback } from "react";
 
 const initialState = () => {
   return {
@@ -38,6 +40,9 @@ const initialState = () => {
 };
 
 const Labs = () => {
+  const BroadDetails = useSelector(getBroadState);
+
+  const data = useCallback(() => BroadDetails, [BroadDetails]);
   const dispatch = useDispatch();
   const [state, setState] = useState(initialState());
 
@@ -87,15 +92,15 @@ const Labs = () => {
     labName: "",
     description: "",
   });
-  const BroadDetails = useSelector(getBroadState);
 
-  const broadAreas = BroadDetails.map((item) => {
+  const broadAreas = BroadDetails?.map((item) => {
     return {
       label: item.broadAreaName,
       value: item.broadAreaName,
       id: item.broadAreaId,
     };
   });
+
   const filterLabDetails = () => {
     const filterLab = BroadDetails?.filter((item) => {
       return item?.broadAreaId === state.selectedBroadId;
@@ -107,7 +112,7 @@ const Labs = () => {
   };
   useEffect(() => {
     filterLabDetails();
-  }, [state.selectedBroadArea, state.selectedBroadId]);
+  }, [data, state.selectedBroadId]);
   console.log(state);
   const handleEditLab = (labId) => {
     setIsEditing(true);
@@ -381,5 +386,5 @@ const Labs = () => {
   );
 };
 
-const LabsLayout = WithExperimentLayout(Labs);
+const LabsLayout = WithExperimentLayout(memo(Labs));
 export default LabsLayout;

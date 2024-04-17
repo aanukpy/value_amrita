@@ -8,7 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import DashboardMain from ".";
 import UserManagement from "../../layouts/UserManagement/UserManagement";
 import NodalCenter from "../../layouts/Nodalcenter/NodalCenter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../../redux/slices/userManagementReducer";
 import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
@@ -20,10 +20,12 @@ import {
   addBroadDetails,
   getAllBroad,
 } from "../../redux/slices/BroadAreaReducer";
+import { getBroadState } from "../../redux/reselect/reselector";
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
   const [showDropdowns, setShowDropdowns] = useState([false, false, false]);
   const dispatch = useDispatch();
+  const BroadDetails = useSelector(getBroadState);
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth > 768);
