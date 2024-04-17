@@ -39,6 +39,7 @@ const ExperimentEdit = () => {
   const [editorContent, setEditorContent] = useState("");
   const dispatch = useDispatch();
   const handleEditorChange = (content, delta, source, editor) => {
+    console.log(editor.getHTML());
     dispatch(updateTheroryContent(editor.getHTML()));
   };
 

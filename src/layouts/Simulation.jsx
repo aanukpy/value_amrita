@@ -14,6 +14,7 @@ const Simulation = () => {
       <SideNav selectedCategory={selectedCategory} />
       {selectedCategory === "Theory" && <TheoryComponent />}
       {selectedCategory === "Simulator" && <SimulatorPage />}
+      {selectedCategory === "Procedure" && <SimulatorPage />}
     </div>
   );
 };
