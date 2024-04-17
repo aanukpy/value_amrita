@@ -25,6 +25,8 @@ import { Link, useLocation } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 import { addBroadDetails } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
+import { getUID } from "../../../helpers/uniqueId";
+import { getValue } from "../../../helpers/localStorage";
 
 const Broadareas = () => {
   const [broadareas, setbroadareas] = useState([
@@ -117,7 +119,13 @@ const Broadareas = () => {
 
   const handleSaveNewbroadarea = () => {
     try {
-      // dispatch(addBroadDetails(data));
+      const data = {
+        broadId: getUID(),
+        broadName: newbroadarea.broadarea,
+        description: newbroadarea.description,
+      };
+      // console.log(data);
+      dispatch(addBroadDetails(data));
       const newId = broadareas.length + 1;
       setbroadareas([...broadareas, { id: newId, ...newbroadarea }]);
       setNewbroadarea({ broadarea: "", description: "" });

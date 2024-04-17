@@ -14,6 +14,7 @@ const abortController = new AbortController();
 const signal = abortController.signal;
 
 export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
+  console.log(data);
   const res = await network.post({
     url: "/broadArea/addBroad",
     data,
