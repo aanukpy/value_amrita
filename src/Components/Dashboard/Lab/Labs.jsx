@@ -11,10 +11,6 @@ import {
   Typography,
   Box,
   TextField,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,13 +20,14 @@ import {
   faSave,
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
-import Fade from "react-reveal/Fade"; // Import the Fade component
-import { Link, useLocation } from "react-router-dom";
+import { Select,  } from 'antd';
+import { Link } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
+import { getBroadState } from "../../../redux/reselect/reselector";
+import { useDispatch, useSelector } from "react-redux";
 
 const Labs = () => {
   const [selectedBroadArea, setSelectedBroadArea] = useState("");
-
   const [labs, setLabs] = useState([
     {
       id: 1,
@@ -77,9 +74,20 @@ const Labs = () => {
     labName: "",
     description: "",
   });
+  const BroadDetails = useSelector(getBroadState);
+
+  const broadAreas = BroadDetails.map((item) => {
+    return {
+      label: item.broadAreaName,
+      value: item.broadAreaName,
+      id: item.broadAreaId,
+    };
+  });
+  console.log(broadAreas);
   const handleBroadAreaChange = (event) => {
     setSelectedBroadArea(event.target.value);
   };
+
   const handleEditLab = (labId) => {
     setIsEditing(true);
     const editedLabIndex = labs.findIndex((lab) => lab.id === labId);
@@ -131,222 +139,188 @@ const Labs = () => {
   };
 
   const handleViewLab = (labId) => {
-    // Handle view action here, for example, navigate to a new page to view lab details
     console.log(`Viewing lab with ID ${labId}`);
+  };
+  const handleSelectChange = (value) => {
+    console.log(`selected ${value}`);
   };
 
   return (
-    
-      <div className="container-xl" style={{ margin: 0 }}>
-        <div className="table-responsive">
-        <Box sx={{ marginBottom: "1rem" }}>
-              <Typography variant="h4" gutterBottom>
-                Manage Experiments
-              </Typography>
-              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
-                <InputLabel>Broad Area</InputLabel>
-                <Select
-                  value={selectedBroadArea}
-                  onChange={handleBroadAreaChange}
-                >
-                  <MenuItem value="networkSecurity">Network Security</MenuItem>
-                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
-                  <MenuItem value="databaseManagement">
-                    Database Management
-                  </MenuItem>
-                  {/* Add more options as needed */}
-                </Select>
-              </FormControl>
-              {/* <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
-  <InputLabel>Lab</InputLabel>
-  <Select
-    value={selectedLab}
-    onChange={handleLabChange}
-  >
-    <MenuItem value="networkSecurityLab">Network Security Lab</MenuItem>
-    <MenuItem value="machineLearningLab">Machine Learning Lab</MenuItem>
-    <MenuItem value="databaseManagementLab">Database Management Lab</MenuItem>
-    
-  </Select>
-</FormControl> */}
-              {/* <FormControl sx={{ minWidth: 200 }}>
-                <InputLabel>Experiment</InputLabel>
-                <Select
-                  value={selectedExperiment}
-                  onChange={handleExperimentChange}
-                >
-                  <MenuItem value="experiment1">Experiment 1</MenuItem>
-                  <MenuItem value="experiment2">Experiment 2</MenuItem>
-                  <MenuItem value="experiment3">Experiment 3</MenuItem>
-                  
-                </Select>
-              </FormControl> */}
-            </Box>
-          <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
-            <Typography variant="h4" gutterBottom>
-              Manage Labs
-            </Typography>
-          </Box>
-          {!isNewLabOpen && (
+    <div className="container-xl" style={{ margin: 0 }}>
+      <div className="table-responsive">
+        <Box sx={{ marginBottom: "1rem" }}>{/* Other components */}</Box>
+        <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
+          <Typography variant="h4" gutterBottom>
+            Manage Labs
+          </Typography>
+          <div>
+            <label htmlFor="broadArea">Broad Area:</label>
+            <Select
+              defaultValue="Select Options"
+              style={{ width: 120 }}
+              onChange={handleSelectChange}
+              options={broadAreas}
+            />
+          </div>
+        </Box>
+        {!isNewLabOpen && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<FontAwesomeIcon icon={faPlus} />}
+            sx={{ marginBottom: "1rem" }}
+            onClick={handleAddLab}
+          >
+            Add New Lab
+          </Button>
+        )}
+        {isNewLabOpen && (
+          <>
+            <TextField
+              label="Lab Name"
+              value={newLab.labName}
+              onChange={(e) =>
+                setNewLab({ ...newLab, labName: e.target.value })
+              }
+              sx={{ marginRight: "1rem" }}
+            />
+            <TextField
+              label="Description"
+              value={newLab.description}
+              onChange={(e) =>
+                setNewLab({ ...newLab, description: e.target.value })
+              }
+              sx={{ marginRight: "1rem" }}
+            />
             <Button
               variant="contained"
               color="primary"
-              startIcon={<FontAwesomeIcon icon={faPlus} />}
-              sx={{ marginBottom: "1rem" }}
-              onClick={handleAddLab}
+              startIcon={<FontAwesomeIcon icon={faSave} />}
+              onClick={handleSaveNewLab}
+              sx={{ marginRight: "1rem" }}
             >
-              Add New Lab
+              Save
             </Button>
-          )}
-          {isNewLabOpen && (
-            <>
-              <TextField
-                label="Lab Name"
-                value={newLab.labName}
-                onChange={(e) =>
-                  setNewLab({ ...newLab, labName: e.target.value })
-                }
-                sx={{ marginRight: "1rem" }}
-              />
-              <TextField
-                label="Description"
-                value={newLab.description}
-                onChange={(e) =>
-                  setNewLab({ ...newLab, description: e.target.value })
-                }
-                sx={{ marginRight: "1rem" }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<FontAwesomeIcon icon={faSave} />}
-                onClick={handleSaveNewLab}
-                sx={{ marginRight: "1rem" }}
-              >
-                Save
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleCancelNewLab}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              marginTop: "1rem",
-              width: "100%",
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>No</TableCell>
-                  <TableCell>Lab Name</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Actions</TableCell>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleCancelNewLab}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
+        <TableContainer
+          component={Paper}
+          sx={{
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            marginTop: "1rem",
+            width: "100%",
+          }}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>No</TableCell>
+                <TableCell>Lab Name</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {labs.map((lab) => (
+                <TableRow
+                  key={lab.id}
+                  sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                >
+                  <TableCell>{lab.id}</TableCell>
+                  <TableCell>
+                    {isEditing && editedLabs[lab.id] ? (
+                      <TextField
+                        value={editedLabs[lab.id].labName}
+                        onChange={(e) => handleChange(e, lab.id, "labName")}
+                        fullWidth
+                      />
+                    ) : (
+                      lab.labName
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {isEditing && editedLabs[lab.id] ? (
+                      <TextField
+                        value={editedLabs[lab.id].description}
+                        onChange={(e) => handleChange(e, lab.id, "description")}
+                        fullWidth
+                      />
+                    ) : (
+                      lab.description
+                    )}
+                  </TableCell>
+                  <TableCell style={{ display: "flex" }}>
+                    {isEditing ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<FontAwesomeIcon icon={faSave} />}
+                          onClick={() => handleSaveLab(lab.id)}
+                          style={{ marginRight: "20px" }}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={handleCancelEdit}
+                          style={{ marginRight: "20px" }}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<FontAwesomeIcon icon={faEdit} />}
+                          style={{ marginRight: "20px" }}
+                          onClick={() => handleEditLab(lab.id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          component={Link}
+                          to={`/listing`}
+                          variant="contained"
+                          color="success"
+                          startIcon={<FontAwesomeIcon icon={faEye} />}
+                          style={{ marginRight: "20px" }}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<FontAwesomeIcon icon={faTrash} />}
+                          onClick={() => handleDeleteLab(lab.id)}
+                          style={{ marginRight: "20px" }}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {labs.map((lab) => (
-                  <TableRow
-                    key={lab.id}
-                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
-                  >
-                    <TableCell>{lab.id}</TableCell>
-                    <TableCell>
-                      {isEditing && editedLabs[lab.id] ? (
-                        <TextField
-                          value={editedLabs[lab.id].labName}
-                          onChange={(e) => handleChange(e, lab.id, "labName")}
-                          fullWidth
-                        />
-                      ) : (
-                        lab.labName
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {isEditing && editedLabs[lab.id] ? (
-                        <TextField
-                          value={editedLabs[lab.id].description}
-                          onChange={(e) =>
-                            handleChange(e, lab.id, "description")
-                          }
-                          fullWidth
-                        />
-                      ) : (
-                        lab.description
-                      )}
-                    </TableCell>
-                    <TableCell style={{ display: "flex" }}>
-                      {isEditing ? (
-                        <>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<FontAwesomeIcon icon={faSave} />}
-                            onClick={() => handleSaveLab(lab.id)}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Save
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={handleCancelEdit}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<FontAwesomeIcon icon={faEdit} />}
-                            style={{ marginRight: "20px" }}
-                            onClick={() => handleEditLab(lab.id)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            component={Link}
-                            to={`/listing`} // Adjust the path as per your routing configuration
-                            variant="contained"
-                            color="success"
-                            startIcon={<FontAwesomeIcon icon={faEye} />}
-                            style={{ marginRight: "20px" }}
-                          >
-                            View
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            startIcon={<FontAwesomeIcon icon={faTrash} />}
-                            onClick={() => handleDeleteLab(lab.id)}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Delete
-                          </Button>
-                        </>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-  
+    </div>
   );
 };
+
 const LabsLayout = WithExperimentLayout(Labs);
 export default LabsLayout;

@@ -27,6 +27,8 @@ import {
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
+import { getBroadState } from "../../../redux/reselect/reselector";
+import { useDispatch, useSelector } from "react-redux";
 const Listing = () => {
   const [selectedBroadArea, setSelectedBroadArea] = useState("");
   const [selectedLab, setSelectedLab] = useState("");
@@ -69,9 +71,7 @@ const Listing = () => {
         "Lab for hands-on experience with cybersecurity tools and methodologies.",
     },
   ]);
-  const handleBroadAreaChange = (event) => {
-    setSelectedBroadArea(event.target.value);
-  };
+ 
 
   const handleLabChange = (event) => {
     setSelectedLab(event.target.value);
@@ -142,6 +142,19 @@ const Listing = () => {
     // Handle view action here, for example, navigate to a new page to view lab details
     console.log(`Viewing lab with ID ${labId}`);
   };
+  const BroadDetails = useSelector(getBroadState);
+
+  const broadAreas = BroadDetails.map((item) => {
+    return {
+      label: item.broadAreaName,
+      value: item.broadAreaName,
+      id: item.broadAreaId,
+    };
+  });
+  console.log(broadAreas);
+  const handleBroadAreaChange = (event) => {
+    setSelectedBroadArea(event.target.value);
+  };
 
   return (
 
@@ -152,20 +165,20 @@ const Listing = () => {
               <Typography variant="h4" gutterBottom>
                 Manage Experiments
               </Typography>
-              <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
-                <InputLabel>Broad Area</InputLabel>
-                <Select
-                  value={selectedBroadArea}
-                  onChange={handleBroadAreaChange}
-                >
-                  <MenuItem value="networkSecurity">Network Security</MenuItem>
-                  <MenuItem value="machineLearning">Machine Learning</MenuItem>
-                  <MenuItem value="databaseManagement">
-                    Database Management
-                  </MenuItem>
-                  {/* Add more options as needed */}
-                </Select>
-              </FormControl>
+              <div>
+            <label htmlFor="broadArea">Broad Area:</label>
+            <select
+              id="broadArea"
+              value={selectedBroadArea}
+              onChange={handleBroadAreaChange}
+            >
+              {broadAreas.map((area) => (
+                <option key={area.value} value={area.value}>
+                  {area.label}
+                </option>
+              ))}
+            </select>
+          </div>
               {/* <FormControl sx={{ minWidth: 200, marginRight: '1rem' }}>
   <InputLabel>Lab</InputLabel>
   <Select
