@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUID } from "../../../helpers/uniqueId";
 import { getValue } from "../../../helpers/localStorage";
 import { getBroadState } from "../../../redux/reselect/reselector";
+import { useCallback } from "react";
 
 const Broadareas = () => {
   const [broadareas, setbroadareas] = useState([
@@ -66,6 +67,7 @@ const Broadareas = () => {
     },
   ]);
   const BroadDetails = useSelector(getBroadState);
+
   const dispatch = useDispatch();
   const [editedbroadareas, setEditedbroadareas] = useState({});
   const [isEditing, setIsEditing] = useState(false);

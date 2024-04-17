@@ -12,6 +12,7 @@ export default defineConfig({
       utility: "/src/utilits",
       img: "/src/assets",
       layouts: "src/layouts",
+      assets: "src/assets",
       examples: "src/examples",
     },
   },

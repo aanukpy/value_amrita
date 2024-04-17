@@ -30,6 +30,7 @@ import { getUID } from "../../../helpers/uniqueId";
 import { addLabDetails } from "../../../redux/slices/BroadAreaReducer";
 import { memo } from "react";
 import { useCallback } from "react";
+import NodataComponent from "../../common/NodataComponent";
 
 const initialState = () => {
   return {
@@ -368,18 +369,7 @@ const Labs = () => {
             </Table>
           </TableContainer>
         ) : (
-          <div
-            style={{
-              width: "100%",
-              height: 100,
-              padding: 5,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h5>No Data</h5>
-          </div>
+          <NodataComponent />
         )}
       </div>
     </div>

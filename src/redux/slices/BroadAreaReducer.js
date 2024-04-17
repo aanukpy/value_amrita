@@ -69,6 +69,16 @@ const BroadAreaReducer = createSlice({
     builder.addCase(getAllBroad.rejected, (state, action) => {
       state.loading = false;
     });
+    builder.addCase(addBroadDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(addBroadDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.broadDetails = action.payload?.broadDetails;
+    });
+    builder.addCase(addBroadDetails.rejected, (state, action) => {
+      state.loading = false;
+    });
     builder.addCase(addLabDetails.pending, (state, action) => {
       state.loading = true;
     });
