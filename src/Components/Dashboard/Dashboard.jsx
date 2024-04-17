@@ -14,7 +14,7 @@ import { getValue } from "../../helpers/localStorage";
 import NodalManage from "../../layouts/Nodalcenter/NodalManage";
 import EditExperimentLayout from "./Lab/ExperimentEdit";
 import LabsLayout from "./Lab/Labs";
-import ListingLayout from "./Lab/Listing";
+import Listing from "./Lab/Listing";
 import LabHome from "./Lab/LabHome";
 const Sidebar = () => {
   const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 768);
@@ -61,7 +61,7 @@ const Sidebar = () => {
         ? "Lab Details"
         : titleRoute[titleRoute.length - 1] === "experiment"
         ? "Experiments"
-        : titleRoute[titleRoute.length - 1] === "Broad Area"
+        : titleRoute[titleRoute.length - 1] === "broadArea"
         ? "Broad Area"
         : "Dashboard";
     return title;
@@ -218,8 +218,8 @@ const Sidebar = () => {
           ) : setTitle() === "Lab Details" ? (
             <LabsLayout />
           ) : setTitle() === "Experiments" ? (
-            <ListingLayout />
-          ) : setTitle() === "Brad Area" ? (
+            <Listing />
+          ) : setTitle() === "Broad Area" ? (
             <LabHome />
           ) : (
             <DashboardMain />

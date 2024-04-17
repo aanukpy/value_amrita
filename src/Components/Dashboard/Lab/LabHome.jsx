@@ -1,134 +1,296 @@
 import React, { useState } from "react";
-import RegiaterIMG from '../../../assets/img-school-1-min.jpg'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+  Box,
+  TextField,
+} from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faTrash,
+  faPlus,
+  faSave,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
+import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
+import WithExperimentLayout from "../../common/ExperimentLayout";
 
-import { MDBInput, MDBCol, MDBRow, MDBCheckbox, MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
-import Fade from 'react-reveal/Fade'; // Import the Fade component
-const Category = ({ icon, title, courses }) => {
-    return (
-      <Fade up duration={1000} delay={200}>
-      <div
-        className="col-sm-6 col-md-6 col-lg-3 mb-4"
-        data-aos="fade-up"
-        data-aos-delay="0"
-      >
-        <Link
-          className="category d-flex align-items-start h-100"
-          to="/Labs"
-        >
-          <div>
-            <i className={`uil ${icon}`}></i>
-          </div>
-          <div>
-            <h3>{title}</h3>
-            <span>{courses} courses</span>
-          </div>
-        </Link>
-      </div>
-      </Fade>
-    );
-  };
-  
-  const CategorySection = () => {
-    const categories = [
-      {
-        icon: "uil-atom",
-        title: "	Biotechnology and Biomedical Engineering",
-        courses: "1,391",
-      },
-      { icon: "uil-briefcase", title: "Chemical Sciences", courses: "3,234" },
-      { icon: "uil-calculator", title: "	Computer Science", courses: "931" },
-      { icon: "uil-pen", title: "	Mechanical Engineering", courses: "7,291" },
-      { icon: "uil-music", title: "	Physical Sciences", courses: "9,114" },
-      { icon: "uil-chart-pie", title: "Marketing", courses: "2,391" },
-      { icon: "uil-camera", title: "Photography", courses: "7,991" },
-      { icon: "uil-circle-layer", title: "Animation", courses: "6,491" },
-    ];
-  
-    return (
-      <>
-        <div className="untree_co-section bg-light">
-          <div className="container">
-            <div className="row justify-content-center mb-3">
-            <Fade up duration={1000} delay={200}>
-              <div
-                className="col-lg-7 text-center"
-                data-aos="fade-up"
-                data-aos-delay="0"
-              >
-                <h2 className="line-bottom text-center mb-4">
-                  {" "}
-                 Select Virtual Lab
-                </h2>
-              </div>
-              </Fade>
-            </div>
-            <div className="row align-items-stretch">
-              {categories.map((category, index) => (
-                <Category key={index} {...category} />
-              ))}
-            </div>
-            <div
-              className="row justify-content-center"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <div className="col-lg-8 text-center">
-                {/* <p>
-                  We have more category here. <a href="#">Browse all</a>
-                </p> */}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </>
-    );
-  };
-  
-const LabHome = () => {
-  const [email, setEmail] = useState("");
+const broadareas = () => {
+  const [broadareas, setbroadareas] = useState([
+    {
+      id: 1,
+      broadarea: "	Biotechnology and Biomedical Engineering",
+      description:
+        "broadarea for studying network security protocols and techniques.",
+    },
+    {
+      id: 2,
+      broadarea: "	Chemical Sciences",
+      description:
+        "broadarea for implementing and experimenting with machine learning algorithms.",
+    },
+    {
+      id: 3,
+      broadarea: "	Physical Sciences",
+      description:
+        "broadarea for learning and practicing database management concepts.",
+    },
+    {
+      id: 4,
+      broadarea: "	Computer Science",
+      description:
+        "broadarea for studying various operating systems and their components.",
+    },
+    {
+      id: 5,
+      broadarea: "Mechanical Engineering",
+      description:
+        "broadarea for exploring computer vision techniques and applications.",
+    },
+    
+  ]);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const [editedbroadareas, setEditedbroadareas] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [isNewbroadareaOpen, setIsNewbroadareaOpen] = useState(false);
+  const [newbroadarea, setNewbroadarea] = useState({
+    broadarea: "",
+    description: "",
+  });
+
+  const handleEditbroadarea = (broadareaId) => {
+    setIsEditing(true);
+    const editedbroadareaIndex = broadareas.findIndex((broadarea) => broadarea.id === broadareaId);
+    const broadareaToEdit = broadareas[editedbroadareaIndex];
+    setEditedbroadareas({ ...editedbroadareas, [broadareaId]: broadareaToEdit });
+  };
+
+  const handleSavebroadarea = (broadareaId) => {
+    setIsEditing(false);
+    const updatedbroadareas = broadareas.map((broadarea) => {
+      if (broadarea.id === broadareaId) {
+        return editedbroadareas[broadareaId];
+      }
+      return broadarea;
+    });
+    setbroadareas(updatedbroadareas);
+    setEditedbroadareas({});
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedbroadareas({});
+  };
+
+  const handleChange = (e, broadareaId, field) => {
+    const updatedbroadarea = { ...editedbroadareas[broadareaId], [field]: e.target.value };
+    setEditedbroadareas({ ...editedbroadareas, [broadareaId]: updatedbroadarea });
+  };
+
+  const handleAddbroadarea = () => {
+    setIsNewbroadareaOpen(true);
+  };
+
+  const handleSaveNewbroadarea = () => {
+    const newId = broadareas.length + 1;
+    setbroadareas([...broadareas, { id: newId, ...newbroadarea }]);
+    setNewbroadarea({ broadarea: "", description: "" });
+    setIsNewbroadareaOpen(false);
+  };
+
+  const handleCancelNewbroadarea = () => {
+    setNewbroadarea({ broadarea: "", description: "" });
+    setIsNewbroadareaOpen(false);
+  };
+
+  const handleDeletebroadarea = (broadareaId) => {
+    const updatedbroadareas = broadareas.filter((broadarea) => broadarea.id !== broadareaId);
+    setbroadareas(updatedbroadareas);
+  };
+
+  const handleViewbroadarea = (broadareaId) => {
+    // Handle view action here, for example, navigate to a new page to view broadarea details
+    console.log(`Viewing broadarea with ID ${broadareaId}`);
   };
 
   return (
-    <>
-      <Fade up duration={1000} delay={200}> {/* Add Fade component with up animation */}
-        <div className="untree_co-hero inner-page overlay bg-light" 
-        style={{backgroundImage: `url(${RegiaterIMG})`}}
-        >
-          <div className="container">
-            <div className="row align-items-center justify-content-center">
-              <div className="col-12">
-                <div className="row justify-content-center ">
-                  <div className="col-lg-6 text-center ">
-                    <h1
-                      className="mb-4 heading text-white"
-                      data-aos="fade-up"
-                      data-aos-delay="100"
-                    >
-                     Virtual Labs
-                    </h1>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-
-      <div className="untree_co-section">
-        <div className="container">
-         
+    <Fade up duration={1000} delay={200}>
+      <div className="container-xl" style={{ margin: 0 }}>
+        <div className="table-responsive">
+          <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
+            <Typography variant="h4" gutterBottom>
+              Manage Broad Area
+            </Typography>
+          </Box>
+          {!isNewbroadareaOpen && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<FontAwesomeIcon icon={faPlus} />}
+              sx={{ marginBottom: "1rem" }}
+              onClick={handleAddbroadarea}
+            >
+              Add New Broad Area
+            </Button>
+          )}
+          {isNewbroadareaOpen && (
+            <>
+              <TextField
+                broadareael="broadarea Name"
+                value={newbroadarea.broadarea}
+                onChange={(e) =>
+                  setNewbroadarea({ ...newbroadarea, broadarea: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
+              />
+              <TextField
+                broadareael="Description"
+                value={newbroadarea.description}
+                onChange={(e) =>
+                  setNewbroadarea({ ...newbroadarea, description: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<FontAwesomeIcon icon={faSave} />}
+                onClick={handleSaveNewbroadarea}
+                sx={{ marginRight: "1rem" }}
+              >
+                Save
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCancelNewbroadarea}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              marginTop: "1rem",
+              width: "100%",
+            }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>No</TableCell>
+                  <TableCell>Broad Area</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {broadareas.map((broadarea) => (
+                  <TableRow
+                    key={broadarea.id}
+                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                  >
+                    <TableCell>{broadarea.id}</TableCell>
+                    <TableCell>
+                      {isEditing && editedbroadareas[broadarea.id] ? (
+                        <TextField
+                          value={editedbroadareas[broadarea.id].broadarea}
+                          onChange={(e) => handleChange(e, broadarea.id, "broadarea")}
+                          fullWidth
+                        />
+                      ) : (
+                        broadarea.broadarea
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing && editedbroadareas[broadarea.id] ? (
+                        <TextField
+                          value={editedbroadareas[broadarea.id].description}
+                          onChange={(e) =>
+                            handleChange(e, broadarea.id, "description")
+                          }
+                          fullWidth
+                        />
+                      ) : (
+                        broadarea.description
+                      )}
+                    </TableCell>
+                    <TableCell style={{ display: "flex" }}>
+                      {isEditing ? (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faSave} />}
+                            onClick={() => handleSavebroadarea(broadarea.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleCancelEdit}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faEdit} />}
+                            style={{ marginRight: "20px" }}
+                            onClick={() => handleEditbroadarea(broadarea.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            component={Link}
+                            to={`/listing`} // Adjust the path as per your routing configuration
+                            variant="contained"
+                            color="success"
+                            startIcon={<FontAwesomeIcon icon={faEye} />}
+                            style={{ marginRight: "20px" }}
+                          >
+                            View
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<FontAwesomeIcon icon={faTrash} />}
+                            onClick={() => handleDeletebroadarea(broadarea.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
-      </Fade>
-      {/* <Category/> */}
-      <CategorySection/>
-    </>
+    </Fade>
   );
 };
-
-export default LabHome;
+const broadareaHome = WithExperimentLayout(broadareas);
+export default broadareaHome;

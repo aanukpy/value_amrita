@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Table,
   TableBody,
@@ -17,7 +16,6 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -38,16 +36,19 @@ const ExperimentEdit = () => {
   const [selectedLab, setSelectedLab] = useState("");
   const [selectedExperiment, setSelectedExperiment] = useState("");
   const [editorContent, setEditorContent] = useState("");
+  const [contentType, setContentType] = useState("Theory"); 
   const dispatch = useDispatch();
+
   const handleEditorChange = (content, delta, source, editor) => {
     console.log(editor.getHTML());
     dispatch(updateTheroryContent(editor.getHTML()));
   };
 
   const handleButtonClick = (type) => {
-    // Implement functionality to handle each button click
+    setContentType(type);
     console.log(`Clicked on ${type} button`);
   };
+
   const handleBroadAreaChange = (event) => {
     setSelectedBroadArea(event.target.value);
   };
@@ -59,10 +60,10 @@ const ExperimentEdit = () => {
   const handleExperimentChange = (event) => {
     setSelectedExperiment(event.target.value);
   };
+
   return (
     <div>
       <div className="row">
-        {/* <div className="col-md-2" style={{ backgroundColor: 'black', height: '100vh' }}></div> */}
         <div className="col-md-12">
           {/* <Typography
             variant="h5"
@@ -129,20 +130,24 @@ const ExperimentEdit = () => {
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  backgroundColor: contentType === "Theory" ? "#f0f0f0" : "",
                 }}
               >
                 Theory
               </Button>
               <Button
+                onClick={() => handleButtonClick("Procedure")}
                 startIcon={<FontAwesomeIcon icon={faFlask} />}
                 style={{
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  backgroundColor: contentType === "Procedure" ? "#f0f0f0" : "",
                 }}
               >
                 Procedure
               </Button>
+             
               <Button
                 startIcon={<FontAwesomeIcon icon={faDesktop} />}
                 style={{
@@ -164,11 +169,14 @@ const ExperimentEdit = () => {
                 Assignment
               </Button>
               <Button
+                onClick={() => handleButtonClick("References")}
                 startIcon={<FontAwesomeIcon icon={faBookOpen} />}
                 style={{
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  backgroundColor:
+                    contentType === "References" ? "#f0f0f0" : "",
                 }}
               >
                 References
@@ -190,6 +198,7 @@ const ExperimentEdit = () => {
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
               ></Button>
+              {/* Add other buttons similarly */}
             </div>
           </div>
 
