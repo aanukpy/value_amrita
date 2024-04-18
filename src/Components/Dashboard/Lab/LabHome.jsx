@@ -33,7 +33,7 @@ import { getValue } from "../../../helpers/localStorage";
 import { getBroadState } from "../../../redux/reselect/reselector";
 import { useCallback } from "react";
 
-const Broadareas = () => {
+const broadareas = () => {
   const [broadareas, setbroadareas] = useState([
     {
       id: 1,
@@ -65,6 +65,7 @@ const Broadareas = () => {
       description:
         "broadarea for exploring computer vision techniques and applications.",
     },
+    
   ]);
   const BroadDetails = useSelector(getBroadState);
 
@@ -79,29 +80,21 @@ const Broadareas = () => {
 
   const handleEditbroadarea = (broadareaId) => {
     setIsEditing(true);
-    const editedbroadareaIndex = broadareas.findIndex(
-      (broadarea) => broadarea.id === broadareaId
-    );
+    const editedbroadareaIndex = broadareas.findIndex((broadarea) => broadarea.id === broadareaId);
     const broadareaToEdit = broadareas[editedbroadareaIndex];
-    setEditedbroadareas({
-      ...editedbroadareas,
-      [broadareaId]: broadareaToEdit,
-    });
+    setEditedbroadareas({ ...editedbroadareas, [broadareaId]: broadareaToEdit });
   };
 
   const handleSavebroadarea = (broadareaId) => {
-    try {
-      console.log(newbroadarea, "hi");
-      setIsEditing(false);
-      const updatedbroadareas = broadareas.map((broadarea) => {
-        if (broadarea.id === broadareaId) {
-          return editedbroadareas[broadareaId];
-        }
-        return broadarea;
-      });
-      setbroadareas(updatedbroadareas);
-      setEditedbroadareas({});
-    } catch (error) {}
+    setIsEditing(false);
+    const updatedbroadareas = broadareas.map((broadarea) => {
+      if (broadarea.id === broadareaId) {
+        return editedbroadareas[broadareaId];
+      }
+      return broadarea;
+    });
+    setbroadareas(updatedbroadareas);
+    setEditedbroadareas({});
   };
 
   const handleCancelEdit = () => {
@@ -110,14 +103,8 @@ const Broadareas = () => {
   };
 
   const handleChange = (e, broadareaId, field) => {
-    const updatedbroadarea = {
-      ...editedbroadareas[broadareaId],
-      [field]: e.target.value,
-    };
-    setEditedbroadareas({
-      ...editedbroadareas,
-      [broadareaId]: updatedbroadarea,
-    });
+    const updatedbroadarea = { ...editedbroadareas[broadareaId], [field]: e.target.value };
+    setEditedbroadareas({ ...editedbroadareas, [broadareaId]: updatedbroadarea });
   };
 
   const handleAddbroadarea = () => {
@@ -148,9 +135,7 @@ const Broadareas = () => {
   };
 
   const handleDeletebroadarea = (broadareaId) => {
-    const updatedbroadareas = broadareas.filter(
-      (broadarea) => broadarea.id !== broadareaId
-    );
+    const updatedbroadareas = broadareas.filter((broadarea) => broadarea.id !== broadareaId);
     setbroadareas(updatedbroadareas);
   };
 
@@ -160,77 +145,61 @@ const Broadareas = () => {
   };
 
   return (
-    <div className="container-xl" style={{ margin: 0 }}>
-      <div className="table-responsive">
-        <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
-          <Typography variant="h4" gutterBottom>
-            Manage Broad Area
-          </Typography>
-        </Box>
-        {!isNewbroadareaOpen && (
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<FontAwesomeIcon icon={faPlus} />}
-            sx={{ marginBottom: "1rem" }}
-            onClick={handleAddbroadarea}
-          >
-            Add New Broad Area
-          </Button>
-        )}
-        {isNewbroadareaOpen && (
-          <>
-            <TextField
-              broadareael="broadarea Name"
-              value={newbroadarea.broadarea}
-              onChange={(e) =>
-                setNewbroadarea({ ...newbroadarea, broadarea: e.target.value })
-              }
-              sx={{ marginRight: "1rem" }}
-            />
-            <TextField
-              broadareael="Description"
-              value={newbroadarea.description}
-              onChange={(e) =>
-                setNewbroadarea({
-                  ...newbroadarea,
-                  description: e.target.value,
-                })
-              }
-              sx={{ marginRight: "1rem" }}
-            />
+   
+      <div className="container-xl" style={{ margin: 0 }}>
+        <div className="table-responsive">
+          <Box sx={{ marginBottom: "1rem", marginTop: "50px" }}>
+            <Typography variant="h4" gutterBottom>
+              Manage Broad Area
+            </Typography>
+          </Box>
+          {!isNewbroadareaOpen && (
             <Button
               variant="contained"
               color="primary"
-              startIcon={<FontAwesomeIcon icon={faSave} />}
-              onClick={handleSaveNewbroadarea}
-              sx={{ marginRight: "1rem" }}
+              startIcon={<FontAwesomeIcon icon={faPlus} />}
+              sx={{ marginBottom: "1rem" }}
+              onClick={handleAddbroadarea}
             >
-              Save
+              Add New Broad Area
             </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleCancelNewbroadarea}
-            >
-              Cancel
-            </Button>
-          </>
-        )}
-        {BroadDetails.length === 0 ? (
-          <div
-            style={{
-              width: "100%",
-              height: 100,
-              padding: 5,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h5>No Data</h5>
-          </div>
-        ) : (
+          )}
+          {isNewbroadareaOpen && (
+            <>
+              <TextField
+                broadareael="broadarea Name"
+                value={newbroadarea.broadarea}
+                onChange={(e) =>
+                  setNewbroadarea({ ...newbroadarea, broadarea: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
+              />
+              <TextField
+                broadareael="Description"
+                value={newbroadarea.description}
+                onChange={(e) =>
+                  setNewbroadarea({ ...newbroadarea, description: e.target.value })
+                }
+                sx={{ marginRight: "1rem" }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<FontAwesomeIcon icon={faSave} />}
+                onClick={handleSaveNewbroadarea}
+                sx={{ marginRight: "1rem" }}
+              >
+                Save
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCancelNewbroadarea}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
           <TableContainer
             component={Paper}
             sx={{
@@ -251,23 +220,21 @@ const Broadareas = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {BroadDetails?.map((broadarea, index) => (
+                {broadareas.map((broadarea) => (
                   <TableRow
                     key={broadarea.id}
                     sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
                   >
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{broadarea.id}</TableCell>
                     <TableCell>
                       {isEditing && editedbroadareas[broadarea.id] ? (
                         <TextField
                           value={editedbroadareas[broadarea.id].broadarea}
-                          onChange={(e) =>
-                            handleChange(e, broadarea.id, "broadarea")
-                          }
+                          onChange={(e) => handleChange(e, broadarea.id, "broadarea")}
                           fullWidth
                         />
                       ) : (
-                        broadarea.broadAreaName
+                        broadarea.broadarea
                       )}
                     </TableCell>
                     <TableCell>
@@ -342,10 +309,10 @@ const Broadareas = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        )}
+        </div>
       </div>
-    </div>
+ 
   );
 };
-const broadareaHome = WithExperimentLayout(Broadareas);
+const broadareaHome = WithExperimentLayout(broadareas);
 export default broadareaHome;

@@ -343,7 +343,7 @@ const Labs = () => {
                           </Button>
                           <Button
                             component={Link}
-                            to={`/listing`}
+                            to={''}
                             variant="contained"
                             color="success"
                             startIcon={<FontAwesomeIcon icon={faEye} />}

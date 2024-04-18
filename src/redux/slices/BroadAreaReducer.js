@@ -8,6 +8,7 @@ import Snackbar from "../../Components/common/snackbar";
 const initialState = {
   labContent: {
     theory: "",
+    
   },
   broadDetails: [],
   loading: false,
@@ -57,7 +58,9 @@ const BroadAreaReducer = createSlice({
         },
       };
     },
+    
   },
+  
   extraReducers: (builder) => {
     builder.addCase(getAllBroad.pending, (state, action) => {
       state.loading = true;

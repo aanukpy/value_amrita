@@ -7,9 +7,9 @@ import Snackbar from "../../Components/common/snackbar";
 
 const initialState = {
   selectedCategory: "Theory",
-  simulationContent: "Simulation"
 
 };
+
 const abortController = new AbortController();
 const signal = abortController.signal;
 
@@ -23,9 +23,7 @@ const ExperimentReducer = createSlice({
         selectedCategory: action.payload,
       };
     },
-    updateSimulationContent: (state, action) => {
-      state.simulationContent = action.payload;
-    },
+    
   },
   extraReducers: (builder) => {},
 });
