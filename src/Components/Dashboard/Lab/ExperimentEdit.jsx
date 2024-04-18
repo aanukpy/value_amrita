@@ -170,7 +170,8 @@ const ExperimentEdit = () => {
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  backgroundColor: contentType === "References" ? "#f0f0f0" : "",
+                  backgroundColor:
+                    contentType === "References" ? "#f0f0f0" : "",
                 }}
               >
                 References

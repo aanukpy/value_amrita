@@ -12,12 +12,13 @@ const Simulator = () => {
         <Breadcrumb.Item>{sub}</Breadcrumb.Item>
         <Breadcrumb.Item>{`exp ${exp}`}</Breadcrumb.Item>
       </Breadcrumb>
-      <object
-        data={`/src/LabFiles/PhysicalChemistry/exp${exp}/experiment.html`}
-        type="text/html"
+
+      <iframe
+        src="http://192.168.183.140:4848/"
+        title="W3Schools Free Online Web Tutorials"
         width="100%"
         height="900px"
-      />
+      ></iframe>
     </div>
   );
 };
