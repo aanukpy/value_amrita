@@ -31,9 +31,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUID } from "../../../helpers/uniqueId";
 import { getValue } from "../../../helpers/localStorage";
 import { getBroadState } from "../../../redux/reselect/reselector";
-import { useCallback } from "react";
 
-const broadareas = () => {
+const Broadareas = () => {
   const [broadareas, setbroadareas] = useState([
     {
       id: 1,
@@ -67,7 +66,6 @@ const broadareas = () => {
     },
   ]);
   const BroadDetails = useSelector(getBroadState);
-
   const dispatch = useDispatch();
   const [editedbroadareas, setEditedbroadareas] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -90,15 +88,18 @@ const broadareas = () => {
   };
 
   const handleSavebroadarea = (broadareaId) => {
-    setIsEditing(false);
-    const updatedbroadareas = broadareas.map((broadarea) => {
-      if (broadarea.id === broadareaId) {
-        return editedbroadareas[broadareaId];
-      }
-      return broadarea;
-    });
-    setbroadareas(updatedbroadareas);
-    setEditedbroadareas({});
+    try {
+      console.log(newbroadarea, "hi");
+      setIsEditing(false);
+      const updatedbroadareas = broadareas.map((broadarea) => {
+        if (broadarea.id === broadareaId) {
+          return editedbroadareas[broadareaId];
+        }
+        return broadarea;
+      });
+      setbroadareas(updatedbroadareas);
+      setEditedbroadareas({});
+    } catch (error) {}
   };
 
   const handleCancelEdit = () => {
@@ -128,7 +129,7 @@ const broadareas = () => {
         broadName: newbroadarea.broadarea,
         description: newbroadarea.description,
       };
-
+      // console.log(data);
       dispatch(addBroadDetails(data));
       const newId = broadareas.length + 1;
       setbroadareas([...broadareas, { id: newId, ...newbroadarea }]);
@@ -209,120 +210,135 @@ const broadareas = () => {
             </Button>
           </>
         )}
-        <TableContainer
-          component={Paper}
-          sx={{
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            marginTop: "1rem",
-            width: "100%",
-          }}
-        >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>No</TableCell>
-                <TableCell>Broad Area</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {BroadDetails.map((broadarea, index) => (
-                <TableRow
-                  key={broadarea.id}
-                  sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
-                >
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>
-                    {isEditing && editedbroadareas[broadarea.id] ? (
-                      <TextField
-                        value={editedbroadareas[broadarea.id].broadarea}
-                        onChange={(e) =>
-                          handleChange(e, broadarea.id, "broadarea")
-                        }
-                        fullWidth
-                      />
-                    ) : (
-                      broadarea.broadAreaName
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {isEditing && editedbroadareas[broadarea.id] ? (
-                      <TextField
-                        value={editedbroadareas[broadarea.id].description}
-                        onChange={(e) =>
-                          handleChange(e, broadarea.id, "description")
-                        }
-                        fullWidth
-                      />
-                    ) : (
-                      broadarea.description
-                    )}
-                  </TableCell>
-                  <TableCell style={{ display: "flex" }}>
-                    {isEditing ? (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          startIcon={<FontAwesomeIcon icon={faSave} />}
-                          onClick={() => handleSavebroadarea(broadarea.id)}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={handleCancelEdit}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          startIcon={<FontAwesomeIcon icon={faEdit} />}
-                          style={{ marginRight: "20px" }}
-                          onClick={() => handleEditbroadarea(broadarea.id)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          component={Link}
-                          to={`/listing`} // Adjust the path as per your routing configuration
-                          variant="contained"
-                          color="success"
-                          startIcon={<FontAwesomeIcon icon={faEye} />}
-                          style={{ marginRight: "20px" }}
-                        >
-                          View
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          startIcon={<FontAwesomeIcon icon={faTrash} />}
-                          onClick={() => handleDeletebroadarea(broadarea.id)}
-                          style={{ marginRight: "20px" }}
-                        >
-                          Delete
-                        </Button>
-                      </>
-                    )}
-                  </TableCell>
+        {BroadDetails.length === 0 ? (
+          <div
+            style={{
+              width: "100%",
+              height: 100,
+              padding: 5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h5>No Data</h5>
+          </div>
+        ) : (
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              marginTop: "1rem",
+              width: "100%",
+            }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>No</TableCell>
+                  <TableCell>Broad Area</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {BroadDetails?.map((broadarea, index) => (
+                  <TableRow
+                    key={broadarea.id}
+                    sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                  >
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>
+                      {isEditing && editedbroadareas[broadarea.id] ? (
+                        <TextField
+                          value={editedbroadareas[broadarea.id].broadarea}
+                          onChange={(e) =>
+                            handleChange(e, broadarea.id, "broadarea")
+                          }
+                          fullWidth
+                        />
+                      ) : (
+                        broadarea.broadAreaName
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing && editedbroadareas[broadarea.id] ? (
+                        <TextField
+                          value={editedbroadareas[broadarea.id].description}
+                          onChange={(e) =>
+                            handleChange(e, broadarea.id, "description")
+                          }
+                          fullWidth
+                        />
+                      ) : (
+                        broadarea.description
+                      )}
+                    </TableCell>
+                    <TableCell style={{ display: "flex" }}>
+                      {isEditing ? (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faSave} />}
+                            onClick={() => handleSavebroadarea(broadarea.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleCancelEdit}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FontAwesomeIcon icon={faEdit} />}
+                            style={{ marginRight: "20px" }}
+                            onClick={() => handleEditbroadarea(broadarea.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            component={Link}
+                            to={`/listing`} // Adjust the path as per your routing configuration
+                            variant="contained"
+                            color="success"
+                            startIcon={<FontAwesomeIcon icon={faEye} />}
+                            style={{ marginRight: "20px" }}
+                          >
+                            View
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<FontAwesomeIcon icon={faTrash} />}
+                            onClick={() => handleDeletebroadarea(broadarea.id)}
+                            style={{ marginRight: "20px" }}
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
     </div>
   );
 };
-const broadareaHome = WithExperimentLayout(broadareas);
+const broadareaHome = WithExperimentLayout(Broadareas);
 export default broadareaHome;

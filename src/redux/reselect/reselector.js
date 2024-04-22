@@ -17,6 +17,6 @@ export const getBroad = createSelector(selectBroadState, (broadName) => {
 });
 
 export const getLabById = (broadAreaId) => (state) => {
-  const labs = state.broadAreaReducer.labs;
-  return labs.filter((lab) => lab.broadAreaId === broadAreaId);
+  const labs = state?.broadAreaReducer?.labs;
+  return labs?.filter((lab) => lab.broadAreaId === broadAreaId);
 };

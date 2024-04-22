@@ -227,79 +227,17 @@ export const Computer_Science = [
   {
     id: 1,
     experiment:
-      "Wireless Sensor Network Remote Triggered Lab (Wireless Remote Sensing, Experimentation, Monitoring and Administration Lab)",
+      "Formal Language Autamata",
     description:
-      "Wireless Sensor Network is the study of wireless sensors that are distributed in a wide area for sensing the environmental parameters. Wireless Sensor Network Remote Triggered Lab is an experimental wireless sensor network deployed partly indoor and partly outdoor. This lab is envisioned to provide a practical experience of designing, deploying and implementing wireless sensor networks in both indoor and outdoor conditions.",
+      "",
     links: [
       {
         id: 1,
-        title: "Introduction to WSN",
+        title: "NFA to RE Conversion",
         description:
           "Calculating the Average Wind Energy Density (WED) from Actual Wind Data",
       },
-      {
-        id: 2,
-        title: "nesC Programming",
-        description:
-          "Learn about the wind distribution pattern of a given location",
-      },
-      {
-        id: 3,
-        title: "Send and Receive",
-        description:
-          "Aerodynamic Pressure distribution study of a Wind Turbine Blade in a Wind Tunnel under constant velocity",
-      },
-      {
-        id: 4,
-        title: "Range & Connectivity vs. Antenna Power",
-        description:
-          "Aerodynamic Force Study of a Wind Turbine Blade in a Wind Tunnel with varying velocity",
-      },
-      {
-        id: 5,
-        title: "Duty Cycle vs. Power Consumption",
-        description:
-          "Aerodynamic force study of a wind turbine blade with varying pitch (Wind tunnel)",
-      },
-      {
-        id: 6,
-        title: "Sensor Data Acquisition",
-        description:
-          "Velocity profiling of a wind turbine blade and calculation of drag coefficient",
-      },
-      {
-        id: 7,
-        title: "Data Collection Frequency and Tx. vs. Power Consumption",
-        description:
-          "Study of Wind Generator Electrical Output Characteristics for different types of airfoil assemblies.",
-      },
-      {
-        id: 7,
-        title: "Wireless Propagation",
-        description:
-          "Power produced in a wind turbine as a function of Wind Speed",
-      },
-      {
-        id: 8,
-        title: "Wireless Sensor Network",
-        description: "Coefficient of Power (COP) vs. Tip Speed Ratio",
-      },
-      {
-        id: 9,
-        title:
-          "Wireless Sensor Network Data Acquisition, Transmission, and Aggregation",
-        description: "Coefficient of Power (COP) vs. Tip Speed Ratio",
-      },
-      {
-        id: 10,
-        title: "Clustering Algorithms",
-        description: "Coefficient of Power (COP) vs. Tip Speed Ratio",
-      },
-      {
-        id: 11,
-        title: "Time Synchronization",
-        description: "Coefficient of Power (COP) vs. Tip Speed Ratio",
-      },
+      
     ],
   },
 ];

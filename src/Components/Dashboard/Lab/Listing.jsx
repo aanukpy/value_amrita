@@ -112,24 +112,27 @@ const Listing = () => {
         "Lab for hands-on experience with cybersecurity tools and methodologies.",
     },
   ]);
+
   const filterExpDetails = () => {
-    const filterLab = broadState?.filter((item) => {
-      if (item.broadAreaId === state?.broadAreaId) {
-        if (item.labs.filter((sub) => sub.labId === state.labId)) {
-          return sub.experiments;
-        }
+    setState((prev) => ({ ...prev, isLoading: true }));
+    const filterLab = broadState?.find(
+      (item) => item.broadAreaId === state.broadAreaId
+    );
+    if (filterLab) {
+      const lab = filterLab.labs.find((sub) => sub.labId === state.labId);
+      if (lab) {
+        setState((prev) => ({
+          ...prev,
+          expDetails: lab.experiments || [],
+          isLoading: false,
+        }));
       }
-      return [];
-    });
-    console.log(filterLab);
-    setState((prev) => ({
-      ...prev,
-      expDetails: filterLab[0]?.labs || [],
-    }));
+    }
   };
+
   useEffect(() => {
     filterExpDetails();
-  }, [data, state.labId]);
+  }, [state.broadAreaId, state.labId]);
 
   const handleEditLab = (labId) => {
     setIsEditing(true);
@@ -173,12 +176,12 @@ const Listing = () => {
         description: newLab.description,
         broadId: state.broadAreaId,
       };
+      console.log(data);
+      dispatch(addExperimentDetails(data));
       const newId = labs.length + 1;
       setLabs([...labs, { id: newId, ...newLab }]);
       setNewLab({ expName: "", description: "" });
       setIsNewLabOpen(false);
-
-      dispatch(addExperimentDetails(data));
     } catch (error) {}
   };
 
@@ -191,7 +194,7 @@ const Listing = () => {
     const updatedLabs = labs.filter((lab) => lab.id !== labId);
     setLabs(updatedLabs);
   };
-
+  console.log(state.expDetails);
   const handleSelectChange = (value, type) => {
     switch (type) {
       case "labs":
@@ -323,32 +326,36 @@ const Listing = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {labs.map((lab) => (
+              {state.expDetails.map((experiment, index) => (
                 <TableRow
-                  key={lab.id}
+                  key={experiment.id}
                   sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
                 >
-                  <TableCell>{lab.id}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>
-                    {isEditing && editedLabs[lab.id] ? (
+                    {isEditing && editedLabs[experiment.id] ? (
                       <TextField
-                        value={editedLabs[lab.id].expName}
-                        onChange={(e) => handleChange(e, lab.id, "expName")}
+                        value={editedLabs[experiment.id].expName}
+                        onChange={(e) =>
+                          handleChange(e, experiment.id, "expName")
+                        }
                         fullWidth
                       />
                     ) : (
-                      lab.expName
+                      experiment.experimentName
                     )}
                   </TableCell>
                   <TableCell>
-                    {isEditing && editedLabs[lab.id] ? (
+                    {isEditing && editedLabs[experiment.id] ? (
                       <TextField
-                        value={editedLabs[lab.id].description}
-                        onChange={(e) => handleChange(e, lab.id, "description")}
+                        value={editedLabs[experiment.id].description}
+                        onChange={(e) =>
+                          handleChange(e, experiment.id, "description")
+                        }
                         fullWidth
                       />
                     ) : (
-                      lab.description
+                      experiment.description
                     )}
                   </TableCell>
                   <TableCell style={{ display: "flex" }}>
@@ -358,7 +365,7 @@ const Listing = () => {
                           variant="contained"
                           color="primary"
                           startIcon={<FontAwesomeIcon icon={faSave} />}
-                          onClick={() => handleSaveLab(lab.id)}
+                          onClick={() => handleSaveLab(experiment.id)}
                           style={{ marginRight: "20px" }}
                         >
                           Save
@@ -379,7 +386,7 @@ const Listing = () => {
                           color="primary"
                           startIcon={<FontAwesomeIcon icon={faEdit} />}
                           style={{ marginRight: "20px" }}
-                          onClick={() => handleEditLab(lab.id)}
+                          onClick={() => handleEditLab(experiment.id)}
                         >
                           Edit
                         </Button>
@@ -397,7 +404,7 @@ const Listing = () => {
                           variant="contained"
                           color="secondary"
                           startIcon={<FontAwesomeIcon icon={faTrash} />}
-                          onClick={() => handleDeleteLab(lab.id)}
+                          onClick={() => handleDeleteLab(experiment.id)}
                           style={{ marginRight: "20px" }}
                         >
                           Delete
