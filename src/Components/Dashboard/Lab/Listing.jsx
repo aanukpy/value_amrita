@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -14,8 +14,8 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
 } from "@mui/material";
+import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -27,15 +27,53 @@ import {
 import Fade from "react-reveal/Fade"; // Import the Fade component
 import { Link, useLocation } from "react-router-dom";
 import WithExperimentLayout from "../../common/ExperimentLayout";
-import { getBroadState } from "../../../redux/reselect/reselector";
+import {
+  getBroad,
+  getBroadState,
+  getLabById,
+} from "../../../redux/reselect/reselector";
 import { useDispatch, useSelector } from "react-redux";
-import { addLabDetails } from "../../../redux/slices/BroadAreaReducer";
-import { useCallback } from "react";
-const Listing = () => {
-  const [selectedBroadArea, setSelectedBroadArea] = useState("");
-  const [selectedLab, setSelectedLab] = useState("");
-  const [selectedExperiment, setSelectedExperiment] = useState("");
+import {
+  addExperimentDetails,
+  addLabDetails,
+} from "../../../redux/slices/BroadAreaReducer";
 
+import { getUID } from "../../../helpers/uniqueId";
+
+const initialState = () => {
+  return {
+    broadAreaId: "",
+    labId: "",
+    expDetails: [],
+  };
+};
+const Listing = () => {
+  const [state, setState] = useState(initialState());
+  const broadOption = useSelector(getBroad);
+  const broadState = useSelector(getBroadState);
+  const lab = useSelector(getLabById(state.labId));
+  const [editedLabs, setEditedLabs] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [isNewLabOpen, setIsNewLabOpen] = useState(false);
+  const data = useCallback(() => broadState, [broadState]);
+
+  const [newLab, setNewLab] = useState({
+    expName: "",
+    description: "",
+  });
+
+  const labOption = broadState?.flatMap((item) => {
+    if (item.broadAreaId === state?.broadAreaId) {
+      return item.labs.map((sub) => ({
+        label: sub.labName,
+        value: sub.labName,
+        id: sub.labId,
+      }));
+    }
+    return [];
+  });
+
+  const dispatch = useDispatch();
   const [labs, setLabs] = useState([
     {
       id: 1,
@@ -74,22 +112,24 @@ const Listing = () => {
         "Lab for hands-on experience with cybersecurity tools and methodologies.",
     },
   ]);
-
-  const handleLabChange = (event) => {
-    setSelectedLab(event.target.value);
+  const filterExpDetails = () => {
+    const filterLab = broadState?.filter((item) => {
+      if (item.broadAreaId === state?.broadAreaId) {
+        if (item.labs.filter((sub) => sub.labId === state.labId)) {
+          return sub.experiments;
+        }
+      }
+      return [];
+    });
+    console.log(filterLab);
+    setState((prev) => ({
+      ...prev,
+      expDetails: filterLab[0]?.labs || [],
+    }));
   };
-
-  const handleExperimentChange = (event) => {
-    setSelectedExperiment(event.target.value);
-  };
-  const [editedLabs, setEditedLabs] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
-  const [isNewLabOpen, setIsNewLabOpen] = useState(false);
-
-  const [newLab, setNewLab] = useState({
-    expName: "",
-    description: "",
-  });
+  useEffect(() => {
+    filterExpDetails();
+  }, [data, state.labId]);
 
   const handleEditLab = (labId) => {
     setIsEditing(true);
@@ -125,10 +165,21 @@ const Listing = () => {
   };
 
   const handleSaveNewLab = () => {
-    const newId = labs.length + 1;
-    setLabs([...labs, { id: newId, ...newLab }]);
-    setNewLab({ expName: "", description: "" });
-    setIsNewLabOpen(false);
+    try {
+      const data = {
+        experimentId: getUID(),
+        labId: state.labId,
+        experimentName: newLab.expName,
+        description: newLab.description,
+        broadId: state.broadAreaId,
+      };
+      const newId = labs.length + 1;
+      setLabs([...labs, { id: newId, ...newLab }]);
+      setNewLab({ expName: "", description: "" });
+      setIsNewLabOpen(false);
+
+      dispatch(addExperimentDetails(data));
+    } catch (error) {}
   };
 
   const handleCancelNewLab = () => {
@@ -141,36 +192,25 @@ const Listing = () => {
     setLabs(updatedLabs);
   };
 
-  const handleViewLab = (labId) => {
-    // Handle view action here, for example, navigate to a new page to view lab details
-    console.log(`Viewing lab with ID ${labId}`);
+  const handleSelectChange = (value, type) => {
+    switch (type) {
+      case "labs":
+        setState((prev) => ({
+          ...prev,
+          labId: value.id,
+        }));
+        break;
+      case "broad":
+        setState((prev) => ({
+          ...prev,
+          broadAreaId: value.id,
+        }));
+        break;
+
+      default:
+        break;
+    }
   };
-  const BroadDetails = useSelector(getBroadState);
-
-  const broadAreas = BroadDetails.map((item) => {
-    return {
-      label: item.broadAreaName,
-      value: item.broadAreaName,
-      id: item.broadAreaId,
-    };
-  });
-  console.log(broadAreas);
-  const handleBroadAreaChange = (event) => {
-    setSelectedBroadArea(event.target.value);
-  };
-
-  const filteredLabs =
-    BroadDetails.find((item) => item.broadAreaName === selectedBroadArea)
-      ?.labs || [];
-
-  const labDetails = BroadDetails.map((lab) => {
-    return {
-      label: lab.labName,
-      value: lab.labName,
-      id: lab.labId,
-    };
-  });
-  console.log(addLabDetails);
   return (
     <div className="container-xl" style={{ margin: 0 }}>
       <div className="table-responsive">
@@ -181,32 +221,39 @@ const Listing = () => {
             </Typography>
             <div>
               <label htmlFor="broadArea">Broad Area:</label>
-              <select
-                id="broadArea"
-                value={selectedBroadArea}
-                onChange={handleBroadAreaChange}
-              >
-                {broadAreas.map((area) => (
-                  <option key={area.value} value={area.value}>
-                    {area.label}
-                  </option>
-                ))}
-              </select>
+              <Select
+                styles={{
+                  control: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                  menu: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                }}
+                onChange={(e) => handleSelectChange(e, "broad")}
+                options={broadOption}
+              />
             </div>
 
-            <select
-              id="lab"
-              value={selectedLab}
-              onChange={handleLabChange}
-              style={{ minWidth: 200, marginBottom: "1rem" }}
-            >
-              <option value="">Select Lab</option>
-              {filteredLabs.map((lab) => (
-                <option key={lab.labId} value={lab.labName}>
-                  {lab.labName}
-                </option>
-              ))}
-            </select>
+            <div style={{ marginTop: 5 }}>
+              <label htmlFor="broadArea">Labs:</label>
+              <Select
+                styles={{
+                  control: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                  menu: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                }}
+                onChange={(e) => handleSelectChange(e, "labs")}
+                options={labOption}
+              />
+            </div>
           </Box>
         </Box>
         {!isNewLabOpen && (
@@ -256,6 +303,7 @@ const Listing = () => {
             </Button>
           </>
         )}
+
         <TableContainer
           component={Paper}
           sx={{
