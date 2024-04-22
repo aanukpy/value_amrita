@@ -8,7 +8,6 @@ import Snackbar from "../../Components/common/snackbar";
 const initialState = {
   labContent: {
     theory: "",
-    
   },
   broadDetails: [],
   loading: false,
@@ -44,6 +43,18 @@ export const addLabDetails = createAsyncThunk("addLab", async (data) => {
   const result = await res?.json();
   return result;
 });
+export const addExperimentDetails = createAsyncThunk(
+  "addExperimentDetails",
+  async (data) => {
+    const res = await network.post({
+      url: "/broadArea/addExperiment",
+      data,
+      signal,
+    });
+    const result = await res?.json();
+    return result;
+  }
+);
 
 const BroadAreaReducer = createSlice({
   name: "labReducer",
@@ -58,9 +69,8 @@ const BroadAreaReducer = createSlice({
         },
       };
     },
-    
   },
-  
+
   extraReducers: (builder) => {
     builder.addCase(getAllBroad.pending, (state, action) => {
       state.loading = true;
@@ -90,6 +100,16 @@ const BroadAreaReducer = createSlice({
       state.broadDetails = action.payload?.broadDetails;
     });
     builder.addCase(addLabDetails.rejected, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(addExperimentDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(addExperimentDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.broadDetails = action.payload?.broadDetails;
+    });
+    builder.addCase(addExperimentDetails.rejected, (state, action) => {
       state.loading = false;
     });
   },

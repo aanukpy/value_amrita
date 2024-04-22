@@ -41,7 +41,7 @@ const ExperimentEdit = () => {
 
   const handleButtonClick = (type) => {
     setContentType(type);
-    setEditorContent(""); // Reset the editor content when switching between content types
+    setEditorContent("");
     console.log(`Clicked on ${type} button`);
   };
 
