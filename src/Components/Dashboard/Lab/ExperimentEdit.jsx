@@ -60,6 +60,7 @@ const ExperimentEdit = () => {
   const handlePlainTextChange = (event) => {
     setEditorContent(event.target.value);
   };
+  console.log("hi");
 
   return (
     <div>
