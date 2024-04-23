@@ -5,13 +5,16 @@ import BG from "../assets/hero_bg.jpg";
 import { Link } from "react-router-dom";
 import News from "./News";
 import Contact from "./Contact";
-
-import Fade from "react-reveal/Fade"; // Import the Fade component
+import { getBroadState } from '../redux/reselect/reselector'
+import { useDispatch, useSelector } from "react-redux";
+import Fade from "react-reveal/Fade"; 
 import Testimonials from "./Testimonials";
-// Initialize AOS
 
+import Select from "react-select";
 const HeroSection = () => {
+  
   return (
+    
     <div
       class="untree_co-hero overlay"
       data-aos="fade-up"
@@ -59,6 +62,7 @@ const HeroSection = () => {
 };
 
 const Category = ({ icon, title, courses, sub }) => {
+  
   return (
     <Fade up duration={1000} delay={200}>
       <div
@@ -79,51 +83,28 @@ const Category = ({ icon, title, courses, sub }) => {
           </div>
         </Link>
       </div>
+      
     </Fade>
   );
 };
 
 const CategorySection = () => {
-  const categories = [
-    {
-      icon: "uil-atom",
-      title: "	Biotechnology and Biomedical Engineering",
-      courses: "1,391",
-      sub: "75",
-    },
-    {
-      icon: "uil-briefcase",
-      title: "Chemical Sciences",
-      courses: "3,234",
-      sub: "76",
-    },
-    {
-      icon: "uil-calculator",
-      title: "	Computer Science",
-      courses: "931",
-      sub: "77",
-    },
-    {
-      icon: "uil-pen",
-      title: "	Mechanical Engineering",
-      courses: "7,291",
-      sub: "78",
-    },
-    {
-      icon: "uil-music",
-      title: "	Physical Sciences",
-      courses: "9,114",
-      sub: "79",
-    },
-    { icon: "uil-chart-pie", title: "Marketing", courses: "2,391", sub: "80" },
-    { icon: "uil-camera", title: "Photography", courses: "7,991", sub: "81" },
-    {
-      icon: "uil-circle-layer",
-      title: "Animation",
-      courses: "6,491",
-      sub: "82",
-    },
-  ];
+  const BroadDetails = useSelector(getBroadState);
+  const broadAreas = BroadDetails?.map((item) => {
+    return {
+      label: item.broadAreaName,
+      value: item.broadAreaName,
+      id: item.broadAreaId,
+    };
+  });
+
+  const categories = broadAreas.map((broadArea, index) => ({
+    icon: "uil-atom", 
+    title: broadArea.label,
+    courses: "0", 
+// sub:'77'
+   sub: broadArea.id
+  }));
 
   return (
     <>
@@ -137,7 +118,6 @@ const CategorySection = () => {
                 data-aos-delay="0"
               >
                 <h2 className="line-bottom text-center mb-4">
-                  {" "}
                   Virtual Labs at Amrita Vishwa Vidyapeetham
                 </h2>
               </div>
@@ -147,17 +127,6 @@ const CategorySection = () => {
             {categories.map((category, index) => (
               <Category key={index} {...category} />
             ))}
-          </div>
-          <div
-            className="row justify-content-center"
-            data-aos="fade-up"
-            data-aos-delay="400"
-          >
-            <div className="col-lg-8 text-center">
-              {/* <p>
-                We have more category here. <a href="#">Browse all</a>
-              </p> */}
-            </div>
           </div>
         </div>
       </div>

@@ -47,45 +47,6 @@ const Labs = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState(initialState());
 
-  const [labs, setLabs] = useState([
-    {
-      id: 1,
-      labName: "Network Security Lab",
-      description:
-        "Lab for studying network security protocols and techniques.",
-    },
-    {
-      id: 2,
-      labName: "Machine Learning Lab",
-      description:
-        "Lab for implementing and experimenting with machine learning algorithms.",
-    },
-    {
-      id: 3,
-      labName: "Database Management Lab",
-      description:
-        "Lab for learning and practicing database management concepts.",
-    },
-    {
-      id: 4,
-      labName: "Operating Systems Lab",
-      description:
-        "Lab for studying various operating systems and their components.",
-    },
-    {
-      id: 5,
-      labName: "Computer Vision Lab",
-      description:
-        "Lab for exploring computer vision techniques and applications.",
-    },
-    {
-      id: 6,
-      labName: "Cybersecurity Lab",
-      description:
-        "Lab for hands-on experience with cybersecurity tools and methodologies.",
-    },
-  ]);
-
   const [editedLabs, setEditedLabs] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isNewLabOpen, setIsNewLabOpen] = useState(false);
@@ -115,29 +76,6 @@ const Labs = () => {
     filterLabDetails();
   }, [data, state.selectedBroadId]);
   console.log(state);
-  const handleEditLab = (labId) => {
-    setIsEditing(true);
-    const editedLabIndex = labs.findIndex((lab) => lab.id === labId);
-    const labToEdit = labs[editedLabIndex];
-    setEditedLabs({ ...editedLabs, [labId]: labToEdit });
-  };
-
-  const handleSaveLab = (labId) => {
-    setIsEditing(false);
-    const updatedLabs = labs.map((lab) => {
-      if (lab.id === labId) {
-        return editedLabs[labId];
-      }
-      return lab;
-    });
-    setLabs(updatedLabs);
-    setEditedLabs({});
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedLabs({});
-  };
 
   const handleChange = (e, labId, field) => {
     const updatedLab = { ...editedLabs[labId], [field]: e.target.value };
@@ -170,11 +108,6 @@ const Labs = () => {
   const handleCancelNewLab = () => {
     setNewLab({ labName: "", description: "" });
     setIsNewLabOpen(false);
-  };
-
-  const handleDeleteLab = (labId) => {
-    const updatedLabs = labs.filter((lab) => lab.id !== labId);
-    setLabs(updatedLabs);
   };
 
   const handleSelectChange = (selectedOption) => {
@@ -275,7 +208,6 @@ const Labs = () => {
                   <TableCell>No</TableCell>
                   <TableCell>Lab Name</TableCell>
                   <TableCell>Description</TableCell>
-                  <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -307,60 +239,6 @@ const Labs = () => {
                         />
                       ) : (
                         lab.description
-                      )}
-                    </TableCell>
-                    <TableCell style={{ display: "flex" }}>
-                      {isEditing ? (
-                        <>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<FontAwesomeIcon icon={faSave} />}
-                            onClick={() => handleSaveLab(lab.id)}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Save
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={handleCancelEdit}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<FontAwesomeIcon icon={faEdit} />}
-                            style={{ marginRight: "20px" }}
-                            onClick={() => handleEditLab(lab.id)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            component={Link}
-                            to={''}
-                            variant="contained"
-                            color="success"
-                            startIcon={<FontAwesomeIcon icon={faEye} />}
-                            style={{ marginRight: "20px" }}
-                          >
-                            View
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            startIcon={<FontAwesomeIcon icon={faTrash} />}
-                            onClick={() => handleDeleteLab(lab.id)}
-                            style={{ marginRight: "20px" }}
-                          >
-                            Delete
-                          </Button>
-                        </>
                       )}
                     </TableCell>
                   </TableRow>

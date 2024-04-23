@@ -1,37 +1,37 @@
 import React from "react";
 import { Breadcrumb, Button, Typography } from "antd";
 import { HomeOutlined } from "@mui/icons-material";
-import { Link, useParams } from "react-router-dom";
-import {
-  Chemical_Science,
-  Biotechnology_Biomedical_Engineering,
-  Computer_Science,
-  Mechanical_Engineering,
-  Physical_Sciences,
-} from "../../Data/ExperimentData"; // Importing the data
+import {Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getBroadState } from '../../redux/reselect/reselector';
 
 const ExperimentPage = () => {
-  const { sub } = useParams();
+  const { sub } = useParams(); 
 
-  // Define a mapping object to map subjects to their respective data
-  const subjectDataMap = {
-    "75": Biotechnology_Biomedical_Engineering,
-    "76": Chemical_Science,
-    "77": Computer_Science,
-    "78": Mechanical_Engineering,
-    "79": Physical_Sciences,
-  }
+  const BroadDetails = useSelector(getBroadState); 
 
-  const subjectData = subjectDataMap[sub] || []; // Get the data based on sub
+  const selectedBroadArea = BroadDetails.find(area => area.broadAreaId === sub);
 
-  // Get the main title name from the subjectDataMap
-  const mainTitle = {
-    "75": "Biotechnology Engineering",
-    "76": "Chemical Science",
-    "77": "Computer Science",
-    "78": "Mechanical Engineering",
-    "79": "Physical Sciences",
-  }[sub];
+  const dummyExperiments = [
+    {
+      id: 1,
+      experiment: "Experiment 1",
+      description: "Description of Experiment 1",
+      Experiments: [
+        { id: 1, title: "Experiment 1" },
+        { id: 2, title: "Experiment 2" },
+      ],
+    },
+    {
+      id: 2,
+      experiment: "Experiment 2",
+      description: "Description of Experiment 2",
+      Experiments: [
+        { id: 3, title: "Experiment 3" },
+        { id: 4, title: "Experiment 4" },
+      ],
+    },
+  ];
 
   return (
     <div
@@ -50,10 +50,11 @@ const ExperimentPage = () => {
             href: "/",
           },
           {
-            title: mainTitle || "",
+            title: selectedBroadArea ? selectedBroadArea.broadAreaName : "Broad Areas",
           },
         ]}
       />
+     
       <Typography
         style={{
           fontSize: 30,
@@ -62,11 +63,12 @@ const ExperimentPage = () => {
           textTransform: "capitalize",
         }}
       >
-        {subjectData.length > 0 ? subjectData[0].experiment : ""}
+        {selectedBroadArea ? selectedBroadArea.broadAreaName : ""}
       </Typography>
+
       <div>
-        {subjectData.map((item) => (
-          <div key={item.id}>
+        {selectedBroadArea && selectedBroadArea.labs.map((lab) => (
+          <div key={lab.labId}>
             <div style={{ paddingBlock: 8 }}>
               <h6
                 style={{
@@ -74,7 +76,7 @@ const ExperimentPage = () => {
                   fontSize: 22,
                 }}
               >
-                {item.experiment}
+                {lab.labName}
               </h6>
               <p
                 style={{
@@ -84,33 +86,39 @@ const ExperimentPage = () => {
                   paddingBlock: 8,
                 }}
               >
-                {item.description}
+               
+                {lab.description}
               </p>
             </div>
             <div>
-              {item.links.map((links) => (
-                <Button
-                  style={{
-                    width: "auto",
-                    margin: 5,
-                    borderRadius: 20,
-                    background: "white",
-                  }}
-                  key={links.id}
-                >
-                  <Link
-                    // to={`/subject/${sub}/${item.id}`}
-                    to={`/experiment-page/${sub}/${links.id}`}
-                    style={{ textDecoration: "none" }}
+              {dummyExperiments.map((item) => (
+                item.Experiments.map((Experiments) => (
+                  <Button
+                    style={{
+                      width: "auto",
+                      margin: 5,
+                      borderRadius: 20,
+                      background: "white",
+                    }}
+                    key={Experiments.id}
                   >
-                    {links.title}
-                  </Link>
-                </Button>
+                    <Link
+                      to={`/experiment-page/${sub}/${Experiments.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                     
+                      {Experiments.title}
+                    </Link>
+                  </Button>
+                ))
               ))}
             </div>
           </div>
         ))}
       </div>
+
+     
+     
     </div>
   );
 };
