@@ -17,7 +17,7 @@ import {
   faCommentAlt,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import RichTextEditor from "./TextEdit";
+// import RichTextEditor from "./TextEdit";
 import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
 import { updateSimulationContent } from "../../../redux/slices/ExperimentReducer";
@@ -60,6 +60,14 @@ const ExperimentEdit = () => {
   const handlePlainTextChange = (event) => {
     setEditorContent(event.target.value);
   };
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // You can perform further actions with the uploaded file here
+      console.log("Uploaded file:", file);
+    }
+  };
+  
 
   return (
     <div>
@@ -115,7 +123,7 @@ const ExperimentEdit = () => {
             }}
           >
             <div>
-              <Button
+              {/* <Button
                 onClick={() => handleButtonClick("Theory")}
                 startIcon={<FontAwesomeIcon icon={faBook} />}
                 style={{
@@ -126,8 +134,8 @@ const ExperimentEdit = () => {
                 }}
               >
                 Theory
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 onClick={() => handleButtonClick("Procedure")}
                 startIcon={<FontAwesomeIcon icon={faFlask} />}
                 style={{
@@ -138,7 +146,7 @@ const ExperimentEdit = () => {
                 }}
               >
                 Procedure
-              </Button>
+              </Button> */}
 
               <Button
                 onClick={() => handleButtonClick("Simulation")}
@@ -154,16 +162,19 @@ const ExperimentEdit = () => {
                 Simulation
               </Button>
               <Button
+                onClick={() => handleButtonClick("documentation")}
                 startIcon={<FontAwesomeIcon icon={faClipboardList} />}
                 style={{
                   marginRight: "0.5rem",
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  backgroundColor:
+                  contentType === "documentation" ? "#f0f0f0" : "",
                 }}
               >
-                Assignment
+                Documentation
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => handleButtonClick("References")}
                 startIcon={<FontAwesomeIcon icon={faBookOpen} />}
                 style={{
@@ -175,8 +186,8 @@ const ExperimentEdit = () => {
                 }}
               >
                 References
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 startIcon={<FontAwesomeIcon icon={faCommentAlt} />}
                 style={{
                   marginRight: "1rem",
@@ -185,18 +196,35 @@ const ExperimentEdit = () => {
                 }}
               >
                 Feedback
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 startIcon={<FontAwesomeIcon icon={faPlus} />}
                 style={{
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
-              ></Button>
+              ></Button> */}
             </div>
           </div>
-
-          {contentType !== "Simulation" ? (
+          {contentType === "Simulation" && (
+            <div>
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                style={{ marginBottom: "1rem" }}
+              />
+            </div>
+          )}
+ {contentType === "documentation" && (
+            <div>
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                style={{ marginBottom: "1rem" }}
+              />
+            </div>
+          )}
+          {/* {contentType !== "Simulation" ? (
             <RichTextEditor
               value={editorContent}
               onChange={handleEditorChange}
@@ -207,7 +235,7 @@ const ExperimentEdit = () => {
               onChange={handlePlainTextChange}
               style={{ width: "70%", height: "50px", resize: "vertical" }}
             />
-          )}
+          )} */}
         </div>
         <div style={{}}>
           <Button
