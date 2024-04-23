@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
   Button,
+  Typography,
   Box,
+  TextField,
   FormControl,
   InputLabel,
-  MenuItem,
-  Select,
+ 
 } from "@mui/material";
+import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -17,20 +26,38 @@ import {
   faCommentAlt,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-// import RichTextEditor from "./TextEdit";
+import {
+  getBroad,
+  getBroadState,
+  getLabById,
+} from "../../../redux/reselect/reselector";
+import {  useSelector } from "react-redux"
+import RichTextEditor from "./TextEdit";
 import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
 import { updateSimulationContent } from "../../../redux/slices/ExperimentReducer";
 import WithExperimentLayout from "../../common/ExperimentLayout";
 
+const initialState = () => {
+  return {
+    broadAreaId: "",
+    labId: "",
+    experimentId:''
+  };
+};
 const ExperimentEdit = () => {
+  const [state, setState] = useState(initialState());
+  const broadOption = useSelector(getBroad);
+  const broadState = useSelector(getBroadState);
   const [selectedBroadArea, setSelectedBroadArea] = useState("");
   const [selectedLab, setSelectedLab] = useState("");
   const [selectedExperiment, setSelectedExperiment] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const [contentType, setContentType] = useState("Theory");
   const dispatch = useDispatch();
-
+  const [labOption, setLabOption] = useState([]);
+;
+  const [experimentOption, setExperimentOption] = useState([]);
   const handleEditorChange = (content, delta, source, editor) => {
     if (contentType === "Theory") {
       dispatch(updateTheroryContent(editor.getHTML()));
@@ -45,17 +72,6 @@ const ExperimentEdit = () => {
     console.log(`Clicked on ${type} button`);
   };
 
-  const handleBroadAreaChange = (event) => {
-    setSelectedBroadArea(event.target.value);
-  };
-
-  const handleLabChange = (event) => {
-    setSelectedLab(event.target.value);
-  };
-
-  const handleExperimentChange = (event) => {
-    setSelectedExperiment(event.target.value);
-  };
 
   const handlePlainTextChange = (event) => {
     setEditorContent(event.target.value);
@@ -68,51 +84,128 @@ const ExperimentEdit = () => {
     }
   };
   
+  const filterExpDetails = () => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+    const filterLab = broadState?.find(
+      (item) => item.broadAreaId === state.broadAreaId
+    );
+    if (filterLab) {
+      const lab = filterLab.labs.find((sub) => sub.labId === state.labId);
+      if (lab) {
+        setState((prev) => ({
+          ...prev,
+          expDetails: lab.experiments || [],
+          isLoading: false,
+        }));
+      }
+    }
+  
+}
 
+
+  useEffect(() => {
+   
+    const labs = broadState
+      .find(item => item.broadAreaId === state.broadAreaId)
+      ?.labs.map(sub => ({
+        label: sub.labName,
+        value: sub.labName,
+        id: sub.labId,
+      })) || [];
+    setLabOption(labs);
+  }, [state.broadAreaId, broadState]);
+
+  useEffect(() => {
+    
+    const experiments = broadState
+      .find(item => item.broadAreaId === state.broadAreaId)
+      ?.labs.find(sub => sub.labId === state.labId)
+      ?.experiments.map(exp => ({
+        label: exp.experimentName,
+        value: exp.experimentName,
+        id: exp.experimentId,
+      })) || [];
+    setExperimentOption(experiments);
+  }, [state.broadAreaId, state.labId, broadState]);
+
+  const handleSelectChange = (value, type) => {
+    switch (type) {
+      case "broad":
+        setState(prev => ({ ...prev, broadAreaId: value.id, labId: "", experimentId: "" }));
+        break;
+      case "lab":
+        setState(prev => ({ ...prev, labId: value.id, experimentId: "" }));
+        break;
+      case "experiment":
+        setState(prev => ({ ...prev, experimentId: value.id }));
+        break;
+      default:
+        break;
+    }
+  }
   return (
     <div>
       <div className="row">
         <div className="col-md-12">
-          <Box sx={{ marginBottom: "1rem" }}>
-            <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
-              <InputLabel>Broad Area</InputLabel>
+        <Box sx={{ marginBottom: "1rem" }}>
+            <Typography variant="h4" gutterBottom>
+              Manage Experiments
+            </Typography>
+            <div>
+              <label htmlFor="broadArea">Broad Area:</label>
               <Select
-                value={selectedBroadArea}
-                onChange={handleBroadAreaChange}
-              >
-                <MenuItem value="networkSecurity">Network Security</MenuItem>
-                <MenuItem value="machineLearning">Machine Learning</MenuItem>
-                <MenuItem value="databaseManagement">
-                  Database Management
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ minWidth: 200, marginRight: "1rem" }}>
-              <InputLabel>Lab</InputLabel>
-              <Select value={selectedLab} onChange={handleLabChange}>
-                <MenuItem value="networkSecurityLab">
-                  Network Security Lab
-                </MenuItem>
-                <MenuItem value="machineLearningLab">
-                  Machine Learning Lab
-                </MenuItem>
-                <MenuItem value="databaseManagementLab">
-                  Database Management Lab
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel>Experiment</InputLabel>
+                styles={{
+                  control: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                  menu: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                }}
+                onChange={(e) => handleSelectChange(e, "broad")}
+                options={broadOption}
+              />
+            </div>
+
+            <div style={{ marginTop: 5 }}>
+              <label htmlFor="broadArea">Labs:</label>
               <Select
-                value={selectedExperiment}
-                onChange={handleExperimentChange}
-              >
-                <MenuItem value="experiment1">Experiment 1</MenuItem>
-                <MenuItem value="experiment2">Experiment 2</MenuItem>
-                <MenuItem value="experiment3">Experiment 3</MenuItem>
-              </Select>
-            </FormControl>
+        styles={{
+          control: (css) => ({
+            ...css,
+            width: 500,
+          }),
+          menu: (css) => ({
+            ...css,
+            width: 500,
+          }),
+        }}
+        onChange={(e) =>handleSelectChange(e, "lab")}
+        options={labOption}
+       
+      />
+
+            </div>
+            <label htmlFor="experiment">Experiments:</label>
+              <Select
+                styles={{
+                  control: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                  menu: (css) => ({
+                    ...css,
+                    width: 500,
+                  }),
+                }}
+                onChange={(e) => handleSelectChange(e, "experiment")}
+                options={experimentOption}
+              />
           </Box>
+     
+     
           <div
             style={{
               display: "flex",
