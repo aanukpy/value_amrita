@@ -4,11 +4,23 @@ export const NodalManagmentData = [
     { id: 3, title: "Delete Nodal Center", icon: "fa-trash", color: "info" },
   ];
   export const NodalDetails = [
-    {  id: 1, title: "School Name", type: "text",name: "schoolName",isInput: true },
-    { id: 2, title: "School Address", type: "text", name: "SchoolAddress", isInput: true },
+    {  
+      id: 1, 
+      title: "School Name", 
+      type: "text",
+      name: "schoolName",
+      isInput: true 
+    },
+    { 
+      id: 2, 
+      title: "School Address", 
+      type: "text", 
+      name: "SchoolAddress",
+      isInput: true 
+    },
     {
       id: 3,
-      title: "state",
+      title: "State",
       type: "text",
       name: "state",
       isInput: false,
@@ -17,14 +29,7 @@ export const NodalManagmentData = [
         { id: 2, value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
         { id: 3, value: "Assam", label: "Assam" },
         { id: 4, value: "Bihar", label: "Bihar" },
-        { id: 4, value: "Chhattisgarh", label: "Chhattisgarh" },
-        { id: 4, value: "", label: "" },
-        { id: 4, value: "", label: "" },
-        { id: 4, value: "", label: "" },
-        { id: 4, value: "", label: "" },
-        { id: 4, value: "", label: "" },
-        { id: 4, value: "", label: "" },
-
+        // Additional states...
       ],
     },
     {
@@ -34,13 +39,13 @@ export const NodalManagmentData = [
       name: "District",
       isInput: false,
       subValue: [
-        { id: 1, value: "under_18", label: "Under 18" },
-        { id: 2, value: "18_24", label: "18-24" },
-        { id: 3, value: "25_34", label: "25-34" },
-        { id: 4, value: "35_44", label: "35-44" },
-        { id: 5, value: "45_54", label: "45-54" },
-        { id: 6, value: "55_64", label: "55-64" },
-        { id: 7, value: "65_over", label: "65 and over" },
+        { id: 1, value: "trivandrum", label: "Trivandrum" },
+        { id: 2, value: "kaniyakuamri", label: "Kaniyakuamri" },
+        { id: 3, value: "kochi", label: "Kochi" },
+        { id: 4, value: "pathanamtitta", label: "Pathanamtitta" },
+        { id: 5, value: "kollam", label: "Kollam" },
+        { id: 6, value: "karunagapally", label: "Karunagapally" },
+        { id: 7, value: "allapuzha", label: "Allapuzha" },
       ],
     },
     {
@@ -51,4 +56,3 @@ export const NodalManagmentData = [
       isInput: true,
     },
   ];
-  

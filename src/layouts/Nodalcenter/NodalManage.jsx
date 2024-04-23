@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-
-
-
 import { NodalManagmentData } from "../../Data/NodalManagment";
 import NodalManageCard from "../../Components/nodalDash/NodalManageCard";
 import NodalAddUser from "../../Components/nodalDash/NodalAddUser";
 import NodalEditUser from "../../Components/nodalDash/NodalEditUser";
 
-const UserManagement = () => {
+const NodalManage = () => {
   const [crudId, setCrudId] = useState(1);
   const [cardColor, setCardColor] = useState("primary");
   const [schoolData, setSchoolData] = useState({
@@ -37,26 +34,28 @@ const UserManagement = () => {
 
   const onHandleChange = (e) => {
     const { name, value } = e.target;
-    setSchoolData({ ...schoolData, [name]: value });
+    setSchoolData(prevState => ({ ...prevState, [name]: value }));
     setEditUser({ ...editUser, [name]: value });
   };
-
   const onAddUser = () => {
+    const areFieldsFilled = Object.values(schoolData).every(value => value.trim() !== "");
+    console.log("areFieldsFilled:", areFieldsFilled);
+  
+    if (!areFieldsFilled) {
+      notification.error({
+        message: "Error",
+        description: "Please fill all the input fields.",
+      });
+      return;
+    }
+  
+    notification.success({
+      message: "Success",
+      description: "User added successfully.",
+    });
+  
     console.log("Add user:", schoolData);
   };
-
-  const onDelete = () => {
-    console.log("Delete user:", editUser);
-  };
-
-  const onEditUser = () => {
-    console.log("Edit user:", editUser);
-  };
-
-  const handleClose = () => {
-    setShowDeletePage(false);
-  };
-
   return (
     <div>
       <div className="row">
@@ -148,7 +147,7 @@ const UserManagement = () => {
           visible={showDeletePage}
           onOk={onDelete}
           onCancel={handleClose}
-          confirmLoading={false} // Disable default loading indicator
+          confirmLoading={false} 
           centered
         >
           <p>
@@ -163,4 +162,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default  NodalManage;
