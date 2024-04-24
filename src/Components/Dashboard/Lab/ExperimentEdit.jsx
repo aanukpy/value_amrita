@@ -1,4 +1,4 @@
-import React, { useState,useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -13,7 +13,6 @@ import {
   TextField,
   FormControl,
   InputLabel,
- 
 } from "@mui/material";
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +30,7 @@ import {
   getBroadState,
   getLabById,
 } from "../../../redux/reselect/reselector";
-import {  useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import RichTextEditor from "./TextEdit";
 import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
@@ -42,7 +41,7 @@ const initialState = () => {
   return {
     broadAreaId: "",
     labId: "",
-    experimentId:''
+    experimentId: "",
   };
 };
 const ExperimentEdit = () => {
@@ -56,7 +55,6 @@ const ExperimentEdit = () => {
   const [contentType, setContentType] = useState("Theory");
   const dispatch = useDispatch();
   const [labOption, setLabOption] = useState([]);
-;
   const [experimentOption, setExperimentOption] = useState([]);
   const handleEditorChange = (content, delta, source, editor) => {
     if (contentType === "Theory") {
@@ -72,10 +70,6 @@ const ExperimentEdit = () => {
     console.log(`Clicked on ${type} button`);
   };
 
-
-  const handlePlainTextChange = (event) => {
-    setEditorContent(event.target.value);
-  };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -83,71 +77,57 @@ const ExperimentEdit = () => {
       console.log("Uploaded file:", file);
     }
   };
-  
-  const filterExpDetails = () => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-    const filterLab = broadState?.find(
-      (item) => item.broadAreaId === state.broadAreaId
-    );
-    if (filterLab) {
-      const lab = filterLab.labs.find((sub) => sub.labId === state.labId);
-      if (lab) {
-        setState((prev) => ({
-          ...prev,
-          expDetails: lab.experiments || [],
-          isLoading: false,
-        }));
-      }
-    }
-  
-}
-
 
   useEffect(() => {
-   
-    const labs = broadState
-      .find(item => item.broadAreaId === state.broadAreaId)
-      ?.labs.map(sub => ({
-        label: sub.labName,
-        value: sub.labName,
-        id: sub.labId,
-      })) || [];
+    const labs =
+      broadState
+        .find((item) => item.broadAreaId === state.broadAreaId)
+        ?.labs.map((sub) => ({
+          label: sub.labName,
+          value: sub.labName,
+          id: sub.labId,
+        })) || [];
     setLabOption(labs);
   }, [state.broadAreaId, broadState]);
 
   useEffect(() => {
-    
-    const experiments = broadState
-      .find(item => item.broadAreaId === state.broadAreaId)
-      ?.labs.find(sub => sub.labId === state.labId)
-      ?.experiments.map(exp => ({
-        label: exp.experimentName,
-        value: exp.experimentName,
-        id: exp.experimentId,
-      })) || [];
+    const experiments =
+      broadState
+        .find((item) => item.broadAreaId === state.broadAreaId)
+        ?.labs.find((sub) => sub.labId === state.labId)
+        ?.experiments.map((exp) => ({
+          label: exp.experimentName,
+          value: exp.experimentName,
+          id: exp.experimentId,
+        })) || [];
     setExperimentOption(experiments);
   }, [state.broadAreaId, state.labId, broadState]);
 
   const handleSelectChange = (value, type) => {
     switch (type) {
       case "broad":
-        setState(prev => ({ ...prev, broadAreaId: value.id, labId: "", experimentId: "" }));
+        setState((prev) => ({
+          ...prev,
+          broadAreaId: value.id,
+          labId: "",
+          experimentId: "",
+        }));
         break;
       case "lab":
-        setState(prev => ({ ...prev, labId: value.id, experimentId: "" }));
+        setState((prev) => ({ ...prev, labId: value.id, experimentId: "" }));
         break;
       case "experiment":
-        setState(prev => ({ ...prev, experimentId: value.id }));
+        setState((prev) => ({ ...prev, experimentId: value.id }));
         break;
       default:
         break;
     }
-  }
+  };
   return (
     <div>
       <div className="row">
         <div className="col-md-12">
-        <Box sx={{ marginBottom: "1rem" }}>
+          <Box sx={{ marginBottom: "1rem" }}>
             <Typography variant="h4" gutterBottom>
               Manage Experiments
             </Typography>
@@ -172,24 +152,6 @@ const ExperimentEdit = () => {
             <div style={{ marginTop: 5 }}>
               <label htmlFor="broadArea">Labs:</label>
               <Select
-        styles={{
-          control: (css) => ({
-            ...css,
-            width: 500,
-          }),
-          menu: (css) => ({
-            ...css,
-            width: 500,
-          }),
-        }}
-        onChange={(e) =>handleSelectChange(e, "lab")}
-        options={labOption}
-       
-      />
-
-            </div>
-            <label htmlFor="experiment">Experiments:</label>
-              <Select
                 styles={{
                   control: (css) => ({
                     ...css,
@@ -200,12 +162,27 @@ const ExperimentEdit = () => {
                     width: 500,
                   }),
                 }}
-                onChange={(e) => handleSelectChange(e, "experiment")}
-                options={experimentOption}
+                onChange={(e) => handleSelectChange(e, "lab")}
+                options={labOption}
               />
+            </div>
+            <label htmlFor="experiment">Experiments:</label>
+            <Select
+              styles={{
+                control: (css) => ({
+                  ...css,
+                  width: 500,
+                }),
+                menu: (css) => ({
+                  ...css,
+                  width: 500,
+                }),
+              }}
+              onChange={(e) => handleSelectChange(e, "experiment")}
+              options={experimentOption}
+            />
           </Box>
-     
-     
+
           <div
             style={{
               display: "flex",
@@ -262,7 +239,7 @@ const ExperimentEdit = () => {
                   border: "1px solid #ccc",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                   backgroundColor:
-                  contentType === "documentation" ? "#f0f0f0" : "",
+                    contentType === "documentation" ? "#f0f0f0" : "",
                 }}
               >
                 Documentation
@@ -308,7 +285,7 @@ const ExperimentEdit = () => {
               />
             </div>
           )}
- {contentType === "documentation" && (
+          {contentType === "documentation" && (
             <div>
               <input
                 type="file"

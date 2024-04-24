@@ -1,37 +1,18 @@
 import React from "react";
 import { Breadcrumb, Button, Typography } from "antd";
 import { HomeOutlined } from "@mui/icons-material";
-import {Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getBroadState } from '../../redux/reselect/reselector';
+import { getBroadState } from "../../redux/reselect/reselector";
 
 const ExperimentPage = () => {
-  const { sub } = useParams(); 
+  const { sub } = useParams();
 
-  const BroadDetails = useSelector(getBroadState); 
+  const BroadDetails = useSelector(getBroadState);
 
-  const selectedBroadArea = BroadDetails.find(area => area.broadAreaId === sub);
-
-  const dummyExperiments = [
-    {
-      id: 1,
-      experiment: "Experiment 1",
-      description: "Description of Experiment 1",
-      Experiments: [
-        { id: 1, title: "Experiment 1" },
-        { id: 2, title: "Experiment 2" },
-      ],
-    },
-    {
-      id: 2,
-      experiment: "Experiment 2",
-      description: "Description of Experiment 2",
-      Experiments: [
-        { id: 3, title: "Experiment 3" },
-        { id: 4, title: "Experiment 4" },
-      ],
-    },
-  ];
+  const selectedBroadArea = BroadDetails.find(
+    (area) => area.broadAreaId === sub
+  );
 
   return (
     <div
@@ -46,7 +27,9 @@ const ExperimentPage = () => {
       <Breadcrumb
         items={[
           {
-            title: <HomeOutlined style={{ fontSize: 18, color: "#3F5C10" }} />,
+            title: (
+              <HomeOutlined style={{ fontSize: 18, color: "#3F5C10" }} />
+            ),
             href: "/",
           },
           {
@@ -54,7 +37,7 @@ const ExperimentPage = () => {
           },
         ]}
       />
-     
+
       <Typography
         style={{
           fontSize: 30,
@@ -67,32 +50,31 @@ const ExperimentPage = () => {
       </Typography>
 
       <div>
-        {selectedBroadArea && selectedBroadArea.labs.map((lab) => (
-          <div key={lab.labId}>
-            <div style={{ paddingBlock: 8 }}>
-              <h6
-                style={{
-                  color: "#3F5C10",
-                  fontSize: 22,
-                }}
-              >
-                {lab.labName}
-              </h6>
-              <p
-                style={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "#000000",
-                  paddingBlock: 8,
-                }}
-              >
-               
-                {lab.description}
-              </p>
-            </div>
-            <div>
-              {dummyExperiments.map((item) => (
-                item.Experiments.map((Experiments) => (
+        {selectedBroadArea &&
+          selectedBroadArea.labs.map((lab) => (
+            <div key={lab.labId}>
+              <div style={{ paddingBlock: 8 }}>
+                <h6
+                  style={{
+                    color: "#3F5C10",
+                    fontSize: 22,
+                  }}
+                >
+                  {lab.labName}
+                </h6>
+                <p
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 500,
+                    color: "#000000",
+                    paddingBlock: 8,
+                  }}
+                >
+                  {lab.description}
+                </p>
+              </div>
+              <div>
+                {lab.experiments.map((experiment) => (
                   <Button
                     style={{
                       width: "auto",
@@ -100,25 +82,21 @@ const ExperimentPage = () => {
                       borderRadius: 20,
                       background: "white",
                     }}
-                    key={Experiments.id}
+                    key={experiment.experimentId}
                   >
-                    <Link
-                      to={`/experiment-page/${sub}/${Experiments.id}`}
+                     <Link
+                      to={`/experiment-page/${sub}/${experiment.id}`}
                       style={{ textDecoration: "none" }}
                     >
                      
-                      {Experiments.title}
+                      {experiment.experimentName}
                     </Link>
                   </Button>
-                ))
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
-
-     
-     
     </div>
   );
 };
