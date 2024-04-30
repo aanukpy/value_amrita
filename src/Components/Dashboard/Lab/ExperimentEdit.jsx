@@ -32,7 +32,10 @@ import {
 } from "../../../redux/reselect/reselector";
 import { useSelector } from "react-redux";
 import RichTextEditor from "./TextEdit";
-import { updateTheroryContent } from "../../../redux/slices/BroadAreaReducer";
+import {
+  updateTheroryContent,
+  uploadExperiement,
+} from "../../../redux/slices/BroadAreaReducer";
 import { useDispatch } from "react-redux";
 import { updateSimulationContent } from "../../../redux/slices/ExperimentReducer";
 import WithExperimentLayout from "../../common/ExperimentLayout";
@@ -42,6 +45,7 @@ const initialState = () => {
     broadAreaId: "",
     labId: "",
     experimentId: "",
+    file: null,
   };
 };
 const ExperimentEdit = () => {
@@ -70,18 +74,34 @@ const ExperimentEdit = () => {
     console.log(`Clicked on ${type} button`);
   };
 
+  const handlePlainTextChange = (event) => {
+    setEditorContent(event.target.value);
+  };
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // You can perform further actions with the uploaded file here
-      console.log("Uploaded file:", file);
+      setState((prev) => ({
+        ...prev,
+        file,
+      }));
     }
   };
 
+  const addOnClick = () => {
+    const data = {
+      file: state.file,
+      broadId: state.broadAreaId,
+      labId: state.labId,
+      expId: state.experimentId,
+      isDocument: contentType === "Simulation" ? false : true,
+    };
+
+    dispatch(uploadExperiement(data));
+  };
   useEffect(() => {
     const labs =
       broadState
-        .find((item) => item.broadAreaId === state.broadAreaId)
+        ?.find((item) => item.broadAreaId === state.broadAreaId)
         ?.labs.map((sub) => ({
           label: sub.labName,
           value: sub.labName,
@@ -315,6 +335,7 @@ const ExperimentEdit = () => {
               alignItems: "flex-end",
               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}
+            onClick={addOnClick}
           >
             Add
           </Button>

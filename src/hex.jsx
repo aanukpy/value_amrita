@@ -20,31 +20,8 @@ function HexEditor() {
     return hexData.substring(offset * 2); // Multiply by 2 because each byte is represented by 2 characters
   };
 
-  // Function to handle file drop
-  const handleDrop = (event) => {
-    event.preventDefault();
-    const file = event.dataTransfer.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const arrayBuffer = e.target.result;
-      const byteArray = new Uint8Array(arrayBuffer);
-      const hexString = Array.from(byteArray)
-        .map((byte) => ("00" + byte.toString(16)).slice(-2)) // Pad with leading zeros
-        .join("");
-      setHexData(hexString);
-    };
-
-    reader.readAsArrayBuffer(file);
-  };
-
-  // Function to prevent default behavior on drag over
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
-
   return (
-    <div onDrop={handleDrop} onDragOver={handleDragOver}>
+    <div>
       <h1>Hexadecimal Editor</h1>
       {/* Input field for offset */}
       <div>
@@ -60,10 +37,15 @@ function HexEditor() {
       <textarea
         value={getDataWithOffset()}
         onChange={handleHexChange}
-        rows={20} // Increased number of rows for better visibility
-        cols={80} // Increased number of columns for better visibility
-        placeholder="Drop a file or enter hexadecimal data here..."
+        rows={10}
+        cols={50}
+        placeholder="Enter hexadecimal data here..."
       />
+      {/* Display hexadecimal data */}
+      <div>
+        <h2>Hexadecimal Data:</h2>
+        <pre>{getDataWithOffset()}</pre>
+      </div>
     </div>
   );
 }

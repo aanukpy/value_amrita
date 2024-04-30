@@ -2,18 +2,26 @@ import React from "react";
 import { Breadcrumb, Button, Typography } from "antd";
 import { HomeOutlined } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getBroadState } from "../../redux/reselect/reselector";
+import { updateExperimentId } from "../../redux/slices/ExperimentReducer";
 
 const ExperimentPage = () => {
   const { sub } = useParams();
-
+  const dispatch = useDispatch();
   const BroadDetails = useSelector(getBroadState);
 
   const selectedBroadArea = BroadDetails.find(
     (area) => area.broadAreaId === sub
   );
-
+  console.log(selectedBroadArea);
+  const onHandleClick = (data) => {
+    const datas = {
+      ...data,
+      broadId: sub,
+    };
+    dispatch(updateExperimentId(datas));
+  };
   return (
     <div
       style={{
@@ -27,13 +35,13 @@ const ExperimentPage = () => {
       <Breadcrumb
         items={[
           {
-            title: (
-              <HomeOutlined style={{ fontSize: 18, color: "#3F5C10" }} />
-            ),
+            title: <HomeOutlined style={{ fontSize: 18, color: "#3F5C10" }} />,
             href: "/",
           },
           {
-            title: selectedBroadArea ? selectedBroadArea.broadAreaName : "Broad Areas",
+            title: selectedBroadArea
+              ? selectedBroadArea.broadAreaName
+              : "Broad Areas",
           },
         ]}
       />
@@ -83,12 +91,17 @@ const ExperimentPage = () => {
                       background: "white",
                     }}
                     key={experiment.experimentId}
+                    onClick={() =>
+                      onHandleClick({
+                        labId: lab.labId,
+                        expId: experiment.experimentId,
+                      })
+                    }
                   >
-                     <Link
+                    <Link
                       to={`/experiment-page/${sub}/${experiment.id}`}
                       style={{ textDecoration: "none" }}
                     >
-                     
                       {experiment.experimentName}
                     </Link>
                   </Button>

@@ -7,7 +7,7 @@ import Snackbar from "../../Components/common/snackbar";
 
 const initialState = {
   selectedCategory: "Theory",
-
+  experimentIds: {},
 };
 
 const abortController = new AbortController();
@@ -23,10 +23,19 @@ const ExperimentReducer = createSlice({
         selectedCategory: action.payload,
       };
     },
-    
+    updateExperimentId: (state, action) => {
+      return {
+        ...state,
+        experimentIds: action.payload,
+      };
+    },
   },
   extraReducers: (builder) => {},
 });
 
-export const { updateSelectedCategory, updateSimulationContent } = ExperimentReducer.actions;
+export const {
+  updateSelectedCategory,
+  updateSimulationContent,
+  updateExperimentId,
+} = ExperimentReducer.actions;
 export default ExperimentReducer.reducer;

@@ -51,11 +51,10 @@ const Listing = () => {
   const [state, setState] = useState(initialState());
   const broadOption = useSelector(getBroad);
   const broadState = useSelector(getBroadState);
-  const lab = useSelector(getLabById(state.labId));
+
   const [editedLabs, setEditedLabs] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isNewLabOpen, setIsNewLabOpen] = useState(false);
-  const data = useCallback(() => broadState, [broadState]);
 
   const [newLab, setNewLab] = useState({
     expName: "",

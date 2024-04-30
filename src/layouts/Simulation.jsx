@@ -5,9 +5,13 @@ import { useState } from "react";
 import TheoryComponent from "./Theory";
 import { useSelector } from "react-redux";
 import SimulatorPage from "./ContentPage";
+import { useEffect } from "react";
 
 const Simulation = () => {
-  const { selectedCategory } = useSelector((state) => state.exp);
+  const { selectedCategory, experimentIds } = useSelector((state) => state.exp);
+  useEffect(() => {
+    console.log("hi", experimentIds);
+  }, []);
 
   return (
     <div style={{ height: "auto", marginTop: 55, display: "flex", flex: 1 }}>

@@ -36,7 +36,12 @@ const abortController = new AbortController();
 const signal = abortController.signal;
 
 export const login = createAsyncThunk("login", async (data) => {
-  const res = await network.post({ url: `/login`, data, signal });
+  const res = await network.post({
+    url: `/login`,
+    data: JSON.stringify(data),
+    isFormData: false,
+    signal,
+  });
   const result = await res?.json();
 
   if (result.status === 200) {
@@ -62,7 +67,11 @@ export const login = createAsyncThunk("login", async (data) => {
 export const register = createAsyncThunk(
   "register",
   async (data, navigation = null) => {
-    const res = await network.post({ url: `/register`, data, signal });
+    const res = await network.post({
+      url: `/register`,
+      data: JSON.stringify(data),
+      signal,
+    });
     const result = await res?.json();
 
     if (result.status === 200) {

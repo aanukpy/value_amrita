@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import network from "../../utilits/common/network";
+import querystring from "query-string";
 
 const initialState = {
   labContent: {
@@ -8,6 +9,9 @@ const initialState = {
   broadDetails: [],
   loading: false,
 };
+
+const abortController = new AbortController();
+const signal = abortController.signal;
 
 export const getAllBroad = createAsyncThunk("getbroad", async (data) => {
   const res = await network.get({
@@ -21,7 +25,7 @@ export const getAllBroad = createAsyncThunk("getbroad", async (data) => {
 export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
   const res = await network.post({
     url: "/broadArea/addBroad",
-    data,
+    data: JSON.stringify(data),
   });
   const result = await res?.json();
   return result;
@@ -30,7 +34,7 @@ export const addBroadDetails = createAsyncThunk("addbroad", async (data) => {
 export const addLabDetails = createAsyncThunk("addLab", async (data) => {
   const res = await network.post({
     url: "/broadArea/addLab",
-    data,
+    data: JSON.stringify(data),
   });
   const result = await res?.json();
   return result;
@@ -39,7 +43,7 @@ export const addLabDetails = createAsyncThunk("addLab", async (data) => {
 export const addExperiment = createAsyncThunk("addExperiment", async (data) => {
   const res = await network.post({
     url: "/broadArea/addExperiment",
-    data,
+    data: JSON.stringify(data),
   });
   const result = await res?.json();
   return result;
@@ -49,8 +53,29 @@ export const addExperimentDetails = createAsyncThunk(
   async (data) => {
     const res = await network.post({
       url: "/broadArea/addExperiment",
-      data,
+      data: JSON.stringify(data),
       signal,
+    });
+    const result = await res?.json();
+    return result;
+  }
+);
+export const uploadExperiement = createAsyncThunk(
+  "uploadExperiement",
+  async (data) => {
+    console.log(data);
+
+    const formData = new FormData();
+    formData.append("folder", data.file);
+    formData.append("broadId", data.broadId);
+    formData.append("labId", data.labId);
+    formData.append("expId", data.expId);
+    formData.append("isDocument", data.isDocument);
+    const res = await network.post({
+      url: "/broadArea/uploadExperiment",
+      data: formData,
+      signal,
+      isFormData: true,
     });
     const result = await res?.json();
     return result;

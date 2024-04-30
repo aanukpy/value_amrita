@@ -7,15 +7,19 @@ import WithExperimentLayout from "../../Components/common/ExperimentLayout";
 // import Markdown from "markdown-to-jsx";
 import React, { useState, useEffect } from "react";
 //  import README from '/src/layouts/Theory/aim.md'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown";
+import { useSelector } from "react-redux";
 const Theory = () => {
-  const [markdownContent, setMarkdownContent] = useState('');
+  const [markdownContent, setMarkdownContent] = useState("");
+  const { selectedCategory, experimentIds } = useSelector((state) => state.exp);
 
   useEffect(() => {
-    fetch('/src/layouts/Theory/aim.md') // Adjust the path if necessary
+    fetch(
+      `http://192.168.183.140:4848/getSimulation?broadId=${experimentIds?.broadId}&&labId=${experimentIds?.labId}&&expId=${experimentIds?.expId}&&isDocument=true &&documentName=theory`
+    )
       .then((response) => response.text())
       .then((text) => setMarkdownContent(text))
-      .catch((error) => console.error('Error fetching Markdown:', error));
+      .catch((error) => console.error("Error fetching Markdown:", error));
   }, []);
 
   return (
@@ -24,9 +28,7 @@ const Theory = () => {
       <ReactMarkdown>{markdownContent}</ReactMarkdown>
     </div>
   );
-}
-
-
+};
 
 const TheoryComponent = WithExperimentLayout(Theory);
 export default TheoryComponent;

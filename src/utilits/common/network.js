@@ -16,14 +16,22 @@ const returnFetch = async (url, options) => {
   response = await fetch(url, newOptions);
   return response;
 };
-const returnPromise = async (url, options) => {
-  const newOptions = options;
+const returnPromise = async (url, options, isFormData = false) => {
+  const newOptions = { ...options };
+
+  const dataIsThere = isFormData
+    ? {}
+    : {
+        "Content-Type": "application/json",
+      };
+
   newOptions.headers = {
     ...newOptions.headers,
-    "Content-Type": "application/json",
+    ...dataIsThere,
   };
-  let response = {};
-  response = await fetch(url, newOptions);
+
+  let response = await fetch(url, newOptions);
+
   return response;
 };
 
@@ -42,15 +50,19 @@ const get = ({
     data,
   });
 };
-const post = ({ url, data = {}, signal }) => {
+const post = ({ url, data = {}, signal, isFormData = false }) => {
   let signal1;
   if (signal) signal1 = signal;
   else signal1 = abortController.signal;
-  return returnPromise(`${connect()}${url}`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    signal: signal1,
-  });
+  return returnPromise(
+    `${connect()}${url}`,
+    {
+      method: "POST",
+      body: data,
+      signal: signal1,
+    },
+    isFormData
+  );
 };
 const put = ({ url, params = false, query = {}, data = {}, signal }) => {
   let signal1;

@@ -11,6 +11,7 @@ export const getBroad = createSelector(selectBroadState, (broadName) => {
       label: item.broadAreaName,
       value: item.broadAreaName,
       id: item.broadAreaId,
+      name: item.broadAreaName.split(" ").join("_").trim(),
     };
   });
   return filterBroad;
